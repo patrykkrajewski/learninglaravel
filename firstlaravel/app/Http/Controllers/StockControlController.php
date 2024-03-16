@@ -1,65 +1,47 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use App\Models\Stock_control;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class StockControlController extends Controller
+class StockControl extends Model
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    use HasFactory;
 
     /**
-     * Show the form for creating a new resource.
+     * The name of the table associated with the model.
+     *
+     * @var string
      */
-    public function create()
-    {
-        //
-    }
+    protected $table = 'stock_controls';
 
     /**
-     * Store a newly created resource in storage.
+     * The attributes that are mass assignable.
+     *
+     * @var array
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    protected $fillable = [
+        'title',
+        'invoice_id',
+        'quantity',
+        'operation_date',
+    ];
 
     /**
-     * Display the specified resource.
+     * The attributes that should be cast to native types.
+     *
+     * @var array
      */
-    public function show(Stock_control $stock_control)
-    {
-        //
-    }
+    protected $casts = [
+        'operation_date' => 'date',
+    ];
 
     /**
-     * Show the form for editing the specified resource.
+     * Get the invoice associated with the stock control.
      */
-    public function edit(Stock_control $stock_control)
+    public function invoice()
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Stock_control $stock_control)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Stock_control $stock_control)
-    {
-        //
+        return $this->belongsTo(Invoice::class);
     }
 }

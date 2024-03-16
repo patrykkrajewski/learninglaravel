@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InvoiceController\StoreRequest;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
@@ -10,27 +11,31 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-     public function welcome()
-     {
-         $invoices = Invoice::all();
+    public function index()
+    {
+//        $invoices = Invoice::paginate(2);
+        $invoices = Invoice::all();
 
-         return view('welcome', compact('invoices'));
-     }
+        return view('invoice_list', compact('invoices'));
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('welcome');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $invoice = new Invoice($request->validated());
+        $invoice->save();
+
+        return redirect()-> route('invoices.index');
     }
 
     /**
