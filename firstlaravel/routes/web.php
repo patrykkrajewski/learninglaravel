@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $invoices = App\Models\Invoice::all(); // Pobierz wszystkie faktury
+    return view('welcome', compact('invoices'));
 });
+
+
