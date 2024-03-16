@@ -3,7 +3,7 @@ networks:
   network:
     ipam:
       config:
-        - subnet: 172.25.0.1/16
+        - subnet: 172.25.0.0/16
 
 services:
   app:
@@ -31,7 +31,7 @@ services:
       - '5306:3306'
     command: --sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'
     environment:
-      MYSQL_HOST: mysql
+      MYSQL_HOST: 172.25.0.3
       MYSQL_ROOT_PASSWORD: pass
       MYSQL_DATABASE: invoice_manager
       MYSQL_USER: mysql
