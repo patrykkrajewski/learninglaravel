@@ -49,24 +49,50 @@ class InvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Invoice $invoice)
+    public function edit($id)
     {
-        //
+       $invoice =  Invoice::find($id);
+       return view('invoice_edit',['invoice' =>$invoice]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(Request $request, $id)
     {
-        //
+        $invoice = Invoice::find($id);
+        $invoice->invoice_number = $request->invoice_number;
+        $invoice->product_name = $request->product_name;
+        $invoice->invoice_date = $request->invoice_date;
+        $invoice->quantity = $request->quantity;
+        $invoice->price = $request->price;
+        $invoice->vat_rate = $request->vat_rate;
+        $invoice->place = $request->place;
+        $invoice->save();
+//dodac wiadomość o udałolo sie edytowac na ekran
+        return redirect()-> route('invoices.index')->with('message', 'Invoice changed');
+    }
+    public function move(Request $request, $id)
+    {
+        $invoice = Invoice::find($id);
+        if ($invoice->place == 'Wydawnictwo') {
+        $invoice->place = $invoice->place = 'Sklepik';
+        } else {
+            $invoice->place = $request->place='Wydawnictwo';
+        }
+
+
+        $invoice->save();
+//dodac wiadomość o udałolo sie edytowac na ekran
+        return redirect()-> route('invoices.index')->with('message', 'Invoice changed');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoice $invoice)
+    public function destroy($id)
     {
-        //
+        Invoice::destroy($id);
+        return redirect()-> route('invoices.index')->with('message', 'Invoice deleted');
     }
 }

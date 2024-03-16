@@ -14,6 +14,8 @@ services:
     command: sh -c "composer install && php artisan serve --host=0.0.0.0"
     ports:
       - "5000:8000"
+    volumes:
+      - ./firstlaravel:/var/www/html
     links:
       - db
     networks:
