@@ -7,6 +7,10 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
 
+        body{
+            margin: 0;
+            padding: 0;
+        }
         /* Dodatkowe style dla dostosowania pasków */
         .blue-bar {
             background-color: #111E2B; /* Niebieski kolor */
@@ -23,18 +27,13 @@
             height: 10vh; /* Wysokość 10% widoku */
             width: 100vw;
         }
-        .brand-text {
+        .ovner_name {
             color: #ffffff; /* Biały kolor */
             font-size: 2.1vh; /* Rozmiar tekstu */
             font-weight: bold; /* Pogrubienie tekstu */
+        }
 
-        }
-        .logo-img {
-            height: 20vh; /* Wysokość 85% widoku */
-        }
-        .footer{
-            margin-left: 0px;
-        }
+
 
     </style>
 </head>
@@ -43,7 +42,7 @@
     <!-- Górny pasek niebieski -->
     <div class="row blue-bar">
         <div class="">
-            <span class="brand-text .float-md-end">Biuro Promocji i Komunikacji</span>
+            <span class="brand-text .float-md-end ovner_name">Biuro Promocji i Komunikacji</span>
         </div>
         <div class="col-10 d-flex justify-content-end">
             <a href="" class="brand-text">Invoice List</a>
@@ -63,7 +62,7 @@
     </div>
 
     <!-- Dolny pasek niebieski -->
-    <div class="row bottom-blue-bar footer">
+    <div class="row bottom-blue-bar">
     </div>
 </div>
 
