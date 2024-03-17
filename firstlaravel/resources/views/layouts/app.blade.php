@@ -6,6 +6,7 @@
     <title>Bootstrap Layout</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+
         /* Dodatkowe style dla dostosowania pasków */
         .blue-bar {
             background-color: #111E2B; /* Niebieski kolor */
@@ -41,8 +42,8 @@
 <div class="container-fluid">
     <!-- Górny pasek niebieski -->
     <div class="row blue-bar">
-        <div class="col1">
-            <span class="brand-text">Biuro Promocji i Komunikacji</span>
+        <div class="">
+            <span class="brand-text .float-md-end">Biuro Promocji i Komunikacji</span>
         </div>
         <div class="col-10 d-flex justify-content-end">
             <a href="" class="brand-text">Invoice List</a>

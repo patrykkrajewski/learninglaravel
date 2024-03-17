@@ -58,8 +58,8 @@
 <div class="container">
     <nav class="navbar navbar-light bg-light">
         <div class="d-flex justify-content-center w-75">
-            <form action="">
-                <input class="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"> <!-- Ustawienie 100% szerokości -->
+            <form method="GET" action="{{ route('invoices.search') }}">
+                <input name="search" class="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
@@ -83,7 +83,16 @@
     </thead>
     <tbody>
     @foreach ($results as $result)
-        <p>{{ $result->invoice_number }} - {{ $result->product_name }}</p>
+        <tr>
+            <td>{{ $result->invoice_number }}</td>
+            <td>{{ $result->product_name }}</td>
+            <td>{{ $result->invoice_date }}</td>
+            <td>{{ $result->quantity }}</td>
+            <td>{{ $result->price }}</td>
+            <td>{{ $result->vat_rate }}</td>
+            <td>{{ $result->place }}</td>
+            <td></td>
+        </tr>
     @endforeach
 
     </tbody>

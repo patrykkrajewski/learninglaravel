@@ -112,9 +112,9 @@ class InvoiceController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
-        $results = Invoice::where('name', 'like', "%$search%")->get();
+        $results = Invoice::where('product_name', 'like', "%$search%")->orWhere('invoice_number', 'like', "%$search%")->get();
 
-        return view('products.index', ['results' => $results]);
+        return view('invoice_search', ['results' => $results]);
     }
 
 }

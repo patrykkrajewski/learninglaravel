@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function (){
-    return view('layouts/app');
+    return view('index');
 });
 Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::get('/', [InvoiceController::class, 'index'])->name('index');
@@ -24,6 +24,6 @@ Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::put('/update/{id}', [InvoiceController::class, 'update'])->name('update');
     Route::put('/move/{id}', [InvoiceController::class, 'move'])->name('move');
     Route::get('/destroy/{id}', [InvoiceController::class, 'destroy'])->name('destroy');
-    Route::get('/search', [InvoiceController::class, 'index'])->name('search');
+    Route::get('/search', [InvoiceController::class, 'search'])->name('search');
 });
 
