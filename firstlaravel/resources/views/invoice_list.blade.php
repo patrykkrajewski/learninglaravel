@@ -107,7 +107,7 @@
                     <form  method="POST" action="{{route('invoices.move',['id'=>$invoice->id])}}">
                         @csrf
                         @method('PUT')
-                        <button type="submit" class="btn btn-secondary">Move </button>
+                        <button type="submit" class="btn btn-secondary">Move</button>
 
                     </form>
 
