@@ -12,8 +12,10 @@ RUN apt-get update && apt-get install -y \
         zip \
     && docker-php-ext-install intl opcache pdo pdo_mysql zip mysqli \
     && pecl install apcu \
-    && docker-php-ext-enable apcu
-
+    && docker-php-ext-enable apcu \
+#Install nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get install -y nodejs
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

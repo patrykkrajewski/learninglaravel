@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function (){
-    return view('index');
+    return view('welcome');
 });
 Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::get('/', [InvoiceController::class, 'index'])->name('index');

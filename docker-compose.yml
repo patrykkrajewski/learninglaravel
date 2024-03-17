@@ -11,7 +11,7 @@ services:
       dockerfile: Dockerfile
       context: ./firstlaravel
     container_name: laravel_app
-    command: sh -c "composer install && php artisan serve --host=0.0.0.0"
+    command: sh -c "composer install && npm install && php artisan serve --host=0.0.0.0 & npm run dev"
     ports:
       - "5000:8000"
     volumes:
