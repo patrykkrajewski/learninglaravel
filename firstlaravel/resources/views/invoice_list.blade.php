@@ -3,21 +3,7 @@
 
 @section('content')
     <style>
-        body {
-            font-family: 'figtree', sans-serif;
-            background-color: #f9fafb;
-            color: #1f2937;
-            margin: 0;
-            padding: 0;
-        }
 
-        h1 {
-            text-align: center;
-            margin-top: 3rem;
-            margin-bottom: 0px;
-            height: 5vh;
-            margin-left: 33%;
-        }
         table {
             border-collapse: collapse;
             margin: auto;
@@ -38,64 +24,63 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-
-        .container{
-            margin-left: 25%;
-            margin-top: -13%;
-            padding: 0;
-        }
         .btn-success{
             float: left;
             margin-right: 0.1vw;
         }
         .btn-danger{
             float: left;
-
-
         }
         .btn-secondary{
             clear: both;
             margin-left: 0.1vw;
         }
-        .title{
-            width: 100vw;
-            height: 5vh;
-            margin: 0px;
-        }
-        .search{
-            width: 100vw;
-            height: 5vh;
-            margin: 0px;
 
-
-
-        }
         .invoices_table{
             width: 100vw;
             height: 80vh;
-            margin: 0px;
-
-
         }
         .create_btn{
             width: 100vw;
             height: 5vh;
-            margin: 0px;
-
-
         }
         .scroll{
             width: 100vw;
             height: 5vh;
-            margin: 0px;
+        }
+        body {
+            font-family: 'figtree', sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+        .title {
+            display: flex;
+        }
+        .logo_img{
+            width: 20vw;
+            height: 20vh;
+        }
+        .strong{
+            text-align: center;
+            color: #1f2937;
+            margin-left: 25vw;
+            margin-top: 5vh;
+        }
 
+        .search{
+            width: 100vw;
+            height: 5vh;
+            margin: 0px;
         }
 
 
-
     </style>
+    <div class="title">
+        <img src="{{ asset('logo.svg') }}" alt="logo" class="logo_img">
+        <h1 class="strong">Invoice List</h1>
 
-    <div class="title"><h1 class="strong">Invoice List</h1></div>
+    </div>
     <div class="search">
         <nav class="navbar navbar-light bg-light">
             <div class="d-flex justify-content-center w-75">
@@ -106,6 +91,8 @@
             </div>
         </nav>
     </div>
+    <!--
+
     <div class="invoices_table">
     <table>
         <thead>
@@ -154,7 +141,7 @@
     </div>
     <div class="scroll"></div>
 
-
+-->
     <!--  <button type="submit" class="btn-primary btn-lg">Create invoice</button> -->
 
 

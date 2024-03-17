@@ -26,14 +26,23 @@
             background-color: #111E2B; /* Niebieski kolor */
             height: 10vh; /* Wysokość 10% widoku */
             width: 100vw;
+            margin: 0px;
         }
         .ovner_name {
             color: #ffffff; /* Biały kolor */
-            font-size: 2.1vh; /* Rozmiar tekstu */
             font-weight: bold; /* Pogrubienie tekstu */
+            margin-top: 0.80vh;
+            margin-left: 1.80vh;
+            width: 65vw;
+
         }
-
-
+        .option_name{
+            color: white; /* Biały kolor */
+            font-weight: bold; /* Pogrubienie tekstu */
+            margin-top: 1.10vh;
+            margin-left: 1.80vh;
+            width: 30vw;
+        }
 
     </style>
 </head>
@@ -41,20 +50,18 @@
 <div class="container-fluid">
     <!-- Górny pasek niebieski -->
     <div class="row blue-bar">
-        <div class="">
-            <span class="brand-text .float-md-end ovner_name">Biuro Promocji i Komunikacji</span>
-        </div>
-        <div class="col-10 d-flex justify-content-end">
-            <a href="" class="brand-text">Invoice List</a>
-            <a href="" class="brand-text">Archives</a>
-            <a href="" class="brand-text">Generate XML</a>
+            <p class="ovner_name">Biuro Promocji i Komunikacji </p>
+        <div class=" option_name text-right">
+            <a href="" class="brand-text option_name">Invoice List</a>
+            <a href="" class="brand-text option_name">Archives</a>
+            <a href="" class="brand-text option_name">Generate XML</a>
         </div>
     </div>
 
     <!-- Pasek biały -->
     <div class="row white-bar">
             <!-- Logo umieszczone w prawej kolumnie -->
-            <img src="{{ asset('logo.svg') }}" alt="logo" class="logo-img">
+
 
             @yield('content')
             <!-- Tutaj możesz dodać treść dla głównego obszaru -->
