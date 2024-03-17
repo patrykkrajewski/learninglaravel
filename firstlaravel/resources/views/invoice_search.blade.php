@@ -58,8 +58,10 @@
 <div class="container">
     <nav class="navbar navbar-light bg-light">
         <div class="d-flex justify-content-center w-75">
-            <input class="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"> <!-- Ustawienie 100% szerokości -->
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form action="">
+                <input class="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"> <!-- Ustawienie 100% szerokości -->
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </div>
     </nav>
 </div>

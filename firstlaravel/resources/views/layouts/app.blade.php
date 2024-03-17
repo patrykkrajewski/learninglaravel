@@ -31,6 +31,9 @@
         .logo-img {
             height: 20vh; /* Wysokość 85% widoku */
         }
+        .footer{
+            margin-left: 0px;
+        }
 
     </style>
 </head>
@@ -39,7 +42,7 @@
     <!-- Górny pasek niebieski -->
     <div class="row blue-bar">
         <div class="col1">
-            <span class="brand-text">Buro Promocji i Komunikacji</span>
+            <span class="brand-text">Biuro Promocji i Komunikacji</span>
         </div>
         <div class="col-10 d-flex justify-content-end">
             <a href="" class="brand-text">Invoice List</a>
@@ -59,7 +62,7 @@
     </div>
 
     <!-- Dolny pasek niebieski -->
-    <div class="row bottom-blue-bar">
+    <div class="row bottom-blue-bar footer">
     </div>
 </div>
 
