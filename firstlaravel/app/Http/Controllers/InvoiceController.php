@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InvoiceController\StoreRequest;
 use App\Models\Invoice;
+use App\Models\StockControl;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -80,8 +81,6 @@ class InvoiceController extends Controller
         } else {
             $invoice->place = $request->place='Wydawnictwo';
         }
-
-
         $invoice->save();
 //dodac wiadomość o udałolo sie edytowac na ekran
         return redirect()-> route('invoices.index')->with('message', 'Invoice changed');
@@ -90,9 +89,32 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        Invoice::destroy($id);
-        return redirect()-> route('invoices.index')->with('message', 'Invoice deleted');
+        // Znajdź fakturę do usunięcia
+        $invoice = Invoice::find($id);
+
+        // Stwórz nowy wpis w tabeli stock_controls na podstawie danych faktury
+       // $stockControl = new StockControl();
+       // $stockControl->invoice_id = $invoice->id;
+       // $stockControl->title = $invoice->product_name;
+       // $stockControl->quantity = $invoice->quantity;
+       // $stockControl->operation_date = date("Y-m-d");
+       // $stockControl->save();
+
+        // Usuń fakturę
+        $invoice->delete();
+
+        return redirect()->route('invoices.index')->with('message', 'Invoice deleted');
     }
+
+    //z chatu nwm trzeba poprawic i ogarnac praktycznie od nowa
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $results = Invoice::where('name', 'like', "%$search%")->get();
+
+        return view('products.index', ['results' => $results]);
+    }
+
 }

@@ -51,7 +51,7 @@
     </style>
 </head>
 <body>
-<h1>Menadżer Faktur</h1>
+<h1>Invoice Manager</h1>
 <form action="{{route('invoices.store')}}" method="POST">
     {{csrf_field()}}
     <div class="form-group">

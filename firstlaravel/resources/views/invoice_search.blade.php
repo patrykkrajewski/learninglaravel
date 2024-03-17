@@ -80,27 +80,8 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($invoices as $invoice)
-        <tr>
-
-            <td>{{$invoice -> invoice_number}}</td>
-            <td>{{$invoice -> product_name}}</td>
-            <td>{{$invoice -> invoice_date}}</td>
-            <td>{{$invoice -> quantity}}</td>
-            <td>{{$invoice -> price}}</td>
-            <td>{{$invoice -> vat_rate}}</td>
-            <td>{{$invoice -> place}}</td>
-            <td>
-                <a href="{{route('invoices.edit',['id'=>$invoice->id])}}" class="btn btn-success">Edit</a>
-                <a href="{{route('invoices.destroy',['id'=>$invoice->id])}}" class="btn btn-danger">Delate</a>
-                <form method="POST" action="{{route('invoices.move',['id'=>$invoice->id])}}">
-                    @csrf
-                    @method('PUT')
-                <button type="submit" class="btn btn-secondary">Move</button>
-                </form>
-
-            </td>
-        </tr>
+    @foreach ($results as $result)
+        <p>{{ $result->invoice_number }} - {{ $result->product_name }}</p>
     @endforeach
 
     </tbody>
