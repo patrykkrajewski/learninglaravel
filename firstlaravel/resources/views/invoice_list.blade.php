@@ -57,19 +57,46 @@
             clear: both;
             margin-left: 0.1vw;
         }
-        .btn-lg{
+        .title{
+            width: 100vw;
             height: 5vh;
-            width: 8vw;
-            font-size: 0.8vw;
-            background-color: #111E2B;
+            margin: 0px;
         }
+        .search{
+            width: 100vw;
+            height: 5vh;
+            margin: 0px;
+
+
+
+        }
+        .invoices_table{
+            width: 100vw;
+            height: 80vh;
+            margin: 0px;
+
+
+        }
+        .create_btn{
+            width: 100vw;
+            height: 5vh;
+            margin: 0px;
+
+
+        }
+        .scroll{
+            width: 100vw;
+            height: 5vh;
+            margin: 0px;
+
+        }
+
 
 
     </style>
 
-<h1 class="strong">Invoice List</h1>
-
-    <div class="container">
+    <div class="title"><h1 class="strong">Invoice List</h1></div>
+    <div class="search">
         <nav class="navbar navbar-light bg-light">
             <div class="d-flex justify-content-center w-75">
                 <form method="GET" action="{{ route('invoices.search') }}">
@@ -79,7 +106,7 @@
             </div>
         </nav>
     </div>
-
+    <div class="invoices_table">
     <table>
         <thead>
         <tr>
@@ -120,8 +147,15 @@
         </tbody>
 
     </table>
+    </div>
+    <div class="create_btn">
+        <button type="submit" class="">Move</button>
 
-      <!--  <button type="submit" class="btn-primary btn-lg">Create invoice</button> -->
+    </div>
+    <div class="scroll"></div>
+
+
+    <!--  <button type="submit" class="btn-primary btn-lg">Create invoice</button> -->
 
 
 
