@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lista Faktur</title>
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom Styles -->
+
+@extends('layouts.app')
+
+@section('content')
     <style>
         body {
             font-family: 'figtree', sans-serif;
@@ -19,42 +14,61 @@
         h1 {
             text-align: center;
             margin-top: 3rem;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            font-weight: 600;
+            margin-bottom: 0px;
+            height: 5vh;
+            margin-left: 33%;
         }
-
         table {
-            margin: 0 auto;
-            width: 90%;
             border-collapse: collapse;
-            border-spacing: 0;
+            margin: auto;
+            width: 80%;
+            border: 0.4vw solid #111E2B; /* Dodaj obramowanie */
+            margin-top: -40vh;
+            margin-left: 10vw;
         }
-
         th, td {
-            padding: 0.75rem;
+            padding: 8px;
             text-align: left;
-            border-bottom: 1px solid #d1d5db;
+            border-bottom: 1vh solid #111E2B; /* Zmień kolor linii */
         }
-
         th {
-            background-color: #f3f4f6;
-            font-weight: 600;
+            background-color: #111E2B;
+            color: #ffffff;
         }
-
         tr:nth-child(even) {
-            background-color: #f9fafb;
+            background-color: #f2f2f2;
         }
 
-        tr:hover {
-            background-color: #f4f4f4;
+        .container{
+            margin-left: 25%;
+            margin-top: -13%;
+            padding: 0;
         }
+        .btn-success{
+            float: left;
+            margin-right: 0.1vw;
+        }
+        .btn-danger{
+            float: left;
+
+
+        }
+        .btn-secondary{
+            clear: both;
+            margin-left: 0.1vw;
+        }
+        .btn-lg{
+            height: 5vh;
+            width: 8vw;
+            font-size: 0.8vw;
+            background-color: #111E2B;
+        }
+
 
     </style>
-</head>
-<body>
 
-<h1>Invoice List</h1>
+<h1 class="strong">Invoice List</h1>
+
 <div class="container">
     <nav class="navbar navbar-light bg-light">
         <div class="d-flex justify-content-center w-75">
@@ -63,48 +77,50 @@
         </div>
     </nav>
 </div>
-
-<div id="datatable">
-</div>
-<table>
-    <thead>
-    <tr>
-        <th>Invoice Number</th>
-        <th>Product Name</th>
-        <th>Invoice Date</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>VAT Rate</th>
-        <th>Place</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach($invoices as $invoice)
+    <table>
+        <thead>
         <tr>
-
-            <td>{{$invoice -> invoice_number}}</td>
-            <td>{{$invoice -> product_name}}</td>
-            <td>{{$invoice -> invoice_date}}</td>
-            <td>{{$invoice -> quantity}}</td>
-            <td>{{$invoice -> price}}</td>
-            <td>{{$invoice -> vat_rate}}</td>
-            <td>{{$invoice -> place}}</td>
-            <td>
-                <a href="{{route('invoices.edit',['id'=>$invoice->id])}}" class="btn btn-success">Edit</a>
-                <a href="{{route('invoices.destroy',['id'=>$invoice->id])}}" class="btn btn-danger">Delate</a>
-                <form method="POST" action="{{route('invoices.move',['id'=>$invoice->id])}}">
-                    @csrf
-                    @method('PUT')
-                <button type="submit" class="btn btn-secondary">Move</button>
-                </form>
-
-            </td>
+            <th scope="col">Invoice Number</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Invoice Date</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">VAT Rate</th>
+            <th scope="col">Place</th>
+            <th scope="col"></th>
         </tr>
-    @endforeach
+        </thead>
+        <tbody>
+        @foreach($invoices as $invoice)
+            <tr>
 
-    </tbody>
-</table>
+                <td>{{$invoice -> invoice_number}}</td>
+                <td>{{$invoice -> product_name}}</td>
+                <td>{{$invoice -> invoice_date}}</td>
+                <td>{{$invoice -> quantity}}</td>
+                <td>{{$invoice -> price}}</td>
+                <td>{{$invoice -> vat_rate}}</td>
+                <td>{{$invoice -> place}}</td>
+                <td>
+                    <a  href="{{route('invoices.edit',['id'=>$invoice->id])}}" class="btn btn-success">Edit</a>
+                    <a href="{{route('invoices.destroy',['id'=>$invoice->id])}}" class="btn btn-danger">Delate</a>
+                    <form  method="POST" action="{{route('invoices.move',['id'=>$invoice->id])}}">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="btn btn-secondary">Move</button>
+                    </form>
+
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+
+    </table>
+
+      <!--  <button type="submit" class="btn-primary btn-lg">Create invoice</button> -->
+
+
+
 {{--{{$invoices -> links()}}--}}
-</body>
-</html>
+
+@endsection

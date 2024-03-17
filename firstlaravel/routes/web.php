@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/', function (){
+    return view('layouts/app');
+});
 Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::get('/', [InvoiceController::class, 'index'])->name('index');
     Route::get('/create', [InvoiceController::class, 'create'])->name('create');
