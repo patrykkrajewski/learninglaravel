@@ -18,6 +18,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY . /var/www/html
+COPY script.sh /var/www/html/script.sh
 
 # Install Composer dependencies
 RUN composer install
@@ -25,7 +26,9 @@ RUN composer install
 # Install Node dependencies
 RUN npm install
 # Install Vite globally
-RUN npm install -g vite
+RUN npm install vite
+
+RUN npm install laravel-vite-plugin
 
 # Add Vite to PATH
 ENV PATH="/var/www/html/node_modules/.bin:${PATH}"
