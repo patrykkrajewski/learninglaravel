@@ -10,7 +10,7 @@
                        id="inputInvoiceNumber"
                        placeholder="Numer faktury" name="invoice_number">
                 <div class="invalid-feedback">
-                    @error('vat_rate' )
+                    @error('invoice_number' )
                     {{$message}}
                     @enderror
                 </div>
@@ -21,7 +21,7 @@
                        id="inputProductName"
                        placeholder="Nazwa produktu" name="product_name">
                 <div class="invalid-feedback">
-                    @error('vat_rate' )
+                    @error('product_name' )
                     {{$message}}
                     @enderror
                 </div>
@@ -32,7 +32,7 @@
                        id="inputInvoiceDate"
                        placeholder="Data wystawienia" name="invoice_date">
                 <div class="invalid-feedback">
-                    @error('vat_rate' )
+                    @error('invoice_date' )
                     {{$message}}
                     @enderror
                 </div>
@@ -42,7 +42,7 @@
                 <input type="number" class="form-control @error('quantity') is-invalid @enderror" placeholder="0"
                        name="quantity">
                 <div class="invalid-feedback">
-                    @error('vat_rate' )
+                    @error('quantity' )
                     {{$message}}
                     @enderror
                 </div>
@@ -53,7 +53,7 @@
                     <input type="text" class="form-control @error('price') is-invalid @enderror" id="inputPrice"
                            name="price">
                     <div class="invalid-feedback">
-                        @error('vat_rate' )
+                        @error('price' )
                         {{$message}}
                         @enderror
                     </div>

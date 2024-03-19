@@ -25,6 +25,5 @@ Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::put('/move/{id}', [InvoiceController::class, 'move'])->name('move');
     Route::get('/destroy/{id}', [InvoiceController::class, 'destroy'])->name('destroy');
     Route::get('/search', [InvoiceController::class, 'search'])->name('search');
-    Route::get('/search', [InvoiceController::class, 'search'])->name('search');
 });
 
