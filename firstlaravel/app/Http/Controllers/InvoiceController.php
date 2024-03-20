@@ -36,7 +36,7 @@ class InvoiceController extends Controller
         $invoice = new Invoice($request->validated());
         $invoice->save();
 
-        return redirect()-> route('invoices.index');
+        return redirect()->route('invoices.index');
     }
 
     /**
@@ -52,8 +52,8 @@ class InvoiceController extends Controller
      */
     public function edit($id)
     {
-       $invoice =  Invoice::find($id);
-       return view('invoice_edit',['invoice' =>$invoice]);
+        $invoice = Invoice::find($id);
+        return view('invoice_edit', ['invoice' => $invoice]);
     }
 
     /**
@@ -61,29 +61,47 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $invoice = Invoice::find($id);
-        $invoice->invoice_number = $request->invoice_number;
-        $invoice->product_name = $request->product_name;
-        $invoice->invoice_date = $request->invoice_date;
-        $invoice->quantity = $request->quantity;
-        $invoice->price = $request->price;
-        $invoice->vat_rate = $request->vat_rate;
-        $invoice->place = $request->place;
+        // Walidacja danych wejściowych
+        $request->validate([
+            'invoice_number' => 'required',
+            'product_name' => 'required',
+            'invoice_date' => 'required',
+            'quantity' => 'required|numeric', // Dodaj walidację dla pola quantity
+            'price' => 'required|numeric',
+            'vat_rate' => 'required|numeric',
+            'place' => 'required'
+        ]);
+
+        // Pobierz fakturę do aktualizacji
+        $invoice = Invoice::findOrFail($id);
+
+        // Aktualizuj pola faktury na podstawie danych z formularza
+        $invoice->invoice_number = $request->input('invoice_number');
+        $invoice->product_name = $request->input('product_name');
+        $invoice->invoice_date = $request->input('invoice_date');
+        $invoice->quantity = $request->input('quantity');
+        $invoice->price = $request->input('price');
+        $invoice->vat_rate = $request->input('vat_rate');
+        $invoice->place = $request->input('place');
+
+        // Zapisz zmiany w bazie danych
         $invoice->save();
-//dodac wiadomość o udałolo sie edytowac na ekran
-        return redirect()-> route('invoices.index')->with('message', 'Invoice changed');
+
+        // Przekieruj użytkownika po zapisaniu
+        return redirect()->route('invoices.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
     }
+
     public function move(Request $request, $id)
     {
         $invoice = Invoice::find($id);
         if ($invoice->place == 'Wydawnictwo') {
-        $invoice->place = $invoice->place = 'Sklepik';
+            $invoice->place = $invoice->place = 'Sklepik';
         } else {
-            $invoice->place = $request->place='Wydawnictwo';
+            $invoice->place = $request->place = 'Wydawnictwo';
         }
         $invoice->save();
 //dodac wiadomość o udałolo sie edytowac na ekran
-        return redirect()-> route('invoices.index')->with('message', 'Invoice changed');
+        return redirect()->route('invoices.index')->with('message', 'Invoice changed');
     }
 
     /**
@@ -95,12 +113,12 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
 
         // Stwórz nowy wpis w tabeli stock_controls na podstawie danych faktury
-       // $stockControl = new StockControl();
-       // $stockControl->invoice_id = $invoice->id;
-       // $stockControl->title = $invoice->product_name;
-       // $stockControl->quantity = $invoice->quantity;
-       // $stockControl->operation_date = date("Y-m-d");
-       // $stockControl->save();
+        // $stockControl = new StockControl();
+        // $stockControl->invoice_id = $invoice->id;
+        // $stockControl->title = $invoice->product_name;
+        // $stockControl->quantity = $invoice->quantity;
+        // $stockControl->operation_date = date("Y-m-d");
+        // $stockControl->save();
 
         // Usuń fakturę
         $invoice->delete();
@@ -116,5 +134,4 @@ class InvoiceController extends Controller
 
         return view('invoice_search', ['results' => $results]);
     }
-
 }

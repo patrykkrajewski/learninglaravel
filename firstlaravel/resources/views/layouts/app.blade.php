@@ -7,27 +7,29 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     @vite(['resourses/css/app.css'])
+
     <style>
 
 
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="row blue-bar">
-        <p>Biuro Promocji i Komunikacji </p>
-        <div class=" text-right">
-            <a href="" class="brand-text">Invoice List</a>
-            <a href="" class="brand-text">Archives</a>
-            <a href="" class="brand-text">Generate XML</a>
-        </div>
+<div class="blue-bar text-white" style="background-color: #111E2B">
+    <a href="https://umg.edu.pl/biuro-promocji-i-komunikacji" target="_blank" class="text-decoration-none text-white mr-auto">Biuro Promocji i Komunikacji</a>
+    <div class="d-flex align-items-center" >
+        <a href="" class="text-decoration-none text-white">Lista faktur</a>
+        <a href="" class="text-decoration-none text-white">Archiwum</a>
+        <a href="" class="text-decoration-none text-white">Generator XML</a>
     </div>
-    <div class="row white-bar">
-        @yield('content')
-    </div>
-    <div class="row bottom-blue-bar">
+</div>
 
-    </div>
+
+<div class="row white-bar">
+    @yield('content')
+</div>
+<div class="footer fixed-bottom " style="background-color: #111E2B">
+    footer <br>
+    footer
 </div>
 
 
