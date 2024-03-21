@@ -2,9 +2,8 @@
 
 @section('content')
 
-    <div class="row">
         <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
-    </div>
+
     <div class="d-flex justify-content-center mb-4">
         <nav class="navbar navbar-light bg-light">
             <form method="GET" action="{{ route('invoices.search') }}" class="form-inline d-flex">
@@ -62,7 +61,8 @@
             <div class="d-flex justify-content-end">
                 <div class="col-8">
                     @if($invoices->previousPageUrl())
-                        <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('arrow_l.png') }}" alt=""></a>
+                        <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('arrow_l.png') }}"
+                                                                                     alt=""></a>
                     @endif
 
                     @if($invoices->nextPageUrl())
@@ -70,7 +70,6 @@
                     @endif
                 </div>
             </div>
-
-
         </div>
+
 @endsection

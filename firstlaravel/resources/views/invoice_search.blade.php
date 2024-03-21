@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="w-200">
+
     <div class="row">
         <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
     </div>
@@ -58,5 +58,5 @@
 
                 </tbody>
             </table>
-        </div>
+
 @endsection
