@@ -44,24 +44,22 @@
                                class="btn btn-primary">Edytuj</a>
                             <a href="{{route('invoices.destroy',['id'=>$invoice->id])}}"
                                class="btn btn-danger">Usuń</a>
-                           <!-- <form method="POST" action="{{route('invoices.move',['id'=>$invoice->id])}}">
+                            <!-- <form method="POST" action="{{route('invoices.move',['id'=>$invoice->id])}}">
                                 @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-secondary">Przenieś</button>
-                            </form> -->
+                            @method('PUT')
+                            <button type="submit" class="btn btn-secondary">Przenieś</button>
+                        </form> -->
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-        </div>
-    </div>
-    </div>
-    <div class="row justify-content-center"><a href="{{route('invoices.create')}}" class="btn btn-success col-md-3 mb-4">Dodaj fakture</a></div>
-    <div class="row">
-        <button type="submit" class="col border-0"><img src="arrow_l.png" alt=""></button>
-        <button type="submit" class="col border-0"><img src="arrow_p.png" alt=""></button>
-    </div>
+            <div class="row justify-content-center"><a href="{{route('invoices.create')}}"
+                                                       class="btn btn-success col-md-3 mb-4">Dodaj fakture</a></div>
+            <div class="row">
+                <button type="submit" class="col border-0"><img src="{{asset('arrow_l.png') }}" alt=""></button>
+                <button type="submit" class="col border-0"><img src="{{asset('arrow_p.png') }}" alt=""></button>
+            </div>
 
 
 
