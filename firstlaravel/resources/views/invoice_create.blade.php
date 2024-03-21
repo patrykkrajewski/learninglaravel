@@ -20,8 +20,8 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group p-14 mb-3">
-                            <label for="inputProductName">Nazwa prduktu</label>
+                        <div class="form-group p-14 mb-3 mt-3">
+                            <label for="inputProductName">Nazwa produktu</label>
                             <input type="text" class="form-control @error('product_name') is-invalid @enderror"
                                    id="inputProductName"
                                    placeholder="Nazwa produktu" name="product_name">
