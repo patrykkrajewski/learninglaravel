@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row justify-content-center mt-5">
-        <div class="col-md-8">
+        <div class="col-md-5">
             <h1 class="text-center">Edytujesz Fakture nr {{ $invoice->invoice_number }}</h1>
             <div class="card " style="color: white">
                 <div class="card-body rounded" style="background-color: #111E2B;">
@@ -74,7 +74,8 @@
                             <div class="form-group p-14 mb-3 col-6">
                                 <label for="inputPlace">Miejscee</label>
                                 <select id="inputPlace" class="form-control" name="place">
-                                    <option value="Wydawnictwo" {{ $invoice->place == 'Wydawnictwo' ? 'selected' : '' }}>
+                                    <option
+                                        value="Wydawnictwo" {{ $invoice->place == 'Wydawnictwo' ? 'selected' : '' }}>
                                         Wydawnictwo
                                     </option>
                                     <option value="Sklepik" {{ $invoice->place == 'Sklepik' ? 'selected' : '' }}>
@@ -99,9 +100,9 @@
                             </div>
 
                         </div>
-
-                        <br>
-                        <button type="submit" class="btn btn-primary">Zapisz</button>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary col-md-3 mt-3 mb-3">Zapisz</button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <div class="row justify-content-center mt-5">
-        <div class="col-md-8">
-            <h1 class="text-center">Dodaj Fakturę</h1>
+        <div class="col-md-5">
+            <h1 class="text-center">Dodaj Fakture</h1>
 
             <div class="card " style="color: white">
                 <div class="card-body rounded" style="background-color: #111E2B;">
@@ -88,8 +88,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="text-center"> <!-- Dodaj klasę text-center -->
-                            <button type="submit" class="btn btn-primary col-3">Dodaj</button> <!-- Usuń klasę mx-auto -->
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary col-md-3 mt-3 mb-3">Dodaj</button>
                         </div>
                     </form>
                 </div>
