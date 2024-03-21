@@ -3,7 +3,7 @@
     <div class="row">
         <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mb-4">
         <nav class="navbar navbar-light bg-light">
             <form method="GET" action="{{ route('invoices.search') }}" class="form-inline d-flex">
                 <input name="search"  class="form-control w-5" type="search" placeholder="Nazwa/Numer" aria-label="Search">

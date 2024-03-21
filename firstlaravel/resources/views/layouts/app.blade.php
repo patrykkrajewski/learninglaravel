@@ -13,13 +13,17 @@
 <div class="container-fluid justify-content-start">
     <div class="text-white row p-2 sticky-top" style="background-color: #111E2B">
         <div class="col">
-            <a href="https://umg.edu.pl/biuro-promocji-i-komunikacji" target="_blank" class="text-decoration-none text-white fs-5">
-                <img src="{{asset('logo_umg.svg') }}" alt="" class="img-fluid px-2" style="height: 9vh;">Biuro Promocji i Komunikacji</a>
+            <a href="https://umg.edu.pl/biuro-promocji-i-komunikacji" target="_blank"
+               class="text-decoration-none text-white fs-5">
+                <img src="{{asset('logo_umg.svg') }}" alt="" class="img-fluid px-2" style="height: 9vh;">Biuro Promocji
+                i Komunikacji</a>
         </div>
         <div class="col-auto d-flex justify-content-end my-auto">
-            <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5 ">Lista faktur</a>
+            <div class="px-4"><a href="{{route('invoices.create')}}" class="btn btn-success  text-white fs-5 px-4">Dodaj fakture</a></div>
+            <div class="mt-2">
+            <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5  ">Lista faktur</a>
             <a href="" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
-            <a href="" class="text-decoration-none text-white fs-5">Generator XML</a>
+            <a href="" class="text-decoration-none text-white fs-5">Generator XML</a></div>
         </div>
     </div>
     <div class="row white-bar">

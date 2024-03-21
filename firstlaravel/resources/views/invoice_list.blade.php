@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="row">
         <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mb-4">
         <nav class="navbar navbar-light bg-light">
             <form method="GET" action="{{ route('invoices.search') }}" class="form-inline d-flex">
-                <input name="search"  class="form-control w-5" type="search" placeholder="Nazwa/Numer" aria-label="Search">
-                <input name="start_date" class="form-control w-3" type="date" placeholder="Start Date" aria-label="Start Date">
-                <input name="end_date" class="form-control w-3" type="date" placeholder="End Date" aria-label="End Date">
+                <input name="search" class="form-control w-5" type="search" placeholder="Nazwa/Numer"
+                       aria-label="Search">
+                <input name="start_date" class="form-control w-3" type="date" placeholder="Start Date"
+                       aria-label="Start Date">
+                <input name="end_date" class="form-control w-3" type="date" placeholder="End Date"
+                       aria-label="End Date">
                 <button class="btn btn-outline-success" type="submit">Wyszukaj</button>
             </form>
         </nav>
@@ -44,7 +48,7 @@
                             <a href="{{route('invoices.edit',['id'=>$invoice->id])}}"
                                class="btn btn-primary">Edytuj</a>
                             <a href="{{route('invoices.destroy',['id'=>$invoice->id])}}"
-                               class="btn btn-danger">Usuń</a>
+                               class="btn btn-danger ">Usuń</a>
                             <!-- <form method="POST" action="{{route('invoices.move',['id'=>$invoice->id])}}">
                                 @csrf
                             @method('PUT')
@@ -55,10 +59,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="row justify-content-center"><a href="{{route('invoices.create')}}"
-                                                       class="btn btn-success col-md-3 mb-4">Dodaj fakture</a></div>
 
-            <div class="row justify-content-center mt-4">
                 <div class="col-8 d-flex justify-content-center ">
                     @if($invoices->previousPageUrl())
                         <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('arrow_l.png') }}"
@@ -70,15 +71,4 @@
                     @endif
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-    {{--{{$invoices -> links()}}--}}
-
 @endsection
