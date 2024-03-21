@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="w-200">
+    <div style="margin-bottom: 10vh">
     <div class="row">
         <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
     </div>
@@ -58,5 +58,14 @@
 
                 </tbody>
             </table>
+        </div>
+        <div class="col-8 d-flex justify-content-center">
+            @if($results->previousPageUrl())
+                <a href="{{$results->previousPageUrl()}}" class="px-5"><img src="{{asset('arrow_l.png') }}" alt=""></a>
+            @endif
+
+            @if($results->nextPageUrl())
+                <a href="{{$results->nextPageUrl()}}" class="px-5"><img src="{{asset('arrow_p.png') }}" alt=""></a>
+            @endif
         </div>
 @endsection
