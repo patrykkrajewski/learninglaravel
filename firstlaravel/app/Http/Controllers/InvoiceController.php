@@ -152,5 +152,22 @@ class InvoiceController extends Controller
 
         return view('invoice_search', ['results' => $results]);
     }
+    public function update_quantity(Request $request, $id)
+    {
+        // Walidacja danych wejściowych
+        $request->validate([
+            'quantity' => 'required|integer',
+        ]);
+
+        // Pobierz fakturę z bazy danych
+        $invoice = Invoice::findOrFail($id);
+
+        // Dodaj ilość sztuk przekazaną przez użytkownika do istniejącej ilości w bazie danych
+        $invoice->quantity += $request->input('quantity');
+        $invoice->save();
+
+        return redirect()->back()->with('success', 'Ilość sztuk została zaktualizowana.');
+    }
+
 
 }

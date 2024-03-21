@@ -47,8 +47,10 @@
                             <td class="col">
                                 <a href="{{route('invoices.edit',['id'=>$invoice->id])}}"
                                    class="btn btn-primary">Edytuj</a>
+                                <a href=""
+                                   class="btn btn-success fw-bold" data-toggle="modal" data-target="#myModal">+</a>
                                 <a href="{{route('invoices.destroy',['id'=>$invoice->id])}}"
-                                   class="btn btn-danger ">Usuń</a>
+                                   class="btn btn-danger fw-bold">-</a>
                                 <!-- <form method="POST" action="{{route('invoices.move',['id'=>$invoice->id])}}">
                                 @csrf
                                 @method('PUT')
@@ -70,4 +72,41 @@
                 @endif
             </div>
         </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Dodawanie sztuk</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="addQuantityForm" method="POST" action="{{ route('invoices.update_quantity', ['id' => $invoice->id]) }}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" id="invoiceId" name="id">
+                        <div class="form-group">
+                            <label for="quantityToAdd">Ile chcesz dodać sztuk:</label>
+                            <input type="number" class="form-control" id="quantityToAdd" name="quantity" placeholder="0">
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Zamknij</button>
+                    <button type="submit" form="addQuantityForm" class="btn btn-success">Dodaj</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @endsection
