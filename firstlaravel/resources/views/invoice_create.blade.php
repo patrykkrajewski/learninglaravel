@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-3 mb-3">
         <div class="col-md-5">
             <h1 class="text-center">Dodaj Fakture</h1>
 
@@ -9,7 +9,7 @@
 
                     <form action="{{route('invoices.store')}}" method="POST">
                         {{csrf_field()}}
-                        <div class="form-group p-14 mb-3">
+                        <div class="form-group p-10">
                             <label for="inputInvoiceNumber">Numer faktury</label>
                             <input type="text" class="form-control @error('invoice_number') is-invalid @enderror"
                                    id="inputInvoiceNumber"
@@ -89,7 +89,7 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary col-md-3 mt-3 mb-3">Dodaj</button>
+                            <button type="submit" class="btn btn-primary col-md-3 mt-3 ">Dodaj</button>
                         </div>
                     </form>
                 </div>

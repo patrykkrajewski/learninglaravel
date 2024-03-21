@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-3 mb-3">
         <div class="col-md-5">
             <h1 class="text-center">Edytujesz Fakture nr {{ $invoice->invoice_number }}</h1>
             <div class="card " style="color: white">
-                <div class="card-body rounded" style="background-color: #111E2B;">
+                <div class="card-body rounded mb-3" style="background-color: #111E2B;">
 
                     <form action="{{ route('invoices.update', ['id' => $invoice->id]) }}" method="POST">
                         @csrf
