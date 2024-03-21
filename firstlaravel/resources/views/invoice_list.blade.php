@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div style="margin-bottom: 10vh">
         <div class="row ">
             <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
@@ -43,19 +44,36 @@
                             <td>{{$invoice->quantity}}</td>
                             <td>{{$invoice->price}}</td>
                             <td>{{$invoice->vat_rate}}</td>
-                            <td>{{$invoice->place}}</td>
+                            <td>
+                                <div class="d-flex justify-content-start text-center">
+                                    <form method="POST" action="{{ route('invoices.move',['id'=>$invoice->id]) }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-secondary">
+                                            <i class="fas fa-arrow-right"></i> <!-- Emotikona dla przeniesienia -->
+                                        </button>
+                                    </form>
+                                    <div class="align-items-center">
+                                        <span class="px-3">{{$invoice->place}}</span>
+                                    </div>
+                                </div>
+                            </td>
+
+
+
                             <td class="col">
-                                <a href="{{route('invoices.edit',['id'=>$invoice->id])}}"
-                                   class="btn btn-primary">Edytuj</a>
-                                <a href=""
-                                   class="btn btn-success fw-bold" data-toggle="modal" data-target="#myModal">+</a>
-                                <a href="{{route('invoices.destroy',['id'=>$invoice->id])}}"
-                                   class="btn btn-danger fw-bold">-</a>
-                                <!-- <form method="POST" action="{{route('invoices.move',['id'=>$invoice->id])}}">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-secondary">Przenieś</button>
-                            </form> -->
+                                <a href="{{ route('invoices.destroy',['id'=>$invoice->id]) }}"
+                                   class="btn btn-danger fw-bold">
+                                    <i class="fas fa-minus"></i> <!-- Emotikona dla usuwania -->
+                                </a>
+                                <a href="{{ route('invoices.edit',['id'=>$invoice->id]) }}" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i> <!-- Emotikona dla edycji -->
+                                </a>
+                                <a href="" class="btn btn-success fw-bold" data-toggle="modal" data-target="#myModal">
+                                    <i class="fas fa-plus"></i> <!-- Emotikona dla dodawania -->
+                                </a>
+
+
                             </td>
                         </tr>
                     @endforeach
@@ -64,18 +82,19 @@
             </div>
             <div class="col-8 d-flex justify-content-center">
                 @if($invoices->previousPageUrl())
-                    <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('arrow_l.png') }}" alt=""></a>
+                    <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_l.png') }}"
+                                                                                 alt=""></a>
                 @endif
 
                 @if($invoices->nextPageUrl())
-                    <a href="{{$invoices->nextPageUrl()}}" class="px-5"><img src="{{asset('arrow_p.png') }}" alt=""></a>
+                    <a href="{{$invoices->nextPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_p.png') }}" alt=""></a>
                 @endif
             </div>
         </div>
 
 
-            </div>
-        </div>
+    </div>
+    </div>
     </div>
     <div class="modal fade" id="myModal">
         <div class="modal-dialog">
@@ -87,13 +106,15 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form id="addQuantityForm" method="POST" action="{{ route('invoices.update_quantity', ['id' => $invoice->id]) }}">
+                    <form id="addQuantityForm" method="POST"
+                          action="{{ route('invoices.update_quantity', ['id' => $invoice->id]) }}">
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="invoiceId" name="id">
                         <div class="form-group">
                             <label for="quantityToAdd">Ile chcesz dodać sztuk:</label>
-                            <input type="number" class="form-control" id="quantityToAdd" name="quantity" placeholder="0">
+                            <input type="number" class="form-control" id="quantityToAdd" name="quantity"
+                                   placeholder="0">
                         </div>
                     </form>
                 </div>
@@ -106,7 +127,7 @@
         </div>
     </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @endsection

@@ -152,6 +152,7 @@ class InvoiceController extends Controller
 
         return view('invoice_search', ['results' => $results]);
     }
+
     public function update_quantity(Request $request, $id)
     {
         // Walidacja danych wejściowych

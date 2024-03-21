@@ -61,11 +61,11 @@
         </div>
         <div class="col-8 d-flex justify-content-center">
             @if($results->previousPageUrl())
-                <a href="{{$results->previousPageUrl()}}" class="px-5"><img src="{{asset('arrow_l.png') }}" alt=""></a>
+                <a href="{{$results->previousPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_l.png') }}" alt=""></a>
             @endif
 
             @if($results->nextPageUrl())
-                <a href="{{$results->nextPageUrl()}}" class="px-5"><img src="{{asset('arrow_p.png') }}" alt=""></a>
+                <a href="{{$results->nextPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_p.png') }}" alt=""></a>
             @endif
         </div>
 @endsection
