@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    <div class="w-200">
     <div class="row">
         <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
     </div>
@@ -57,10 +58,5 @@
 
                 </tbody>
             </table>
-            <div class="row justify-content-center"><a href="{{route('invoices.create')}}"
-                                                       class="btn btn-success col-md-3 mb-4">Dodaj fakture</a></div>
-            <div class="row">
-                <button type="submit" class="col border-0"><img src="{{asset('arrow_l.png') }}" alt=""></button>
-                <button type="submit" class="col border-0"><img src="{{asset('arrow_p.png') }}" alt=""></button>
-            </div>
+        </div>
 @endsection

@@ -29,7 +29,7 @@
     <div class="row white-bar">
         @yield('content')
     </div>
-    <div class="footer fixed-bottom p-3 text-white text-center" style="background-color: #111E2B">
+    <div class="footer fixed-bottom p-3 text-white text-center mt-2" style="background-color: #111E2B">
         © Uniwersytet Morski w Gdyni 2024
     </div>
 

@@ -27,23 +27,16 @@
                     <th scope="col ">Numer</th>
                     <th scope="col">Nazwa produktu</th>
                     <th scope="col">Data wystawienia</th>
-                    <th scope="col">Ilość</th>
-                    <th scope="col">Cena</th>
-                    <th scope="col">Podatek VAT</th>
-                    <th scope="col">Miejsce</th>
-                    <th scope="col"></th>
+
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($invoices as $invoice)
+                @foreach($stock_controls as $stock_control)
                     <tr>
-                        <td>{{$invoice->invoice_number}}</td>
-                        <td>{{$invoice->product_name}}</td>
-                        <td>{{$invoice->invoice_date->format('Y-m-d')}}</td>
-                        <td>{{$invoice->quantity}}</td>
-                        <td>{{$invoice->price}}</td>
-                        <td>{{$invoice->vat_rate}}</td>
-                        <td>{{$invoice->place}}</td>
+                        <td>{{$stock_control->invoice_number}}</td>
+                        <td>{{$stock_control->product_name}}</td>
+                        <td>{{$stock_control->invoice_date->format('Y-m-d')}}</td>
+
                         <td class="col">
                             <a href="{{route('invoices.edit',['id'=>$invoice->id])}}"
                                class="btn btn-primary">Edytuj</a>
@@ -60,15 +53,4 @@
                 </tbody>
             </table>
 
-                <div class="col-8 d-flex justify-content-center ">
-                    @if($invoices->previousPageUrl())
-                        <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('arrow_l.png') }}"
-                                                                                     alt=""></a>
-                    @endif
-
-                    @if($invoices->nextPageUrl())
-                        <a href="{{$invoices->nextPageUrl()}}" class="px-5"><img src="{{asset('arrow_p.png') }}" alt=""></a>
-                    @endif
-                </div>
-            </div>
 @endsection
