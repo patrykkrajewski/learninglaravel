@@ -15,7 +15,7 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices = Invoice::all();
-        $invoices = Invoice::paginate(9);
+        $invoices = Invoice::paginate(20);
         return view('invoice_list', compact('invoices'));
     }
 
@@ -34,7 +34,6 @@ class InvoiceController extends Controller
     {
         $invoice = new Invoice($request->validated());
         $invoice->save();
-
         return redirect()->route('invoices.index');
     }
 
@@ -149,7 +148,7 @@ class InvoiceController extends Controller
             $query->where('invoice_date', '<=', $end_date);
         }
 
-        $results = $query->get();
+        $results = $query->paginate(20);
 
         return view('invoice_search', ['results' => $results]);
     }
