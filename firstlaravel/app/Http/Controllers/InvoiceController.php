@@ -14,9 +14,8 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-//        $invoices = Invoice::paginate(2);
         $invoices = Invoice::all();
-
+        $invoices = Invoice::paginate(8);
         return view('invoice_list', compact('invoices'));
     }
 
@@ -130,8 +129,29 @@ class InvoiceController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
-        $results = Invoice::where('product_name', 'like', "%$search%")->orWhere('invoice_number', 'like', "%$search%")->get();
+
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $query = Invoice::query();
+
+        if (!empty($search)) {
+            $query->where(function ($query) use ($search) {
+                $query->where('product_name', 'like', "%$search%")
+                    ->orWhere('invoice_number', 'like', "%$search%");
+            });
+        }
+
+        if (!empty($start_date)) {
+            $query->where('invoice_date', '>=', $start_date);
+        }
+
+        if (!empty($end_date)) {
+            $query->where('invoice_date', '<=', $end_date);
+        }
+
+        $results = $query->get();
 
         return view('invoice_search', ['results' => $results]);
     }
+
 }

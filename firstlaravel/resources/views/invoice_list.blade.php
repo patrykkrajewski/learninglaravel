@@ -7,12 +7,13 @@
     <div class="d-flex justify-content-center">
         <nav class="navbar navbar-light bg-light">
             <form method="GET" action="{{ route('invoices.search') }}" class="form-inline d-flex">
-                <input name="search" class="form-control w-4" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <input name="search"  class="form-control w-5" type="search" placeholder="Nazwa/Numer" aria-label="Search">
+                <input name="start_date" class="form-control w-3" type="date" placeholder="Start Date" aria-label="Start Date">
+                <input name="end_date" class="form-control w-3" type="date" placeholder="End Date" aria-label="End Date">
+                <button class="btn btn-outline-success" type="submit">Wyszukaj</button>
             </form>
         </nav>
     </div>
-
 
     <div class="row justify-content-center">
         <div class="col-8">
@@ -56,11 +57,19 @@
             </table>
             <div class="row justify-content-center"><a href="{{route('invoices.create')}}"
                                                        class="btn btn-success col-md-3 mb-4">Dodaj fakture</a></div>
-            <div class="row">
-                <button type="submit" class="col border-0"><img src="{{asset('arrow_l.png') }}" alt=""></button>
-                <button type="submit" class="col border-0"><img src="{{asset('arrow_p.png') }}" alt=""></button>
-            </div>
 
+            <div class="row justify-content-center mt-4">
+                <div class="col-8 d-flex justify-content-center ">
+                    @if($invoices->previousPageUrl())
+                        <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('arrow_l.png') }}"
+                                                                                     alt=""></a>
+                    @endif
+
+                    @if($invoices->nextPageUrl())
+                        <a href="{{$invoices->nextPageUrl()}}" class="px-5"><img src="{{asset('arrow_p.png') }}" alt=""></a>
+                    @endif
+                </div>
+            </div>
 
 
 

@@ -9,26 +9,25 @@
     @vite(['resourses/css/app.css'])
 </head>
 <body>
-<div class="container-fluid justify-content-start">
-<div class="text-white row p-2" style="background-color: #111E2B">
-    <div class="col">
-        <img src="{{asset('logo_umg.svg') }}" alt="" class="img-fluid" style="height: 9vh;">
-        <a href="https://umg.edu.pl/biuro-promocji-i-komunikacji" target="_blank"
-           class="text-decoration-none text-white fs-5">Biuro Promocji i Komunikacji</a>
-    </div>
-    <div class="col-auto d-flex justify-content-end my-auto">
-        <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5 ">Lista faktur</a>
-        <a href="" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
-        <a href="" class="text-decoration-none text-white fs-5">Generator XML</a>
-    </div>
-</div>
 
-<div class="row white-bar">
-    @yield('content')
-</div>
-<div class="footer fixed-bottom p-3 text-white text-center" style="background-color: #111E2B">
-    © Uniwersytet Morski w Gdyni 2024
-</div>
+<div class="container-fluid justify-content-start">
+    <div class="text-white row p-2 sticky-top" style="background-color: #111E2B">
+        <div class="col">
+            <a href="https://umg.edu.pl/biuro-promocji-i-komunikacji" target="_blank" class="text-decoration-none text-white fs-5">
+                <img src="{{asset('logo_umg.svg') }}" alt="" class="img-fluid px-2" style="height: 9vh;">Biuro Promocji i Komunikacji</a>
+        </div>
+        <div class="col-auto d-flex justify-content-end my-auto">
+            <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5 ">Lista faktur</a>
+            <a href="" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
+            <a href="" class="text-decoration-none text-white fs-5">Generator XML</a>
+        </div>
+    </div>
+    <div class="row white-bar">
+        @yield('content')
+    </div>
+    <div class="footer fixed-bottom p-3 text-white text-center" style="background-color: #111E2B">
+        © Uniwersytet Morski w Gdyni 2024
+    </div>
 
 </div>
 <!-- Plik JavaScript Bootstrapa (opcjonalny) -->
