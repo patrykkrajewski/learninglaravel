@@ -22,7 +22,6 @@ Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::post('/store', [InvoiceController::class, 'store'])->name('store');
     Route::get('/edit/{id}', [InvoiceController::class, 'edit'])->name('edit');
     Route::put('/update/{id}', [InvoiceController::class, 'update'])->name('update');
-    Route::put('/update_quantity/{id}', [InvoiceController::class, 'update_quantity'])->name('update_quantity');
     Route::put('/move/{id}', [InvoiceController::class, 'move'])->name('move');
     Route::get('/destroy/{id}', [InvoiceController::class, 'destroy'])->name('destroy');
     Route::get('/search', [InvoiceController::class, 'search'])->name('search');

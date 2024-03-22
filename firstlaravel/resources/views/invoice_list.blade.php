@@ -41,9 +41,9 @@
                             <td>{{$invoice->invoice_number}}</td>
                             <td>{{$invoice->product_name}}</td>
                             <td>{{$invoice->invoice_date->format('Y-m-d')}}</td>
-                            <td>{{$invoice->quantity}}</td>
-                            <td>{{$invoice->price}}</td>
-                            <td>{{$invoice->vat_rate}}</td>
+                            <td>{{$invoice->quantity}}szt.</td>
+                            <td>{{$invoice->price}}zł</td>
+                            <td>{{ intval($invoice->vat_rate) }}%</td>
                             <td>
                                 <div class="d-flex justify-content-start text-center">
                                     <form method="POST" action="{{ route('invoices.move',['id'=>$invoice->id]) }}">
@@ -63,7 +63,7 @@
 
                             <td class="col">
                                 <a href="{{ route('invoices.destroy',['id'=>$invoice->id]) }}"
-                                   class="btn btn-danger fw-bold">
+                                   class="btn btn-danger fw-bold" data-toggle="modal" data-target="#delete_model">
                                     <i class="fas fa-minus"></i> <!-- Emotikona dla usuwania -->
                                 </a>
                                 <a href="{{ route('invoices.edit',['id'=>$invoice->id]) }}" class="btn btn-primary">
@@ -94,39 +94,58 @@
 
 
     </div>
-    </div>
-    </div>
     <div class="modal fade" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Dodawanie sztuk</h4>
+                    @if(isset($invoice->invoice_number))
+                        <h5 class="modal-title">Edycja faktury nr {{$invoice->invoice_number}}</h5>
+                    @else
+                        <h5 class="modal-title">Edycja faktury</h5>
+                    @endif
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form id="addQuantityForm" method="POST"
-                          action="{{ route('invoices.update_quantity', ['id' => $invoice->id]) }}">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" id="invoiceId" name="id">
-                        <div class="form-group">
-                            <label for="quantityToAdd">Ile chcesz dodać sztuk:</label>
-                            <input type="number" class="form-control" id="quantityToAdd" name="quantity"
-                                   placeholder="0">
-                        </div>
-                    </form>
+                    <lab>Dodaj </lab>
+                    <input type="number" min="0" name="" id="">
+                    <lab> szt.</lab>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Zamknij</button>
                     <button type="submit" form="addQuantityForm" class="btn btn-success">Dodaj</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="delete_model">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    @if(isset($invoice->invoice_number))
+                        <h5 class="modal-title">Edycja faktury nr {{$invoice->invoice_number}}</h5>
+                    @else
+                        <h5 class="modal-title">Edycja faktury nr {{$invoice->invoice_number}}</h5>
+                    @endif
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <lab>Usuń </lab>
+                    <input type="number" min="0" name="" id="">
+                    <lab> szt.</lab>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" form="addQuantityForm" class="btn btn-danger">Usuń</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
