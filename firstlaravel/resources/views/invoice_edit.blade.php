@@ -1,16 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
+    <!--Edit panel-->
     <div class="row justify-content-center mt-3 mb-3">
+        <!--Edit panel frame-->
         <div class="col-md-5">
+            <!--Title-->
             <h1 class="text-center">Edytujesz Fakture nr {{ $invoice->invoice_number }}</h1>
+            <!--Add card style-->
             <div class="card " style="color: white">
                 <div class="card-body rounded " style="background-color: #111E2B;">
-
+                    <!--Edit form-->
                     <form action="{{ route('invoices.update', ['id' => $invoice->id]) }}" method="POST">
                         @csrf
                         @method('PUT')
-
+                        <!--Edit invoice_number-->
                         <div class="form-group mb-3">
                             <label for="inputInvoiceNumber">Numer faktury</label>
                             <input value="{{ $invoice->invoice_number }}" type="text"
@@ -22,7 +26,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        <!--Edit product_name-->
                         <div class="form-group mb-3">
                             <label for="inputProductName">Nazwa produktu</label>
                             <input value="{{ $invoice->product_name }}" type="text"
@@ -35,6 +39,7 @@
                             </div>
                         </div>
                         <div class="row">
+                            <!--Edit invoice_date-->
                             <div class="form-group p-14 mb-3 col-6">
                                 <label for="inputInvoiceDate">Data wystawienia faktury</label>
                                 <input value="{{ $invoice->invoice_date }}" type="date"
@@ -46,7 +51,7 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            <!--Edit quantity-->
                             <div class="form-group p-14 mb-3 col-6">
                                 <label for="inputQuantity">Ilość</label>
                                 <input value="{{ $invoice->quantity }}" type="number"
@@ -60,6 +65,7 @@
                             </div>
                         </div>
                         <div class="row">
+                            <!--Edit price-->
                             <div class="form-group p-14 mb-3 col-6">
                                 <label for="inputPrice">Cena</label>
                                 <input value="{{ $invoice->price }}" type="text"
@@ -71,8 +77,9 @@
                                     @enderror
                                 </div>
                             </div>
+                            <!--Edit vat_rate-->
                             <div class="form-group p-14 mb-3 col-6">
-                                <label for="inputPlace">Miejscee</label>
+                                <label for="inputPlace">Miejsce</label>
                                 <select id="inputPlace" class="form-control" name="place">
                                     <option
                                         value="Wydawnictwo" {{ $invoice->place == 'Wydawnictwo' ? 'selected' : '' }}>
@@ -83,8 +90,8 @@
                                     </option>
                                 </select>
                             </div>
-
                         </div>
+                        <!--Edit place-->
                         <div class="form-group p-14 mb-3 col-6">
                             <label for="inputVateRate">Podatek Vat</label>
                             <input value="{{ $invoice->vat_rate }}" type="text"
@@ -100,6 +107,7 @@
                             </div>
 
                         </div>
+                        <!--Edit button-->
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary col-md-3 mt-3 mb-3">Zapisz</button>
                         </div>

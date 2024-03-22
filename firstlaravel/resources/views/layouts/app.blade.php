@@ -7,39 +7,45 @@
     <title>Bootstrap Layout</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     @vite(['resourses/css/app.css'])
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body>
 
-<div class="container-fluid justify-content-start">
+<body>
+<!--100% width-->
+<div class="container-fluid max-vw-100 min-vh-100">
+    <!--Header and navigation-->
     <div class="text-white row p-2 sticky-top" style="background-color: #111E2B">
+        <!--Left part of header-->
         <div class="col">
+            <!--Logo and name-->
             <a href="https://umg.edu.pl/biuro-promocji-i-komunikacji" target="_blank"
                class="text-decoration-none text-white fs-5">
-                <img src="{{asset('img/logo_umg.svg') }}" alt="" class="img-fluid px-2" style="height: 9vh;">Biuro Promocji
+                <img src="{{asset('img/logo_umg.svg') }}" alt="" class="img-fluid px-2" style="height: 9vh;">Biuro
+                Promocji
                 i Komunikacji</a>
         </div>
+        <!--Right part of header-->
         <div class="col-auto d-flex justify-content-end my-auto">
+            <!--Button add-->
             <div class="px-4"><a href="{{route('invoices.create')}}" class="btn btn-success  text-white fs-5 px-4">Dodaj fakture</a></div>
+            <!--Navigation fields-->
             <div class="mt-2">
-            <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5  ">Lista faktur</a>
-            <a href="" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
-            <a href="" class="text-decoration-none text-white fs-5">Generator XML</a></div>
+                <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5  ">Lista faktur</a>
+                <a href="" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
+                <a href="" class="text-decoration-none text-white fs-5">Generator XML</a></div>
         </div>
     </div>
+    <!--Page content -->
     <div class="row white-bar">
         @yield('content')
     </div>
+    <!-- Footer -->
     <div class="footer fixed-bottom p-3 text-white text-center mt-2" style="background-color: #111E2B">
         © Uniwersytet Morski w Gdyni 2024
     </div>
-
 </div>
-<!-- Plik JavaScript Bootstrapa (opcjonalny) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
