@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InvoiceController\DeleteStockRequest;
 use App\Http\Requests\InvoiceController\StoreRequest;
 use App\Models\Invoice;
 use App\Models\StockControl;
@@ -14,9 +15,8 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::all();
-        $invoices = Invoice::paginate(20);
-        return view('invoice_list', compact('invoices'));
+        $invoices = Invoice::paginate(20) ?? [];
+        return view('invoice_list', ['invoices' => $invoices]);
     }
 
     /**
@@ -154,6 +154,17 @@ class InvoiceController extends Controller
     }
 
 
+    public function deleteStock(DeleteStockRequest $request)
+    {
+        $request = $request->validated();
+        $id = $request ['id'];
+        $quantityToRemove = $request ['quantityToRemove'];
+        $invoice = Invoice::find($id);
+        $invoice->quantity = $invoice->quantity - $quantityToRemove;
+        $invoice->save();
+        return redirect()->route('invoices.index');
 
+    }
 
 }
+

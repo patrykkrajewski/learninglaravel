@@ -48,7 +48,7 @@
                     <!--Table content-->
                     <tbody>
                     <!--Printing all records from the invoice table-->
-                    @foreach($invoices as $invoice)
+                    @forelse($invoices as $invoice)
                         <!--Table content writing-->
                         <tr class="rounded-2">
                             <td>{{$invoice->invoice_number}}</td>
@@ -62,7 +62,7 @@
                                 <div class="d-flex justify-content-start text-center">
                                     <!-- Move button-->
                                     <a href=""
-                                       class="btn btn-secondary " data-toggle="modal" data-target="#move_model">
+                                       class="btn btn-secondary " data-toggle="modal" data-target="#move_model{{$invoice->id}}">
                                         <i class="fas fa-arrow-right"></i>
                                     </a>
 
@@ -73,7 +73,7 @@
                             <td class="col d-flex justify-content-start">
                                 <!-- Delete button-->
                                 <a href=""
-                                   class="btn btn-danger fw-bold" data-toggle="modal" data-target="#delete_model">
+                                   class="btn btn-danger fw-bold" data-toggle="modal" data-target="#delete-modal-{{$invoice->id}}">
                                     <i class="fas fa-minus"></i>
                                 </a>
                                 <!-- Edit button-->
@@ -81,12 +81,16 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <!-- Add button-->
-                                <a href="" class="btn btn-success fw-bold" data-toggle="modal" data-target="#myModal">
+                                <a href="" class="btn btn-success fw-bold" data-toggle="modal" data-target="#add-modal-{{$invoice->id}}">
                                     <i class="fas fa-plus"></i>
                                 </a>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="8" class="text-center">Brak faktur do wyświetlenia.</td>
+                        </tr>
+                    @endforelse
                     </tbody>
                 </table>
             </div>
@@ -104,105 +108,15 @@
             </div>
         </div>
     </div>
-    <!--Panels pop-up-->
-    <!-- Add pop-up panel -->
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    @if(isset($invoice->invoice_number))
-                        <h5 class="modal-title">Edycja faktury nr {{$invoice->invoice_number}}</h5>
-                    @else
-                        <h5 class="modal-title">Edycja faktury</h5>
-                    @endif
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <label for="quantityToAdd">Dodaj:</label>
-                    <input type="number" min="0" id="quantityToAdd" name="quantityToAdd" class="form-control"
-                           value="0">
-                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz dodać.</small>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" form="addQuantityForm" class="btn btn-success">Dodaj</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Delete pop-up panel -->
-    <div class="modal fade" id="delete_model">
-        <div class="modal-dialog modal-dialog-centered">">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        @if(isset($invoice->invoice_number))
-                            Edycja faktury nr {{ $invoice->invoice_number }}
-                        @else
-                            Edycja faktury
-                        @endif
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <label for="quantityToRemove">Liczba do usunięcia:</label>
-                    <input type="number" min="0" id="quantityToRemove" name="quantityToRemove" class="form-control"
-                           value="{{ $invoice->quantity}}">
-                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz usunąć.</small>
-
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="deleteButton" data-invoice-id="{{ $invoice->id }}">
-                        Usuń
-                    </button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Move pop-up panel-->
-    <div class="modal fade" id="move_model">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    @if(isset($invoice->invoice_number))
-                        <h5 class="modal-title">Edycja faktury nr {{$invoice->invoice_number}}</h5>
-                    @else
-                        <h5 class="modal-title">Edycja faktury</h5>
-                    @endif
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form id="moveInvoiceForm">
-                        <div class="form-group">
-                            <label for="quantity">Podaj ilość sztuk, które chcesz przenieść:</label>
-                            <input type="number" min="0" name="quantity" id="quantity" class="form-control" value="{{$invoice->quantity}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="newPlace">Podaj nowe miejsce:</label>
-                            <input type="text" name="newPlace" id="newPlace" class="form-control" value="{{$invoice->place}}">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" form="moveInvoiceForm" class="btn btn-success">Przenieś</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Modals -->
+    @foreach($invoices as $invoice)
+        @include('modals.delete_invoice_modal', ['id' => $invoice -> id])
+    @endforeach
 
     <!--Script links -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @endsection
+
