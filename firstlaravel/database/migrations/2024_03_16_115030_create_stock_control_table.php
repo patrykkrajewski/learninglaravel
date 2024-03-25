@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreign('invoice_id')->references('id')->on('invoices');
             $table->integer('quantity');
             $table->date('operation_date');
+            $table->string('move_to');
             $table->timestamps();
         });
 

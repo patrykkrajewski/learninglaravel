@@ -1,47 +1,64 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\StockControl;
+use Illuminate\Http\Request;
 
-class StockControl extends Model
+class StockControlController extends Controller
 {
-    use HasFactory;
-
     /**
-     * The name of the table associated with the model.
+     * Display a listing of the resource.
      *
-     * @var string
+     * @return \Illuminate\Http\Response
      */
-    protected $table = 'stock_controls';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'title',
-        'invoice_id',
-        'quantity',
-        'operation_date',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'operation_date' => 'date',
-    ];
-
-    /**
-     * Get the invoice associated with the stock control.
-     */
-    public function invoice()
+    public function index()
     {
-        return $this->belongsTo(Invoice::class);
+        $stockControls = StockControl::all();
+        return view('stock_controls', compact('stockControls'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $stockControl = StockControl::findOrFail($id);
+        return view('stock_controls_edit', compact('stockControl'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id): RedirectResponse
+    {
+        // Validate the input data
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'invoice_id' => 'required|exists:invoices,id',
+            'quantity' => 'required|numeric',
+            'price' => 'required|numeric',
+        ]);
+
+        // Find the StockControl instance to update
+        $stockControl = StockControl::findOrFail($id);
+
+        // Update the data
+        $stockControl->update([
+            'title' => $request->title,
+            'invoice_id' => $request->invoice_id,
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+        ]);
+
+        // Redirect to the stock controls index view
+        return redirect()->route('stock-controls.index');
     }
 }
