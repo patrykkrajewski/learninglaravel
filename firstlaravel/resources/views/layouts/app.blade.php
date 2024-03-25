@@ -34,7 +34,7 @@
             <!--Navigation fields-->
             <div class="mt-2">
                 <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5  ">Lista faktur</a>
-                <a href="{{ route('stock-controls') }}" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
+                <a href="{{ route('stock_controls.index') }}" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
                 <a href="" class="text-decoration-none text-white fs-5">Generator XML</a></div>
         </div>
     </div>

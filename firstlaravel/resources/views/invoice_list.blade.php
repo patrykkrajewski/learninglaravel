@@ -35,7 +35,7 @@
                     <thead class="thead-dark">
                     <!--Table head writing-->
                     <tr style="background-color: #111E2B;" class="text-white">
-                        <th scope="col ">Numer</th>
+                        <th class="" scope="col ">Numer</th>
                         <th scope="col">Nazwa produktu</th>
                         <th scope="col">Data wystawienia</th>
                         <th scope="col">Ilość</th>
@@ -50,7 +50,7 @@
                     <!--Printing all records from the invoice table-->
                     @foreach($invoices as $invoice)
                         <!--Table content writing-->
-                        <tr>
+                        <tr class="rounded-2">
                             <td>{{$invoice->invoice_number}}</td>
                             <td>{{$invoice->product_name}}</td>
                             <td>{{$invoice->invoice_date->format('Y-m-d')}}</td>

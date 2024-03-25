@@ -1,5 +1,3 @@
-<!-- resources/views/stock_controls.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
@@ -7,7 +5,7 @@
         <!--Header-->
         <div class="row">
             <!--Header name-->
-            <h1 class="strong d-flex justify-content-center mt-4">Archiwum Faktur</h1>
+            <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
         </div>
         <!--Search bar-->
         <div class="d-flex justify-content-center mb-4">
@@ -37,41 +35,34 @@
                     <thead class="thead-dark">
                     <!--Table head writing-->
                     <tr style="background-color: #111E2B;" class="text-white">
-                        <th scope="col ">Operacja</th>
+                        <th scope="col">Operacja</th>
                         <th scope="col">Numer faktury</th>
-                        <th scope="col">Nazwa produktu</th>
-                        <th scope="col">Ilość</th>
                         <th scope="col">Data operacji</th>
+                        <th scope="col">Ilość</th>
                         <th scope="col"></th>
-
                     </tr>
                     </thead>
                     <!--Table content-->
                     <tbody>
                     <!--Printing all records from the invoice table-->
-                    @foreach($stockControls as $stockControl)
+                    @foreach($stocks as $stock)
                         <!--Table content writing-->
                         <tr>
-                            <td>{{ $stockControl->title }}</td>
-                            <td> {{ $stockControl->invoice->invoice_number }}</td>
-                            <td> {{ $stockControl->invoice->product_name }}</td>
-                            <td>{{ $stockControl->quantity }}</td>
-                            <td>{{ $stockControl->operation_date }}</td>
+                            <td>{{$stock->title}}</td>
+                            <td>{{$stock->invoice_id}}</td>
+                            <td>{{$stock->operation_date->format('Y-m-d')}}</td>
+                            <td>{{$stock->quantity}}szt.</td>
                             <td class="col d-flex justify-content-start">
-
                                 <!-- Edit button-->
-                                <a href=""
-                                   class="btn btn-primary m-auto">
+                                <a href="{{ route('stock_controls.edit',['id'=>$stock->id]) }}" class="btn btn-primary m-auto">
                                     <i class="fas fa-edit"></i>
-
+                                </a>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
-
 @endsection

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\StockControl;
 use Illuminate\Http\Request;
+
 
 class StockControlController extends Controller
 {
@@ -14,8 +16,9 @@ class StockControlController extends Controller
      */
     public function index()
     {
-        $stockControls = StockControl::all();
-        return view('stock_controls', compact('stockControls'));
+        $stocks = Invoice::all();
+        $stocks = StockControl::paginate(20);
+        return view('stock_controls', compact('stocks'));
     }
 
     /**
@@ -26,8 +29,8 @@ class StockControlController extends Controller
      */
     public function edit($id)
     {
-        $stockControl = StockControl::findOrFail($id);
-        return view('stock_controls_edit', compact('stockControl'));
+        $stock = StockControl::findOrFail($id);
+        return view('stock_controls_edit', compact('stock'));
     }
 
     /**
@@ -37,28 +40,28 @@ class StockControlController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $req, $id)
     {
-        // Validate the input data
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'invoice_id' => 'required|exists:invoices,id',
-            'quantity' => 'required|numeric',
-            'price' => 'required|numeric',
+        // Walidacja danych wejściowych
+        $req->validate([
+            'invoice_number' => 'required',
+            'title' => 'required',
+            'operation_date' => 'required',
+            'quantity' => 'required|numeric'
         ]);
 
-        // Find the StockControl instance to update
-        $stockControl = StockControl::findOrFail($id);
+        // Pobierz fakturę do aktualizacji
+        $stock = StockControl::findOrFail($id);
 
-        // Update the data
-        $stockControl->update([
-            'title' => $request->title,
-            'invoice_id' => $request->invoice_id,
-            'quantity' => $request->quantity,
-            'price' => $request->price,
-        ]);
-
-        // Redirect to the stock controls index view
-        return redirect()->route('stock-controls.index');
+        // Aktualizuj pola faktury na podstawie danych z formularza
+        $stock->invoice_number = $req->input('invoice_number');
+        $stock->title = $req->input('title');
+        $stock->operation_date = $req->input('operation_date');
+        $stock->quantity = $req->input('quantity');
+        // Zapisz zmiany w bazie danych
+        $stock->save();
+        // Przekieruj użytkownika po zapisaniu
+        return redirect()->route('stock_controls.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
     }
+
 }

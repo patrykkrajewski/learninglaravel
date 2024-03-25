@@ -15,12 +15,6 @@ use App\Http\Controllers\StockControlController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/stock-controls', function (){
-    return view('stock_controls');
-});
-Route::get('/', function (){
-    return view('invoice_archive');
-});
 Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::get('/', [InvoiceController::class, 'index'])->name('index');
     Route::get('/create', [InvoiceController::class, 'create'])->name('create');
@@ -29,8 +23,11 @@ Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::put('/update/{id}', [InvoiceController::class, 'update'])->name('update');
     Route::get('/search', [InvoiceController::class, 'search'])->name('search');
 });
-Route::get('/stock-controls', [StockControlController::class, 'index'])->name('stock-controls');
-Route::put('/stock-controls/edit/{id}', [StockControlController::class, 'edit'])->name('stock-controls.edit');
-
+Route::prefix('stock_controls')->name('stock_controls.')->group(function () {
+    Route::get('/', [StockControlController::class, 'index'])->name('index');
+    Route::get('/edit/{id}', [StockControlController::class, 'edit'])->name('edit');
+    Route::put('/update/{id}', [StockControlController::class, 'update'])->name('update');
+    Route::get('/search', [StockControlController::class, 'search'])->name('search');
+});
 
 
