@@ -168,7 +168,7 @@
         </div>
     </div>
 
-    <!-- Move pop-up panel -->
+    <!-- Move pop-up panel-->
     <div class="modal fade" id="move_model">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
