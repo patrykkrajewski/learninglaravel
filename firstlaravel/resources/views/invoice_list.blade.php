@@ -60,27 +60,24 @@
                             <td>
                                 <!--Table content writing-->
                                 <div class="d-flex justify-content-start text-center">
-                                    <form method="POST" action="{{ route('invoices.move',['id'=>$invoice->id]) }}">
-                                        @csrf
-                                        @method('PUT')
-                                        <!--Move button-->
-                                        <button type="submit" class="btn btn-secondary">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </button>
-                                    </form>
-                                    <div class="align-items-center">
-                                        <span class="px-3">{{$invoice->place}}</span>
-                                    </div>
+                                    <!-- Move button-->
+                                    <a href=""
+                                       class="btn btn-secondary " data-toggle="modal" data-target="#move_model">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+
+                                    <span class="px-3">{{$invoice->place}}</span>
                                 </div>
+
                             </td>
-                            <td class="col">
+                            <td class="col d-flex justify-content-start">
                                 <!-- Delete button-->
-                                <a href="{{ route('invoices.destroy',['id'=>$invoice->id]) }}"
+                                <a href=""
                                    class="btn btn-danger fw-bold" data-toggle="modal" data-target="#delete_model">
                                     <i class="fas fa-minus"></i>
                                 </a>
                                 <!-- Edit button-->
-                                <a href="{{ route('invoices.edit',['id'=>$invoice->id]) }}" class="btn btn-primary">
+                                <a href="{{ route('invoices.edit',['id'=>$invoice->id]) }}" class="btn btn-primary m-auto">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <!-- Add button-->
@@ -97,7 +94,8 @@
             <div class="col-8 d-flex justify-content-center">
                 @if($invoices->previousPageUrl())
                     <!--Left scroll-->
-                    <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_l.png') }}" alt=""></a>
+                    <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_l.png') }}"
+                                                                                 alt=""></a>
                 @endif
                 @if($invoices->nextPageUrl())
                     <!--Right scroll-->
@@ -106,10 +104,10 @@
             </div>
         </div>
     </div>
-<!--Panels pop-up-->
-    <!--Add pop-up panel-->
+    <!--Panels pop-up-->
+    <!-- Add pop-up panel -->
     <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
@@ -122,9 +120,10 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <lab>Dodaj</lab>
-                    <input type="number" min="0" name="" id="">
-                    <lab> szt.</lab>
+                    <label for="quantityToAdd">Dodaj:</label>
+                    <input type="number" min="0" id="quantityToAdd" name="quantityToAdd" class="form-control"
+                           value="0">
+                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz dodać.</small>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -134,33 +133,74 @@
             </div>
         </div>
     </div>
-    <!--Delete pop-up panel-->
+
+    <!-- Delete pop-up panel -->
     <div class="modal fade" id="delete_model">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    @if(isset($invoice->invoice_number))
-                        <h5 class="modal-title">Edycja faktury nr {{$invoice->invoice_number}}</h5>
-                    @else
-                        <h5 class="modal-title">Edycja faktury nr {{$invoice->invoice_number}}</h5>
-                    @endif
+                    <h5 class="modal-title">
+                        @if(isset($invoice->invoice_number))
+                            Edycja faktury nr {{ $invoice->invoice_number }}
+                        @else
+                            Edycja faktury
+                        @endif
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <lab>Usuń</lab>
-                    <input type="number" min="0" name="" id="">
-                    <lab> szt.</lab>
+                    <label for="quantityToRemove">Liczba do usunięcia:</label>
+                    <input type="number" min="0" id="quantityToRemove" name="quantityToRemove" class="form-control"
+                           value="{{ $invoice->quantity}}">
+                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz usunąć.</small>
+
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" form="addQuantityForm" class="btn btn-danger">Usuń</button>
+                    <button type="button" class="btn btn-danger" id="deleteButton" data-invoice-id="{{ $invoice->id }}">
+                        Usuń
+                    </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Move pop-up panel -->
+    <div class="modal fade" id="move_model">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @if(isset($invoice->invoice_number))
+                        <h5 class="modal-title">Edycja faktury nr {{$invoice->invoice_number}}</h5>
+                    @else
+                        <h5 class="modal-title">Edycja faktury</h5>
+                    @endif
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="moveInvoiceForm">
+                        <div class="form-group">
+                            <label for="quantity">Podaj ilość sztuk, które chcesz przenieść:</label>
+                            <input type="number" min="0" name="quantity" id="quantity" class="form-control" value="{{$invoice->quantity}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPlace">Podaj nowe miejsce:</label>
+                            <input type="text" name="newPlace" id="newPlace" class="form-control" value="{{$invoice->place}}">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" form="moveInvoiceForm" class="btn btn-success">Przenieś</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!--Script links -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

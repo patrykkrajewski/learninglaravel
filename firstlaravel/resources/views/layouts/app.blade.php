@@ -29,11 +29,12 @@
         <!--Right part of header-->
         <div class="col-auto d-flex justify-content-end my-auto">
             <!--Button add-->
-            <div class="px-4"><a href="{{route('invoices.create')}}" class="btn btn-success  text-white fs-5 px-4">Dodaj fakture</a></div>
+            <div class="px-4"><a href="{{route('invoices.create')}}" class="btn btn-success  text-white fs-5 px-4">Dodaj
+                    fakture</a></div>
             <!--Navigation fields-->
             <div class="mt-2">
                 <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5  ">Lista faktur</a>
-                <a href="" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
+                <a href="{{ route('stock-controls') }}" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
                 <a href="" class="text-decoration-none text-white fs-5">Generator XML</a></div>
         </div>
     </div>
@@ -42,9 +43,8 @@
         @yield('content')
     </div>
     <!-- Footer -->
-    <div class="footer fixed-bottom p-3 text-white text-center mt-2" style="background-color: #111E2B">
-        © Uniwersytet Morski w Gdyni 2024
-    </div>
+    <a href="https://umg.edu.pl" class="footer fixed-bottom p-3 text-white text-center mt-2 text-decoration-none"
+       style="background-color: #111E2B" target="_blank">© Uniwersytet Morski w Gdyni 2024</a>
 </div>
 
 </body>

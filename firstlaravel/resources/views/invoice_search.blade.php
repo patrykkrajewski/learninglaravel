@@ -60,7 +60,7 @@
                             <td>
                                 <!--Table content writing-->
                                 <div class="d-flex justify-content-start text-center">
-                                    <form method="POST" action="{{ route('invoices.move',['id'=>$result->id]) }}">
+                                    <form method="POST" action="">
                                         @csrf
                                         @method('PUT')
                                         <!--Move button-->
