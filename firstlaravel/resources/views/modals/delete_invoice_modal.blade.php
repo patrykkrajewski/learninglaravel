@@ -5,11 +5,7 @@
             <!-- Modal Header -->
             <div class="modal-header">
                 <h5 class="modal-title">
-                    @if(isset($invoice->invoice_number))
-                        Edycja faktury nr {{ $invoice->invoice_number }}
-                    @else
-                        Edycja faktury
-                    @endif
+                        Edytujesz faktury nr {{ $invoice->invoice_number }}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
@@ -17,13 +13,13 @@
             <form method="POST" action="{{route('invoices.stock.delete')}}" >
                 <div class="modal-body">
 
-                        @csrf
-                        @method('PUT')
-                        <label for="quantityToRemove">Liczba do usunięcia:</label>
-                        <input type="number" min="0" id="quantityToRemove" name="quantityToRemove" class="form-control"
-                               value="">
-                        <input type="hidden"  name="id" value="{{$invoice->id}}" />
-                        <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz usunąć.</small>
+                    @csrf
+                    @method('PUT')
+                    <label for="quantityToRemove">Liczba do usunięcia:</label>
+                    <input type="number" min="0" id="quantityToRemove" name="quantityToRemove" class="form-control"
+                           value="">
+                    <input type="hidden"  name="id" value="{{$invoice->id}}" />
+                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz usunąć.</small>
 
                 </div>
                 <!-- Modal footer -->

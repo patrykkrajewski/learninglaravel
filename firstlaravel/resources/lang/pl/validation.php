@@ -11,6 +11,7 @@ return [
         'product_name' => 'Nazwa produktu',
         'invoice_date' => 'Data faktury',
         'quantity' => 'Ilość',
+        'invoice_quantity' => 'Ilość aktualna',
         'price' => 'Cena',
         'vat_rate' => 'Stawka VAT',
         'place' => 'Miejsce'

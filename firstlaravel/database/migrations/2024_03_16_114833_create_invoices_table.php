@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('invoice_number');
             $table->string('product_name');
             $table->date('invoice_date');
+            $table->integer('invoice_quantity');
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
             $table->decimal('vat_rate', 5, 2);

@@ -49,6 +49,14 @@
                                     @enderror
                                 </div>
                             </div>
+                            <!--Add place-->
+                            <div class="form-group col-6 mb-3">
+                                <label for="inputPlace">Miejsce</label>
+                                <input type="text" class="form-control" name="place" id="inputPlace"
+                                       value='Sklepik'>
+                            </div>
+                        </div>
+                        <div class="row">
                             <!--Add quantity-->
                             <div class="form-group p-14 mb-3 col-6">
                                 <label for="inputQuantity">Ilość</label>
@@ -61,47 +69,53 @@
                                     @enderror
                                 </div>
                             </div>
+                            <!--invoice_quantity place-->
+                            <div class="form-group col-6 mb-3">
+                                <label for="inputInvoice_quantity">Ilość aktualna</label>
+                                <input type="number"
+                                       class="form-control @error('invoice_quantity') is-invalid @enderror"
+                                       placeholder="0"
+                                       name="invoice_quantity">
+                                <div class="invalid-feedback">
+                                    @error('quantity' )
+                                    {{$message}}
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <!--Add price-->
-                            <div class="form-row col-6">
-                                <div class="form-group p-14 mb-3">
-                                    <label for="inputPrice">Cena</label>
-                                    <input type="text" class="form-control @error('price') is-invalid @enderror"
-                                           id="inputPrice"
-                                           name="price" placeholder="0">
-                                    <div class="invalid-feedback">
-                                        @error('price' )
-                                        {{$message}}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <!--Add vat_rate-->
-                                <div class="form-group mb-3">
-                                    <label for="inputVateRate">Podatek VAT</label>
-                                    <input type="text" class="form-control @error('vat_rate') is-invalid @enderror"
-                                           id="inputVateRate"
-                                           name="vat_rate" value=23>
-                                    <div class="invalid-feedback">
-                                        @error('vat_rate' )
-                                        {{$message}}
-                                        @enderror
-                                    </div>
+
+                            <div class="form-group p-14 mb-3 col-6">
+                                <label for="inputPrice">Cena</label>
+                                <input type="text" class="form-control @error('price') is-invalid @enderror"
+                                       id="inputPrice"
+                                       name="price" placeholder="0">
+                                <div class="invalid-feedback">
+                                    @error('price' )
+                                    {{$message}}
+                                    @enderror
                                 </div>
                             </div>
-                            <!--Add place-->
-                            <div class="form-group col-6 mb-3">
-                                <label for="inputPlace">Miejsce</label>
-                                <select id="inputPlace" class="form-control" name="place">
-                                    <option value='Wydawnictwo'>Wydawnictwo</option>
-                                    <option value='Sklepik'>Sklepik</option>
-                                </select>
+                            <!--Add vat_rate-->
+                            <div class="form-group mb-3 col-6">
+                                <label for="inputVateRate">Podatek VAT</label>
+                                <input type="text" class="form-control @error('vat_rate') is-invalid @enderror"
+                                       id="inputVateRate"
+                                       name="vat_rate" value=23>
+                                <div class="invalid-feedback">
+                                    @error('vat_rate' )
+                                    {{$message}}
+                                    @enderror
+                                </div>
+
                             </div>
                         </div>
                         <!--Add button-->
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary col-md-3 mt-3 ">Dodaj</button>
                         </div>
+
                     </form>
                 </div>
             </div>

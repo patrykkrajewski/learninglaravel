@@ -26,6 +26,7 @@ class StoreRequest extends FormRequest
             'product_name' => ['required', 'string'],
             'invoice_date' => ['required'],
             'quantity' => ['required', 'numeric'],
+            'invoice_quantity' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
             'vat_rate' => ['required', 'numeric'],
             'place' => ['required'],

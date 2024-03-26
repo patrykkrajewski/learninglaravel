@@ -22,9 +22,8 @@ class DeleteStockRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'id' => ['required', 'exists:invoices,id'],
-        'quantityToRemove' => ['required'],
-
+            'id' => ['required', 'exists:invoices,id'],
+            'quantityToRemove' => ['required'],
         ];
     }
 }

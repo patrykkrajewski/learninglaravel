@@ -2,61 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InvoiceController\AddStockRequest;
 use App\Http\Requests\InvoiceController\DeleteStockRequest;
 use App\Http\Requests\InvoiceController\StoreRequest;
 use App\Models\Invoice;
 use App\Models\StockControl;
 use Illuminate\Http\Request;
-
 class InvoiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $invoices = Invoice::paginate(20) ?? [];
         return view('invoice_list', ['invoices' => $invoices]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('invoice_create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRequest $request)
     {
         $invoice = new Invoice($request->validated());
+        $validatedData = $request->validated();
+        $invoice->invoice_quantity = $validatedData['invoice_quantity'];
         $invoice->save();
         return redirect()->route('invoices.index');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $invoice = Invoice::find($id);
         return view('invoice_edit', ['invoice' => $invoice]);
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         // Walidacja danych wejściowych
@@ -64,7 +39,8 @@ class InvoiceController extends Controller
             'invoice_number' => 'required',
             'product_name' => 'required',
             'invoice_date' => 'required',
-            'quantity' => 'required|numeric', // Dodaj walidację dla pola quantity
+            'quantity' => 'required|numeric',
+            'invoice_quantity' => 'required|numeric',
             'price' => 'required|numeric',
             'vat_rate' => 'required|numeric',
             'place' => 'required'
@@ -77,6 +53,7 @@ class InvoiceController extends Controller
         $invoice->invoice_number = $request->input('invoice_number');
         $invoice->product_name = $request->input('product_name');
         $invoice->invoice_date = $request->input('invoice_date');
+        $invoice->invoice_quantity = $request->input('invoice_quantity');
         $invoice->quantity = $request->input('quantity');
         $invoice->price = $request->input('price');
         $invoice->vat_rate = $request->input('vat_rate');
@@ -88,43 +65,9 @@ class InvoiceController extends Controller
         // Przekieruj użytkownika po zapisaniu
         return redirect()->route('invoices.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
     }
-
-    public function move(Request $request, $id)
+    public function destroy(Request $request)
     {
-        $invoice = Invoice::find($id);
-        if ($invoice->place == 'Wydawnictwo') {
-            $invoice->place = $invoice->place = 'Sklepik';
-        } else {
-            $invoice->place = $request->place = 'Wydawnictwo';
-        }
-        $invoice->save();
-//dodac wiadomość o udałolo sie edytowac na ekran
-        return redirect()->route('invoices.index')->with('message', 'Invoice changed');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id, Request $request)
-    {
-        // Znajdź fakturę do usunięcia
-        $invoice = Invoice::find($id);
-
-        // Stwórz nowy wpis w tabeli stock_controls na podstawie danych faktury
-        // $stockControl = new StockControl();
-        // $stockControl->invoice_id = $invoice->id;
-        // $stockControl->title = $invoice->product_name;
-        // $stockControl->quantity = $invoice->quantity;
-        // $stockControl->operation_date = date("Y-m-d");
-        // $stockControl->save();
-
-        // Usuń fakturę
-        $invoice->delete();
-
-        return redirect()->route('invoices.index')->with('message', 'Invoice deleted');
-    }
-
-    //z chatu nwm trzeba poprawic i ogarnac praktycznie od nowa
     public function search(Request $request)
     {
         $search = $request->input('search');
@@ -152,8 +95,6 @@ class InvoiceController extends Controller
 
         return view('invoice_search', ['results' => $results]);
     }
-
-
     public function deleteStock(DeleteStockRequest $request)
     {
         $request = $request->validated();
@@ -163,8 +104,27 @@ class InvoiceController extends Controller
         $invoice->quantity = $invoice->quantity - $quantityToRemove;
         $invoice->save();
         return redirect()->route('invoices.index');
-
     }
-
+    public function addStock(AddStockRequest $req)
+    {
+        $req = $req->validated();
+        $id = $req ['id'];
+        $quantityToAdd = $req['quantityToAdd'];
+        $invoice = Invoice::find($id);
+        $invoice->quantity = $invoice->quantity + $quantityToAdd;
+        $invoice->save();
+        return redirect()->route('invoices.index');
+    }
+    public function moveStock(AddStockRequest $req)
+    {
+        $req = $req->validated();
+        $id = $req ['id'];
+        $quantityToMove = $req['quantityToMove'];
+        $placeToMove = $req['placeToMove'];
+        $invoice = Invoice::find($id);
+        //co ma to robić
+        $invoice->save();
+        return redirect()->route('invoices.index');
+    }
 }
 

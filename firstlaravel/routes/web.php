@@ -23,6 +23,8 @@ Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::put('/update/{id}', [InvoiceController::class, 'update'])->name('update');
     Route::get('/search', [InvoiceController::class, 'search'])->name('search');
     Route::put('/stock/delete', [InvoiceController::class, 'deleteStock'])->name('stock.delete');
+    Route::put('/stock/add', [InvoiceController::class, 'addStock'])->name('stock.add');
+    Route::put('/stock/move', [InvoiceController::class, 'moveStock'])->name('stock.move');
 });
 Route::prefix('stock_controls')->name('stock_controls.')->group(function () {
     Route::get('/', [StockControlController::class, 'index'])->name('index');
