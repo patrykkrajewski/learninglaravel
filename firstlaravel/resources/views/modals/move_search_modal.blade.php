@@ -5,7 +5,7 @@
             <!-- Modal Header -->
             <div class="modal-header">
                 <h5 class="modal-title">
-                    Edycja faktury nr {{ $invoice->invoice_number }}
+                    Edycja faktury nr {{ $result->invoice_number }}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
@@ -15,7 +15,7 @@
                     @csrf
                     @method('PUT')
                     <label for="placeToMove">Gdzie chcesz przenieść:</label>
-                    <input type="text"  id="placeToMove" name="placeToMove" class="form-control" placeholder="{{$invoice->place}}">
+                    <input type="text"  id="placeToMove" name="placeToMove" class="form-control" placeholder="{{$result->place}}">
                     <small id="placeHelp" class="form-text text-muted">Podaj miejsce przeniesienia.</small>
                     <br>
                     <br>
@@ -27,11 +27,11 @@
                     <label for="operationDateToMove">Data operacja:</label>
                     <input type="date" value="{{date("Y-m-d")}}" id="operationDateToMove" name="operationDateToMove" class="form-control">
                     <small id="quantityHelp" class="form-text text-muted">Podaj date operacji</small>
-                    <input type="hidden" name="id" value="{{$invoice->id}}"/>
+                    <input type="hidden" name="id" value="{{$result->id}}"/>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" id="moveButton" data-invoice-id="{{ $invoice->id }}">
+                    <button type="submit" class="btn btn-success" id="moveButton" data-invoice-id="{{ $result->id }}">
                         Przenieś
                     </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>

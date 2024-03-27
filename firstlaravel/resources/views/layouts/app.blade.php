@@ -20,7 +20,7 @@
         <!--Left part of header-->
         <div class="col">
             <!--Logo and name-->
-            <a href="https://umg.edu.pl/biuro-promocji-i-komunikacji" target="_blank"
+            <a href="{{route('invoices.index')}}" target="_blank"
                class="text-decoration-none text-white fs-5">
                 <img src="{{asset('img/logo_umg.svg') }}" alt="" class="img-fluid px-2" style="height: 9vh;">Biuro
                 Promocji
@@ -35,7 +35,7 @@
             <div class="mt-2">
                 <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5  ">Lista faktur</a>
                 <a href="{{ route('stock_controls.index') }}" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
-                <a href="" class="text-decoration-none text-white fs-5">Generator XML</a></div>
+                <a href="" class="text-decoration-none text-white fs-5">Generuj Excel</a></div>
         </div>
     </div>
     <!--Page content -->
