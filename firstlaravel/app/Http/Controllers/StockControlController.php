@@ -50,10 +50,8 @@ class StockControlController extends Controller
             'operation_date' => 'required',
             'quantity' => 'required|numeric'
         ]);
-
         // Pobierz fakturę do aktualizacji
         $stock = StockControl::findOrFail($id);
-
         // Aktualizuj pola faktury na podstawie danych z formularza
         $stock->invoice_number = $req->input('invoice_number');
         $stock->title = $req->input('title');
