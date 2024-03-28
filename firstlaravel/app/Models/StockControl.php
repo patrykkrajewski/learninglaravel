@@ -24,6 +24,7 @@ class StockControl extends Model
     protected $fillable = [
         'title',
         'invoice_id',
+        'product_name',
         'quantity',
         'operation_date',
         'move_to',

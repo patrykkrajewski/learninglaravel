@@ -37,8 +37,8 @@
                             <td>{{ $result->invoice_number }}</td>
                             <td>{{ $result->product_name }}</td>
                             <td>{{ $result->invoice_date->format('Y-m-d')}}</td>
-                            <td>{{ $result->quantity }}szt.</td>
                             <td>{{ $result->invoice_quantity }}szt.</td>
+                            <td>{{ $result->quantity }}szt.</td>
                             <td>{{ $result->price }}zł</td>
                             <td>{{ intval($result->vat_rate) }}%</td>
                             <td>
@@ -53,7 +53,7 @@
                                 </div>
                             <td class="col d-flex justify-content-start">
                                 <!-- Delete button-->
-                                <a href="{{ route('invoices.edit',['id'=>$result->id]) }}"
+                                <a href=""
                                    class="btn btn-danger fw-bold" data-toggle="modal"
                                    data-target="#delete-modal-{{$result->id}}">
                                     <i class="fas fa-minus"></i>

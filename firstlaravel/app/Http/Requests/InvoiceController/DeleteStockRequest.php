@@ -24,6 +24,9 @@ class DeleteStockRequest extends FormRequest
         return [
             'id' => ['required', 'exists:invoices,id'],
             'quantityToRemove' => ['required'],
+            'invoice_number' => ['required', 'exists:invoices,invoice_number'],
+            'product_name' => ['required', 'exists:invoices,product_name']
+
         ];
     }
 }

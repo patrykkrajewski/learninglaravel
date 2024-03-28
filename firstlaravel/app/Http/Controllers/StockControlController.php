@@ -46,6 +46,7 @@ class StockControlController extends Controller
         $req->validate([
             'invoice_number' => 'required',
             'title' => 'required',
+            'product_nmae' => 'required',
             'operation_date' => 'required',
             'quantity' => 'required|numeric'
         ]);
@@ -56,6 +57,7 @@ class StockControlController extends Controller
         // Aktualizuj pola faktury na podstawie danych z formularza
         $stock->invoice_number = $req->input('invoice_number');
         $stock->title = $req->input('title');
+        $stock->product_name = $req->input('product_name');
         $stock->operation_date = $req->input('operation_date');
         $stock->quantity = $req->input('quantity');
         // Zapisz zmiany w bazie danych

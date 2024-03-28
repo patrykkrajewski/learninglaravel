@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('stock_controls', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->unsignedBigInteger('invoice_id');
+            $table->string('invoice_id');
+            $table->string('product_name')->nullable();
             $table->foreign('invoice_id')->references('id')->on('invoices');
             $table->integer('quantity');
             $table->date('operation_date');

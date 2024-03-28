@@ -37,6 +37,7 @@
                     <tr style="background-color: #111E2B;" class="text-white">
                         <th scope="col">Operacja</th>
                         <th scope="col">Numer faktury</th>
+                        <th scope="col">Nazwa produktu</th>
                         <th scope="col">Data operacji</th>
                         <th scope="col">Ilość</th>
                         <th scope="col"></th>
@@ -50,6 +51,7 @@
                         <tr>
                             <td>{{$stock->title}}</td>
                             <td>{{$stock->invoice_id}}</td>
+                            <td>{{$stock->product_name}}</td>
                             <td>{{$stock->operation_date->format('Y-m-d')}}</td>
                             <td>{{$stock->quantity}}szt.</td>
                             <td class="col d-flex justify-content-start">

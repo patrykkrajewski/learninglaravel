@@ -99,20 +99,41 @@ class InvoiceController extends Controller
     {
         $request = $request->validated();
         $id = $request ['id'];
+        $invoice_number = $request ['invoice_number'];
+        $product_name = $request ['product_name'];
         $quantityToRemove = $request ['quantityToRemove'];
         $invoice = Invoice::find($id);
         $invoice->quantity = $invoice->quantity - $quantityToRemove;
         $invoice->save();
+        StockControl::create([
+            'title' => 'Usuń',
+            'invoice_id' => $invoice_number,
+            'product_name' => $product_name,
+            'quantity' => $quantityToRemove, // ujemna ilość oznacza odejmowanie z zapasów
+            'operation_date' => now(), // lub inna data operacji
+            'move_to' => '',
+        ]);
         return redirect()->route('invoices.index');
     }
     public function addStock(AddStockRequest $req)
     {
         $req = $req->validated();
         $id = $req ['id'];
+        $invoice_number = $req ['invoice_number'];
         $quantityToAdd = $req['quantityToAdd'];
+        $product_name = $req ['product_name'];
+
         $invoice = Invoice::find($id);
         $invoice->quantity = $invoice->quantity + $quantityToAdd;
         $invoice->save();
+        StockControl::create([
+            'title' => 'Dodaj',
+            'invoice_id' => $invoice_number,
+            'product_name' => $product_name,
+            'quantity' => $quantityToAdd, // ujemna ilość oznacza odejmowanie z zapasów
+            'operation_date' => now(), // lub inna data operacji
+            'move_to' => '', // Możesz dostosować to pole do swoich potrzeb
+        ]);
         return redirect()->route('invoices.index');
     }
     public function moveStock(AddStockRequest $req)
