@@ -23,10 +23,10 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger" id="deleteButton" data-invoice-id="{{ $invoice->id }}">
-                        Usuń
+                    <button type="submit" class="btn btn-success" id="deleteButton" data-invoice-id="{{ $invoice->id }}">
+                        Zapisz
                     </button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Zamknij</button>
                 </div>
             </form>
         </div>

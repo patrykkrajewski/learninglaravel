@@ -16,9 +16,54 @@ class StockControlController extends Controller
      */
     public function index()
     {
-        $stocks = Invoice::all();
-        $stocks = StockControl::all();
-        return view('stock_controls', compact('stocks'));
+        // Pobierz wszystkie wpisy dotyczące kontrolowania zapasów posortowane według daty operacji
+        $stocks = StockControl::orderBy('operation_date')->get();
+
+        // Utwórz tablicę, która będzie przechowywała połączone wpisy
+        $mergedStocks = [];
+
+        // Iteruj przez każdą grupę wpisów
+        foreach ($stocks as $stock) {
+            // Utwórz unikalny identyfikator dla połączenia faktury i produktu
+            $key = $stock->invoice_id . '-' . $stock->product_name;
+
+            // Sprawdź, czy już istnieje wpis o takim identyfikatorze
+            if (isset($mergedStocks[$key])) {
+                // Jeśli tytuł to 'usun', odejmij ilość, w przeciwnym wypadku dodaj ilość
+                if ($stock->title == 'Usuń') {
+                    $mergedStocks[$key]->quantity += $stock->quantity;
+                    $mergedStocks[$key]->title = 'Usuń';
+                }
+                else if ($stock->title == 'Dodaj') {
+                    $mergedStocks[$key]->quantity -= $stock->quantity;
+                    $mergedStocks[$key]->title = 'Dodaj';
+                }
+            } else {
+                // Jeśli nie, dodaj nowy wpis do tablicy połączonych wpisów
+                $mergedStocks[$key] = $stock;
+            }
+        }
+
+
+        // Przekształć tablicę połączonych wpisów na kolekcję
+        $mergedStocksCollection = collect($mergedStocks);
+
+        // Grupowanie wpisów według miesiąca
+        $groupedStocks = $mergedStocksCollection->groupBy(function($item) {
+            return $item->operation_date->format('Y-m');
+        });
+
+        // Utwórz tablicę, która będzie przechowywała miesiące i informacje, czy mają faktury
+        $months = [];
+        foreach ($groupedStocks as $key => $groupedStock) {
+            $months[$key] = [
+                'hasInvoices' => $groupedStock->whereNotNull('invoice_id')->isNotEmpty(),
+                'stocks' => $groupedStock
+            ];
+        }
+
+        // Zwróć widok z danymi miesięcy
+        return view('stock_controls', compact('months'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -38,29 +83,32 @@ class StockControlController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $req, $id)
+    public function update(Request $request, $id)
     {
         // Walidacja danych wejściowych
-        $req->validate([
+        $request->validate([
             'invoice_number' => 'required',
-            'title' => 'required',
-            'product_nmae' => 'required',
+            'product_name' => 'required',
             'operation_date' => 'required',
             'quantity' => 'required|numeric'
         ]);
-        // Pobierz fakturę do aktualizacji
+
+        // Znajdź istniejący rekord w bazie danych
         $stock = StockControl::findOrFail($id);
-        // Aktualizuj pola faktury na podstawie danych z formularza
-        $stock->invoice_number = $req->input('invoice_number');
-        $stock->title = $req->input('title');
-        $stock->product_name = $req->input('product_name');
-        $stock->operation_date = $req->input('operation_date');
-        $stock->quantity = $req->input('quantity');
+
+        // Aktualizuj pola rekordu na podstawie danych z formularza
+        $stock->invoice_number = $request->input('invoice_number');
+        $stock->product_name = $request->input('product_name');
+        $stock->operation_date = $request->input('operation_date');
+        $stock->quantity = $request->input('quantity');
+
         // Zapisz zmiany w bazie danych
         $stock->save();
+
         // Przekieruj użytkownika po zapisaniu
-        return redirect()->route('stock_controls.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
+        return redirect()->route('stock_controls.index')->with('success', 'Rekord został zaktualizowany pomyślnie.');
     }
+
     public function search(Request $request)
     {
         $search = $request->input('search');
@@ -71,7 +119,7 @@ class StockControlController extends Controller
 
         if (!empty($search)) {
             $query->where(function ($query) use ($search) {
-                $query->where('product_name', 'like', "%$search%")
+                $query->where('invoice_id', 'like', "%$search%")
                     ->orWhere('title', 'like', "%$search%");
             });
         }

@@ -115,7 +115,7 @@ class InvoiceController extends Controller
             'operation_date' => now(), // lub inna data operacji
             'move_to' => '',
         ]);
-        return redirect()->route('invoices.index');
+        return redirect()->route('invoices.index')->with('success', 'Liczbe sztuk pomyślnie odjęto.');
     }
     public function addStock(AddStockRequest $req)
     {
@@ -136,7 +136,7 @@ class InvoiceController extends Controller
             'operation_date' => now(), // lub inna data operacji
             'move_to' => '', // Możesz dostosować to pole do swoich potrzeb
         ]);
-        return redirect()->route('invoices.index');
+        return redirect()->route('invoices.index')->with('success', 'Liczbe sztuk pomyślnie dodano.');
     }
     public function moveStock(AddStockRequest $req)
     {

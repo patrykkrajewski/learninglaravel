@@ -15,12 +15,12 @@
                     @csrf
                     @method('PUT')
                     <label for="placeToMove">Gdzie chcesz przenieść:</label>
-                    <input type="text"  id="placeToMove" name="placeToMove" class="form-control" placeholder="{{$invoice->place}}">
+                    <input type="text"  id="placeToMove" name="placeToMove" class="form-control" value="{{$invoice->place}}">
                     <small id="placeHelp" class="form-text text-muted">Podaj miejsce przeniesienia.</small>
                     <br>
                     <br>
                     <label for="quantityToMove">Liczba sztuk do przeniesienia:</label>
-                    <input type="number" min="0" placeholder="0" id="quantityToMove" name="quantityToMove" class="form-control">
+                    <input type="number" min="0" value="0" id="quantityToMove" name="quantityToMove" class="form-control">
                     <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz przenieść.</small>
                     <br>
                     <br>

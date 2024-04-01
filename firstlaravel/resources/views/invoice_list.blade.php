@@ -3,15 +3,19 @@
 @section('content')
     <div style="margin-bottom: 10vh">
         <!--Header-->
-        <div class="row">
+        <div class="row justify-content-center">
             <!--Header name-->
             <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
         </div>
         @include('components.invoice_list_search')
+        @if(session()->has('success'))
+            <div class="alert alert-success w-50 container">
+                {{ session()->get('success') }}
+            </div>
+        @endif
         <!--Table style-->
-        <div class="row justify-content-center ">
-            <div class="col-8">
-                <table class="table table-bordered text-white text-center" style="background-color: #1E2F47;">
+            <div class="col-9 w-75 container">
+                <table class="table text-white text-center rounded" style="background-color: #1E2F47;">
                     <!--Table head style-->
                     <thead class="thead-dark">
                     <!--Table head writing-->
@@ -60,7 +64,8 @@
                                     <i class="fas fa-minus"></i>
                                 </a>
                                 <!-- Edit button-->
-                                <a href="{{ route('invoices.edit',['id'=>$invoice->id]) }}"
+                                <a href=" " data-toggle="modal"
+                                   data-target="#edit-modal-{{$invoice->id}}"
                                    class="btn btn-primary m-auto">
                                     <i class="fas fa-edit"></i>
                                 </a>
@@ -80,19 +85,21 @@
                     </tbody>
                 </table>
             </div>
-            <!--Scrolling tables-->
-            <div class="col-8 d-flex justify-content-center">
-                @if($invoices->previousPageUrl())
-                    <!--Left scroll-->
-                    <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_l.png') }}"
-                                                                                 alt=""></a>
-                @endif
-                @if($invoices->nextPageUrl())
-                    <!--Right scroll-->
-                    <a href="{{$invoices->nextPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_p.png') }}" alt=""></a>
-                @endif
-            </div>
         </div>
+
+    <!--Scrolling tables-->
+    <div class="col-8 d-flex justify-content-center">
+        @if($invoices->previousPageUrl())
+            <!--Left scroll-->
+            <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_l.png') }}"
+                                                                         alt=""></a>
+        @endif
+        @if($invoices->nextPageUrl())
+            <!--Right scroll-->
+            <a href="{{$invoices->nextPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_p.png') }}" alt=""></a>
+        @endif
+    </div>
+    </div>
     </div>
 
     <!-- Modals -->
@@ -100,6 +107,7 @@
         @include('modals.move_invoice_modal', ['id' => $invoice -> id])
         @include('modals.add_invoice_modal', ['id' => $invoice -> id])
         @include('modals.delete_invoice_modal', ['id' => $invoice -> id])
+        @include('modals.edit_invoive_modal', ['id' => $invoice -> id])
     @endforeach
     <!--Script links -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

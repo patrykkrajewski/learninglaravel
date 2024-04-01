@@ -16,5 +16,6 @@ return [
         'vat_rate' => 'Stawka VAT',
         'place' => 'Miejsce'
     ],
+
 ];
 
