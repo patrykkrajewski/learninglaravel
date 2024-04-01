@@ -17,10 +17,9 @@ class StockControlController extends Controller
     public function index()
     {
         $stocks = Invoice::all();
-        $stocks = StockControl::paginate(20);
+        $stocks = StockControl::all();
         return view('stock_controls', compact('stocks'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -32,7 +31,6 @@ class StockControlController extends Controller
         $stock = StockControl::findOrFail($id);
         return view('stock_controls_edit', compact('stock'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -62,6 +60,33 @@ class StockControlController extends Controller
         $stock->save();
         // Przekieruj użytkownika po zapisaniu
         return redirect()->route('stock_controls.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
+    }
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        $query = StockControl::query();
+
+        if (!empty($search)) {
+            $query->where(function ($query) use ($search) {
+                $query->where('product_name', 'like', "%$search%")
+                    ->orWhere('title', 'like', "%$search%");
+            });
+        }
+
+        if (!empty($start_date)) {
+            $query->whereDate('operation_date', '>=', $start_date);
+        }
+
+        if (!empty($end_date)) {
+            $query->whereDate('operation_date', '<=', $end_date);
+        }
+
+        $results = $query->paginate(20);
+
+        return view('stock_controls_search', ['results' => $results]);
     }
 
 }

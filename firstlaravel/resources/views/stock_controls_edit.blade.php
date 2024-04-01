@@ -53,7 +53,7 @@
                         </div>
                         <div class="form-group p-14 mb-3">
                             <label for="inputInvoiceDate">Data operacji</label>
-                            <input value="{{ $stock->operation_date }}" type="date"
+                            <input value="{{ $stock->operation_date->format('Y-m-d') }}" type="date"
                                    class="form-control @error('invoice_date') is-invalid @enderror"
                                    id="inputInvoiceDate" name="invoice_date">
                             <div class="invalid-feedback">

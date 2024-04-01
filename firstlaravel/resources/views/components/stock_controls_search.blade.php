@@ -3,7 +3,7 @@
         <!--Search form-->
         <form method="GET" action="{{ route('stock_controls.search') }}" class="form-inline d-flex">
             <!--Search by name or number-->
-            <input name="search" class="form-control w-5" type="search" placeholder="Nazwa/Numer"
+            <input name="search" class="form-control w-5" type="search" placeholder="Operacja/Numer"
                    aria-label="Search">
             <!--Search by start date-->
             <input name="start_date" class="form-control w-3" type="date" placeholder="Start Date"

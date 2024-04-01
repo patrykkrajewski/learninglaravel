@@ -41,7 +41,7 @@
                         <div class="row">
                             <div class="form-group p-14 mb-3 col-6">
                                 <label for="inputInvoiceDate">Data wystawienia faktury</label>
-                                <input value="{{ $invoice->invoice_date }}" type="date" class="form-control @error('invoice_date') is-invalid @enderror" id="inputInvoiceDate" name="invoice_date">
+                                <input value="{{ $invoice->invoice_date->format('Y-m-d')}}" type="date" class="form-control @error('invoice_date') is-invalid @enderror" id="inputInvoiceDate" name="invoice_date">
                                 <div class="invalid-feedback">
                                     @error('invoice_date')
                                     {{ $message }}

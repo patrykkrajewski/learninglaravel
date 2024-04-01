@@ -9,14 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    @vite(['resourses/css/app.css'])
 </head>
 
 <body>
 <!--100% width-->
 <div class="container-fluid max-vw-100 min-vh-100">
     <!--Header and navigation-->
-    <div class="text-white row p-2 sticky-top" style="background-color: #111E2B">
+    <div class="text-white row p-2 sticky-top rounded-bottom-4" style="background-color: #111E2B">
         <!--Left part of header-->
         <div class="col">
             <!--Logo and name-->
@@ -43,7 +42,7 @@
         @yield('content')
     </div>
     <!-- Footer -->
-    <a href="https://umg.edu.pl" class="footer fixed-bottom p-3 text-white text-center mt-2 text-decoration-none"
+    <a href="https://umg.edu.pl" class="rounded-top-4  footer fixed-bottom p-3 text-white text-center mt-2 text-decoration-none"
        style="background-color: #111E2B" target="_blank">© Uniwersytet Morski w Gdyni 2024</a>
 </div>
 

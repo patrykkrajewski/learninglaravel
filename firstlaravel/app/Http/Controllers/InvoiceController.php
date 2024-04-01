@@ -65,6 +65,8 @@ class InvoiceController extends Controller
         // Przekieruj użytkownika po zapisaniu
         return redirect()->route('invoices.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
     }
+
+
     public function destroy(Request $request)
     {
     }

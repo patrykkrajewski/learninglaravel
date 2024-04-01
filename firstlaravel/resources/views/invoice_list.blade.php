@@ -11,11 +11,11 @@
         <!--Table style-->
         <div class="row justify-content-center ">
             <div class="col-8">
-                <table class="table table-bordered text-white text-center " style="background-color: #1E2F47;">
+                <table class="table table-bordered text-white text-center" style="background-color: #1E2F47;">
                     <!--Table head style-->
                     <thead class="thead-dark">
                     <!--Table head writing-->
-                    <tr style="background-color: #111E2B;" class="text-white">
+                    <tr style="background-color: #111E2B;" class="text-white ">
                         <th scope="col">Numer</th>
                         <th scope="col">Nazwa produktu</th>
                         <th scope="col">Data wystawienia</th>
