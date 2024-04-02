@@ -11,44 +11,44 @@
             </div>
             <!-- Modal body -->
             <!-- Routing do napisania, poprawa na js wyswietlanie pop-upów oraz nazy id itp -->
-            <form method="POST" action="">
+            <form method="POST" action="{{route('invoices.update', ['id' => $id])}}">
                 <div class="modal-body">
                     @csrf
                     @method('PUT')
                     <div class="row">
-                        <label for="quantityToRemove">Numer faktury:</label>
-                        <input type="text" id="quantityToRemove" name="quantityToRemove" class="form-control"
-                               value="{{ $invoice->invoice_number}}">
+                        <label for="invNumber">Numer faktury:</label>
+                        <input type="text" id="invNumber" name="invNumber" class="form-control" value="{{ $invoice->invoice_number }}">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawiony numer faktury.</small>
                     </div>
+
                     <div class="row">
-                        <label for="quantityToRemove">Nazwa produktu:</label>
-                        <input type="text" id="quantityToRemove" name="quantityToRemove" class="form-control"
+                        <label for="invProductName">Nazwa produktu:</label>
+                        <input type="text" id="invProductName" name="invProductName" class="form-control"
                                value="{{ $invoice->product_name}}">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną nazwe produktu.</small>
                     </div>
                     <div class="row">
-                        <label for="quantityToRemove">Data wystawienia faktury:</label>
-                        <input type="date" value="{{ $invoice->invoice_date->format('Y-m-d')}}" id="quantityToRemove"
-                               name="quantityToRemove" class="form-control">
+                        <label for="invDate">Data wystawienia faktury:</label>
+                        <input type="date" value="{{ $invoice->invoice_date->format('Y-m-d')}}" id="invDate"
+                               name="invDate" class="form-control">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną date wystawienia
                             faktury.</small>
                     </div>
                     <div class="row">
-                        <label for="quantityToRemove">Ilość sztuk:</label>
-                        <input type="number" value="{{ $invoice->quantity}}" id="quantityToRemove" name="quantityToRemove"
+                        <label for="invQuantity">Ilość sztuk:</label>
+                        <input type="number" value="{{ $invoice->quantity}}" id="invQuantity" name="invQuantity"
                                class="form-control">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną ilość sztuk.</small>
                     </div>
                     <div class="row">
-                        <label for="quantityToRemove">Cena:</label>
-                        <input type="number" value="{{ $invoice->price}}" id="quantityToRemove" name="quantityToRemove"
+                        <label for="invPrice">Cena:</label>
+                        <input type="number" value="{{ $invoice->price}}" id="invPrice" name="invPrice"
                                class="form-control">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną cene.</small>
                     </div>
                     <div class="row">
-                        <label for="quantityToRemove">Miejsce:</label>
-                        <input type="text" value="{{ $invoice->place}}" id="quantityToRemove" name="quantityToRemove"
+                        <label for="invPlace">Miejsce:</label>
+                        <input type="text" value="{{ $invoice->place}}" id="invPlace" name="invPlace"
                                class="form-control">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawione miejsce.</small>
                     </div>

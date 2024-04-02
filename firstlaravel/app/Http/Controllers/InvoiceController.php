@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InvoiceController\AddStockRequest;
 use App\Http\Requests\InvoiceController\DeleteStockRequest;
+use App\Http\Requests\InvoiceController\EditStockRequest;
 use App\Http\Requests\InvoiceController\StoreRequest;
 use App\Models\Invoice;
 use App\Models\StockControl;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 class InvoiceController extends Controller
 {
@@ -32,39 +34,32 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         return view('invoice_edit', ['invoice' => $invoice]);
     }
+
+    /**
+     * @param EditStockRequest $requset
+     * @param $id
+     * @return RedirectResponse
+     */
     public function update(Request $request, $id)
     {
-        // Walidacja danych wejściowych
-        $request->validate([
-            'invoice_number' => 'required',
-            'product_name' => 'required',
-            'invoice_date' => 'required',
-            'quantity' => 'required|numeric',
-            'invoice_quantity' => 'required|numeric',
-            'price' => 'required|numeric',
-            'vat_rate' => 'required|numeric',
-            'place' => 'required'
-        ]);
-
-        // Pobierz fakturę do aktualizacji
+        // Znajdź fakturę do aktualizacji
         $invoice = Invoice::findOrFail($id);
+        // Zaktualizuj atrybuty faktury na podstawie danych z formularza
+        $invoice->invoice_number = $request->input('invNumber');
+        $invoice->product_name = $request->input('invProductName');
+        $invoice->quantity = $request->input('invQuantity');
+        $invoice->price = $request->input('invPrice');
+        $invoice->place = $request->input('invPlace');
+        $invoice->invoice_date = $request->input('invDate');
+        $invoice->vat_rate = $request->input('quantityToRemove');
 
-        // Aktualizuj pola faktury na podstawie danych z formularza
-        $invoice->invoice_number = $request->input('invoice_number');
-        $invoice->product_name = $request->input('product_name');
-        $invoice->invoice_date = $request->input('invoice_date');
-        $invoice->invoice_quantity = $request->input('invoice_quantity');
-        $invoice->quantity = $request->input('quantity');
-        $invoice->price = $request->input('price');
-        $invoice->vat_rate = $request->input('vat_rate');
-        $invoice->place = $request->input('place');
-
-        // Zapisz zmiany w bazie danych
+        // Zapisz zmiany
         $invoice->save();
 
-        // Przekieruj użytkownika po zapisaniu
+        // Przekieruj użytkownika po aktualizacji
         return redirect()->route('invoices.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
     }
+
 
 
     public function destroy(Request $request)
