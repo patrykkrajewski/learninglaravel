@@ -4,6 +4,12 @@ return [
     'required' => 'Pole :attribute jest wymagane.',
     'invoice_date.required' => 'Pole data faktury jest wymagane.',
     'numeric' => 'Pole :attribute musi być liczbą.',
+    'min' => [
+        'numeric' => 'Pole :attribute musi być większe niż :min.',
+    ],
+    'max' => [
+        'numeric' => 'Pole :attribute musi być mniejsze niż :max.',
+    ],
     // Dodaj inne komunikaty walidacji, jeśli są potrzebne
 
     'attributes' => [

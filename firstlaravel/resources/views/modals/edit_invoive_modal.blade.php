@@ -54,7 +54,7 @@
                     </div>
                     <div class="row">
                         <label for="quantityToRemove">Podatek VAT:</label>
-                        <input type="number" value="{{ $invoice->vat_rate}}" id="quantityToRemove" name="quantityToRemove"
+                        <input type="number" min="0" max="100" value="{{ $invoice->vat_rate}}" id="quantityToRemove" name="quantityToRemove"
                                class="form-control">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawiony podatek VAT.</small>
                     </div>

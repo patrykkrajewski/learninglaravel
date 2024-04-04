@@ -29,6 +29,7 @@ class EditStockRequest extends FormRequest
             'invPrice' => ['required'],
             'invPlace' => ['required'],
             'invDate' => ['required']
+
         ];
     }
 }
