@@ -8,6 +8,7 @@
         </div>
         <!--Search bar-->
         @include('components.invoice_list_search')
+        @include('components.alert')
         <!--Table style-->
         <div class="row justify-content-center">
             <div class="col-8">

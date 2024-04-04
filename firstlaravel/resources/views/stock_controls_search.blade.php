@@ -9,6 +9,8 @@
         </div>
         <!-- Search bar -->
         @include('components.stock_controls_search')
+        @include('components.alert')
+
         <!-- Table style -->
         <div class="row justify-content-center">
             <div class="col-8">

@@ -7,6 +7,7 @@
             <h1 class="strong d-flex justify-content-center mt-4">Archiwum</h1>
         </div>
         @include('components.stock_controls_search')
+        @include('components.alert')
 
     @foreach(array_reverse($months) as $month => $data)
             <div class="container rounded text-white w-75 p-1 mb-2" style="background-color: #1E2F47">

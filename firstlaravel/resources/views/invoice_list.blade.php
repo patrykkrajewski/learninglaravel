@@ -8,11 +8,8 @@
             <h1 class="strong d-flex justify-content-center mt-4">Lista Faktur</h1>
         </div>
         @include('components.invoice_list_search')
-        @if(session()->has('success'))
-            <div class="alert alert-success w-50 container">
-                {{ session()->get('success') }}
-            </div>
-        @endif
+        @include('components.alert')
+
         <!--Table style-->
             <div class="col-9 w-75 container">
                 <table class="table text-white text-center rounded" style="background-color: #1E2F47;">
