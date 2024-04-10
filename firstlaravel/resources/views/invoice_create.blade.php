@@ -102,7 +102,7 @@
                                 <label for="inputVateRate">Podatek VAT</label>
                                 <input type="text" class="form-control @error('vat_rate') is-invalid @enderror"
                                        id="inputVateRate"
-                                       name="vat_rate" value=23>
+                                       name="vat_rate" value=23 min="0" max="100">
                                 <div class="invalid-feedback">
                                     @error('vat_rate' )
                                     {{$message}}

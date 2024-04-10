@@ -11,7 +11,7 @@
         @include('components.alert')
 
         <!--Table style-->
-            <div class="col-9 w-75 container">
+            <div class=" justify-content-center w-75 container">
                 <table class="table text-white text-center rounded" style="background-color: #1E2F47;">
                     <!--Table head style-->
                     <thead class="thead-dark">
@@ -73,7 +73,7 @@
                                 </a>
                             </td>
                         </tr>
-                        </tr>
+
                     @empty
                         <tr>
                             <td colspan="8" class="text-center">Brak faktur do wyświetlenia.</td>

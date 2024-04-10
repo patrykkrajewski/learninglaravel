@@ -11,10 +11,9 @@
                         Edycja faktury
                     @endif
                 </h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
-            <form method="POST" action="{{route('invoices.stock.add')}}" >
+            <form method="POST" action="{{route('invoices.stock.add')}}">
                 <div class="modal-body">
 
                     @csrf
@@ -22,11 +21,17 @@
                     <label for="quantityToAdd">Liczba do dodania:</label>
                     <input type="number" min="0" id="quantityToAdd" name="quantityToAdd" class="form-control"
                            value="">
-                    <input type="hidden"  name="id" value="{{$invoice->id}}" />
-                    <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}" /> <!-- Dodaj pole jako ukryte pole -->
-                    <input type="hidden" name="product_name" value="{{ $invoice->product_name }}" /> <!-- Dodaj pole jako ukryte pole -->
+                    <input type="hidden" name="id" value="{{$invoice->id}}"/>
+                    <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}"/>
+                    <!-- Dodaj pole jako ukryte pole -->
+                    <input type="hidden" name="product_name" value="{{ $invoice->product_name }}"/>
+                    <!-- Dodaj pole jako ukryte pole -->
                     <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz dodać.</small>
-
+                    <label for="invDate">Data wystawienia faktury:</label>
+                    <input type="date" value="{{ $invoice->invoice_date->format('Y-m-d')}}" id="invDate"
+                           name="invDate" class="form-control">
+                    <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną date wystawienia
+                        faktury.</small>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">

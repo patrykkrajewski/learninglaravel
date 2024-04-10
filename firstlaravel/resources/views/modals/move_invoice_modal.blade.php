@@ -7,7 +7,6 @@
                 <h5 class="modal-title">
                     Edycja faktury nr {{ $invoice->invoice_number }}
                 </h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
             <form method="POST" action="{{route('invoices.stock.move')}}">
@@ -28,6 +27,9 @@
                     <input type="date" value="{{date("Y-m-d")}}" id="operationDateToMove" name="operationDateToMove" class="form-control">
                     <small id="quantityHelp" class="form-text text-muted">Podaj date operacji</small>
                     <input type="hidden" name="id" value="{{$invoice->id}}"/>
+                    <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}"/>
+                    <!-- Dodaj pole jako ukryte pole -->
+                    <input type="hidden" name="product_name" value="{{ $invoice->product_name }}"/>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">

@@ -7,7 +7,6 @@
                 <h5 class="modal-title">
                     Edytujesz faktury nr {{ $stock->invoice_number }}
                 </h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
             <!-- Routing do napisania, poprawa na js wyswietlanie pop-upów oraz nazy id itp -->

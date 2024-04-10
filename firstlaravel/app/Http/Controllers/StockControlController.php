@@ -29,14 +29,13 @@ class StockControlController extends Controller
 
             // Sprawdź, czy już istnieje wpis o takim identyfikatorze
             if (isset($mergedStocks[$key])) {
-                // Jeśli tytuł to 'usun', odejmij ilość, w przeciwnym wypadku dodaj ilość
+                // Jeśli tytuł to 'usun', odejmij ilość
                 if ($stock->title == 'Usuń') {
-                    $mergedStocks[$key]->quantity += $stock->quantity;
-                    $mergedStocks[$key]->title = 'Usuń';
-                }
-                else if ($stock->title == 'Dodaj') {
                     $mergedStocks[$key]->quantity -= $stock->quantity;
-                    $mergedStocks[$key]->title = 'Dodaj';
+                }
+                // Jeśli tytuł to 'dodaj', dodaj ilość
+                elseif ($stock->title == 'Dodaj') {
+                    $mergedStocks[$key]->quantity += $stock->quantity;
                 }
             } else {
                 // Jeśli nie, dodaj nowy wpis do tablicy połączonych wpisów

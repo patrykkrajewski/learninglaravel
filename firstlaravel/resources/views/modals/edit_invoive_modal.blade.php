@@ -36,7 +36,7 @@
                     </div>
                     <div class="row">
                         <label for="invQuantity">Ilość sztuk:</label>
-                        <input type="number" value="{{ $invoice->quantity}}" id="invQuantity" name="invQuantity"
+                        <input type="number" value="{{ $invoice->quantity}}" min="0" id="invQuantity" name="invQuantity"
                                class="form-control">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną ilość sztuk.</small>
                     </div>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="row">
                         <label for="quantityToRemove">Podatek VAT:</label>
-                        <input type="number" value="{{ $invoice->vat_rate}}" id="quantityToRemove" name="quantityToRemove"
+                        <input type="number" max="100" min="0"  value="{{ $invoice->vat_rate}}" id="quantityToRemove" name="quantityToRemove"
                                class="form-control">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawiony podatek VAT.</small>
                     </div>

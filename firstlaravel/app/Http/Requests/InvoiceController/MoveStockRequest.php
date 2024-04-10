@@ -23,9 +23,11 @@ class MoveStockRequest extends FormRequest
     {
         return [
             'id' => ['required', 'exists:invoices,id'],
-            'quantityToRemove' => ['required'],
-            'place' => ['required'],
-            'operation_date' => ['required']
+            'quantityToRemove' => ['required','numeric','min:0'],
+            'invoice_number' => ['required', 'exists:invoices,invoice_number'], // Dodaj walidację dla invoice_number
+            'product_name' => ['required', 'exists:invoices,product_name'],
+            'invDate' => ['required'],
+            'placeToMove' => ['required']
         ];
     }
 }
