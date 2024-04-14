@@ -30,6 +30,7 @@
                     <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}"/>
                     <!-- Dodaj pole jako ukryte pole -->
                     <input type="hidden" name="product_name" value="{{ $invoice->product_name }}"/>
+                    <input type="hidden" name="search" value="{{$search ?? null}}"/>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">

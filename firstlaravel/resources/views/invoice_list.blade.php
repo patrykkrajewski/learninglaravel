@@ -17,12 +17,35 @@
                     <thead class="thead-dark">
                     <!--Table head writing-->
                     <tr style="background-color: #111E2B;" class="text-white ">
-                        <th scope="col">Numer</th>
-                        <th scope="col">Nazwa produktu</th>
-                        <th scope="col">Data wystawienia</th>
-                        <th scope="col">Ilość na fakturze</th>
-                        <th scope="col">Ilość aktualna</th>
-                        <th scope="col">Cena[netto]</th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.index', ['sortBy' => 'invoice_number', 'sortDirection' => ($sortBy== 'invoice_number' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Numer @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'invoice_number' ])
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.index', ['sortBy' => 'product_name', 'sortDirection' => ($sortBy== 'product_name' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Nazwa produktu @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'product_name' ])
+                            </a>
+                        </th>
+                        <th scope="col"><a href="{{ route('invoices.index', ['sortBy' => 'invoice_date', 'sortDirection' => ($sortBy== 'invoice_date' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Data Wystawienia @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'invoice_date' ])
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.index', ['sortBy' => 'invoice_quantity', 'sortDirection' => ($sortBy== 'invoice_quantity' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Ilość na fakturze @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'invoice_quantity' ])
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.index', ['sortBy' => 'quantity', 'sortDirection' => ($sortBy== 'quantity' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Ilość aktualna @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'quantity' ])
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.index', ['sortBy' => 'price', 'sortDirection' => ($sortBy== 'price' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Cena [Netto] @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'price' ])
+                            </a>
+                        </th>
                         <th scope="col">Podatek VAT</th>
                         <th scope="col">Miejsce</th>
                         <th scope="col"></th>
@@ -34,7 +57,7 @@
                     @forelse($invoices as $invoice)
                         <!--Table content writing-->
                         <tr>
-                            <td>{{$invoice->invoice_number}}</td>
+                            <td>  {{$invoice->invoice_number}}</td>
                             <td>{{$invoice->product_name}}</td>
                             <td>{{$invoice->invoice_date->format('Y-m-d')}}</td>
                             <td>{{$invoice->invoice_quantity}}szt.</td>
@@ -82,22 +105,23 @@
                     </tbody>
                 </table>
             </div>
+        <div class="col-12 d-flex justify-content-center">
+            @if($invoices->previousPageUrl())
+                <!--Left scroll-->
+                <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_l.png') }}"
+                                                                             alt=""></a>
+            @endif
+            @if($invoices->nextPageUrl())
+                <!--Right scroll-->
+                <a href="{{$invoices->nextPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_p.png') }}" alt=""></a>
+            @endif
+        </div>
         </div>
 
+
     <!--Scrolling tables-->
-    <div class="col-8 d-flex justify-content-center">
-        @if($invoices->previousPageUrl())
-            <!--Left scroll-->
-            <a href="{{$invoices->previousPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_l.png') }}"
-                                                                         alt=""></a>
-        @endif
-        @if($invoices->nextPageUrl())
-            <!--Right scroll-->
-            <a href="{{$invoices->nextPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_p.png') }}" alt=""></a>
-        @endif
-    </div>
-    </div>
-    </div>
+
+
 
     <!-- Modals -->
     @foreach($invoices as $invoice)

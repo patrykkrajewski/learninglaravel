@@ -40,7 +40,7 @@
                     <input type="text" value="{{ $stock->move_to}}"  id="quantityToRemove" name="quantityToRemove" class="form-control">
                     <small id="quantityHelp" class="form-text text-muted">Podaj poprawione przeniesienie.</small>
 
-
+                    <input type="hidden" name="search" value="{{$search ?? null}}"/>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">

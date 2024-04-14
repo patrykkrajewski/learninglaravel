@@ -26,7 +26,8 @@ class AddStockRequest extends FormRequest
             'quantityToAdd' => ['required','numeric','min:0'],
             'invoice_number' => ['required', 'exists:invoices,invoice_number'], // Dodaj walidację dla invoice_number
             'product_name' => ['required', 'exists:invoices,product_name'],
-            'invDate' => ['required']
+            'invDate' => ['required'],
+            'search' => ['sometimes']
         ];
     }
 }

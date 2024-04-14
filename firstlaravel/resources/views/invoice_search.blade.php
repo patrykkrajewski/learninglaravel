@@ -10,20 +10,43 @@
         @include('components.invoice_list_search')
         @include('components.alert')
         <!--Table style-->
-        <div class="row justify-content-center">
-            <div class="col-8">
+        <div class=" justify-content-center w-75 container">
+
                 <!--Table-->
                 <table class="table  text-white text-center " style="background-color: #1E2F47;">
                     <!--Table head style-->
                     <thead class="thead-dark">
                     <!--Table head writing-->
                     <tr style="background-color: #111E2B;" class="text-white">
-                        <th scope="col">Numer</th>
-                        <th scope="col">Nazwa produktu</th>
-                        <th scope="col">Data wystawienia</th>
-                        <th scope="col">Ilość na fakturze</th>
-                        <th scope="col">Ilość aktualna</th>
-                        <th scope="col">Cena[netto]</th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.search', ['sortBy' => 'invoice_number', 'sortDirection' => ($sortBy== 'invoice_number' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Numer @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'invoice_number' ])
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.search', ['sortBy' => 'product_name', 'sortDirection' => ($sortBy== 'product_name' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Nazwa produktu @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'product_name' ])
+                            </a>
+                        </th>
+                        <th scope="col"><a href="{{ route('invoices.search', ['sortBy' => 'invoice_date', 'sortDirection' => ($sortBy== 'invoice_date' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Data Wystawienia @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'invoice_date' ])
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.search', ['sortBy' => 'invoice_quantity', 'sortDirection' => ($sortBy== 'invoice_quantity' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Ilość na fakturze @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'invoice_quantity' ])
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.search', ['sortBy' => 'quantity', 'sortDirection' => ($sortBy== 'quantity' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Ilość aktualna @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'quantity' ])
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="{{ route('invoices.search', ['sortBy' => 'price', 'sortDirection' => ($sortBy== 'price' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
+                                Cena [Netto] @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'price' ])
+                            </a>
+                        </th>
                         <th scope="col">Podatek VAT</th>
                         <th scope="col">Miejsce</th>
                         <th scope="col"></th>
@@ -60,7 +83,8 @@
                                     <i class="fas fa-minus"></i>
                                 </a>
                                 <!-- Edit button-->
-                                <a href="{{ route('invoices.edit',['id'=>$result->id]) }}"
+                                <a href=" " data-toggle="modal"
+                                   data-target="#edit-modal-{{$result->id}}"
                                    class="btn btn-primary m-auto">
                                     <i class="fas fa-edit"></i>
                                 </a>
@@ -74,7 +98,6 @@
                     @endforeach
                     </tbody>
                 </table>
-            </div>
             <!--Scrolling tables-->
             <div class="col-8 d-flex justify-content-center">
                 @if($results->previousPageUrl())
@@ -89,5 +112,15 @@
             </div>
         </div>
         <!-- Modals czy musze robic dla kazdego nowy szablon ze zmienina zmienna z request na invoice-->
-
+        <!-- Modals -->
+    @foreach($results as $invoice)
+        @include('modals.move_invoice_modal', ['id' => $invoice -> id, 'search' => 1])
+        @include('modals.add_invoice_modal', ['id' => $invoice -> id, 'search' => 1])
+        @include('modals.delete_invoice_modal', ['id' => $invoice -> id, 'search' => 1])
+        @include('modals.edit_invoive_modal', ['id' => $invoice -> id, 'search' => 1])
+    @endforeach
+        <!--Script links -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @endsection

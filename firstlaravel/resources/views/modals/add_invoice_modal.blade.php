@@ -32,6 +32,7 @@
                            name="invDate" class="form-control">
                     <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną date wystawienia
                         faktury.</small>
+                    <input type="hidden" name="search" value="{{$search ?? null}}"/>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">

@@ -11,10 +11,14 @@ use App\Models\Invoice;
 use App\Models\StockControl;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 class InvoiceController extends Controller
 {
     public function index(Request $request)
     {
+        $sortBy = $request->input('sortBy', 'asc');
+        $sortDirection = $request->input('sortDirection');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
@@ -28,12 +32,16 @@ class InvoiceController extends Controller
             $query->where('invoice_date', '<=', $end_date);
         }
 
+        if($sortBy && $sortDirection){
+            $query->orderBy($sortBy, $sortDirection);
+        }
+
         // Dodaj sortowanie, aby faktury z ilością równą zero były na końcu
-        $query->orderByRaw('quantity = 0');
+        //
 
         $invoices = $query->paginate(20);
 
-        return view('invoice_list', ['invoices' => $invoices]);
+        return view('invoice_list', compact('invoices', 'sortBy', 'sortDirection'));
     }
     public function create()
     {
@@ -60,6 +68,7 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //dd($request);
         // Znajdź fakturę do aktualizacji
         $invoice = Invoice::findOrFail($id);
         // Zaktualizuj atrybuty faktury na podstawie danych z formularza
@@ -74,6 +83,10 @@ class InvoiceController extends Controller
         // Zapisz zmiany
         $invoice->save();
 
+        if($request -> search){
+            return redirect()->back();
+        }
+
         // Przekieruj użytkownika po aktualizacji
         return redirect()->route('invoices.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
     }
@@ -85,8 +98,10 @@ class InvoiceController extends Controller
     }
     public function search(Request $request)
     {
-        $search = $request->input('search');
 
+        $search = $request->input('search');
+        $sortBy = $request->input('sortBy', 'asc');
+        $sortDirection = $request->input('sortDirection');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
         $query = Invoice::query();
@@ -106,9 +121,13 @@ class InvoiceController extends Controller
             $query->where('invoice_date', '<=', $end_date);
         }
 
+        if($sortBy && $sortDirection){
+            $query->orderBy($sortBy, $sortDirection);
+        }
+
         $results = $query->paginate(20);
 
-        return view('invoice_search', ['results' => $results]);
+        return view('invoice_search', compact('results', 'sortBy', 'sortDirection'));
     }
     public function deleteStock(DeleteStockRequest $request)
     {
@@ -129,6 +148,9 @@ class InvoiceController extends Controller
             'operation_date' => $invDate, // lub inna data operacji
             'move_to' => '',
         ]);
+        if($request ['search']){
+            return redirect()->back();
+        }
         return redirect()->route('invoices.index')->with('success', 'Liczbe sztuk pomyślnie odjęto.');
     }
     public function addStock(AddStockRequest $req)
@@ -150,12 +172,13 @@ class InvoiceController extends Controller
             'operation_date' =>  $invDate, // lub inna data operacji
             'move_to' => '', // Możesz dostosować to pole do swoich potrzeb
         ]);
+        if($req ['search']){
+            return redirect()->back();
+        }
         return redirect()->route('invoices.index')->with('success', 'Liczbe sztuk pomyślnie dodano.');
     }
     public function moveStock(MoveStockRequest $request)
     {
-        dd($request->all());
-
         // Pobierz zwalidowane dane z żądania
         $validatedData = $request->validated();
 
@@ -163,7 +186,7 @@ class InvoiceController extends Controller
         $id = $validatedData['id'];
         $invoiceNumber = $validatedData['invoice_number'];
         $productName = $validatedData['product_name'];
-        $quantityToAdd = $validatedData['quantityToAdd'];
+        $quantityToMove = $validatedData['quantityToMove'];
         $operationDate = $validatedData['operationDateToMove'];
         $placeToMove = $validatedData['placeToMove'];
 
@@ -171,7 +194,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
 
         // Dodaj ilość do faktury
-        $invoice->quantity += $quantityToAdd;
+        $invoice->quantity -= $quantityToMove;
         $invoice->save();
 
         // Stwórz nowy rekord w StockControl
@@ -179,10 +202,13 @@ class InvoiceController extends Controller
             'title' => 'Przeniesienie',
             'invoice_id' => $invoiceNumber,
             'product_name' => $productName,
-            'quantity' => $quantityToAdd,
+            'quantity' => $quantityToMove,
             'operation_date' => $operationDate,
             'move_to' => $placeToMove,
         ]);
+        if($request ['search']){
+            return redirect()->back();
+        }
 
         // Przekieruj użytkownika po zakończeniu operacji
         return redirect()->route('invoices.index')->with('success', 'Pomyślnie przeniesiono sztuki.');

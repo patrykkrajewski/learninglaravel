@@ -58,6 +58,7 @@
                                class="form-control">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawiony podatek VAT.</small>
                     </div>
+                    <input type="hidden" name="search" value="{{$search ?? null}}"/>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
