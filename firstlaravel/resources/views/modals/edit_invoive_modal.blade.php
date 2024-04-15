@@ -11,7 +11,7 @@
             </div>
             <!-- Modal body -->
             <!-- Routing do napisania, poprawa na js wyswietlanie pop-upów oraz nazy id itp -->
-            <form method="POST" action="{{route('invoices.update', ['id' => $id])}}">
+            <form method="POST" action="{{route('invoices.create')}}">
                 <div class="modal-body">
                     @csrf
                     @method('PUT')

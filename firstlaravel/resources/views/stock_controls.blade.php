@@ -48,16 +48,16 @@
                             @foreach($data['stocks'] as $stock)
                                 <!-- Table content writing -->
                                 <tr class="border-0">
-                                    <td>{{ $stock->title }}</td>
-                                    <td>{{ $stock->invoice_id }}</td>
-                                    <td>{{ $stock->product_name }}</td>
-                                    <td>{{ $stock->operation_date->format('Y-m-d') }}</td>
-                                    <td>{{ $stock->quantity }} szt.</td>
-                                    <td>{{ $stock->move_to }}</td>
+                                    <td>{{ $stock['title'] }}</td>
+                                    <td>{{ $stock['invoice_id'] }}</td>
+                                    <td>{{ $stock['product_name'] }}</td>
+                                    <td>{{\Carbon\Carbon::parse($stock['operation_date'])->format('Y-m-d')}}</td>
+                                    <td>{{ $stock['quantity'] }} szt.</td>
+                                    <td>{{ $stock['move_to'] }}</td>
                                     <td>
                                         <!-- Edit button -->
                                         <button type="button" class="btn btn-primary m-auto" data-bs-toggle="modal"
-                                                data-bs-target="#edit-modal-{{ $stock->id }}">
+                                                data-bs-target="#edit-modal-{{ $stock['id'] }}">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                     </td>

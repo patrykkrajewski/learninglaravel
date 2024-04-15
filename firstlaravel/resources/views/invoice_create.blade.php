@@ -41,7 +41,7 @@
                             <div class="form-group p-14 mb-3 col-6">
                                 <label for="inputInvoiceDate">Data wystawienia</label>
                                 <input type="date" class="form-control @error('invoice_date') is-invalid @enderror"
-                                       id="inputInvoiceDate" value="{{old('invoice_date')}}"
+                                       id="inputInvoiceDate" value="{{now()->format('Y-m-d')}}"
                                        placeholder="Data wystawienia" name="invoice_date">
                                 <div class="invalid-feedback">
                                     @error('invoice_date' )
@@ -69,28 +69,14 @@
                                     @enderror
                                 </div>
                             </div>
-                            <!--invoice_quantity place-->
-                            <div class="form-group col-6 mb-3">
-                                <label for="inputInvoice_quantity">Ilość aktualna</label>
-                                <input type="number"
-                                       class="form-control @error('invoice_quantity') is-invalid @enderror"
-                                       placeholder="0"
-                                       name="invoice_quantity" value="{{old('quantity')}}">
-                                <div class="invalid-feedback">
-                                    @error('quantity' )
-                                    {{$message}}
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
+
                             <!--Add price-->
 
                             <div class="form-group p-14 mb-3 col-6">
                                 <label for="inputPrice">Cena</label>
                                 <input type="text" class="form-control @error('price') is-invalid @enderror"
                                        id="inputPrice" value="{{old('price')}}"
-                                       name="price" placeholder="0" >
+                                       name="price" placeholder="0">
                                 <div class="invalid-feedback">
                                     @error('price' )
                                     {{$message}}

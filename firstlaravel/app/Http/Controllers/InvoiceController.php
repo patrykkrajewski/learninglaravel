@@ -53,7 +53,7 @@ class InvoiceController extends Controller
     {
         $invoice = new Invoice($request->validated());
         $validatedData = $request->validated();
-        $invoice->invoice_quantity = $validatedData['invoice_quantity'];
+        $invoice->invoice_quantity = $validatedData['quantity'];
         $invoice->save();
         return redirect()->route('invoices.index');
     }

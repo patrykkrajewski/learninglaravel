@@ -35,8 +35,7 @@
                                    id="inputInvoiceNumber" name="invoice_number">
                             <div class="invalid-feedback">
                                 @error('invoice_number')
-                                {{ $message }}
-                                @enderror
+                                {{ $message }}                               @enderror
                             </div>
                         </div>
                         <!-- Edit invoice_number -->

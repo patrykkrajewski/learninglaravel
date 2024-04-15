@@ -17,7 +17,7 @@
 <!--100% width-->
 <div class="container-fluid max-vw-100 min-vh-100">
     <!--Header and navigation-->
-    <div class="text-white row p-2 mr-0  sticky-top rounded-bottom-4" style="background-color: #111E2B">
+    <div class="text-white row p-2 mr-0  sticky-top " style="background-color: #111E2B">
         <!--Left part of header-->
         <div class="col">
             <!--Logo and name-->

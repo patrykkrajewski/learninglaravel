@@ -43,7 +43,8 @@
                             <td>{{ $result->move_to }}</td>
                             <td class="col d-flex justify-content-start">
                                 <!-- Edit button -->
-                                <a href="{{ route('stock_controls.edit', ['id' => $result->id]) }}"
+                                <a href=" " data-toggle="modal"
+                                   data-target="#edit-modal-{{$result->id}}"
                                    class="btn btn-primary m-auto">
                                     <i class="fas fa-edit"></i>
                                 </a>
@@ -53,6 +54,15 @@
                     </tbody>
                 </table>
             </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <!-- Scrolling tables -->
             <div class="col-8 d-flex justify-content-center">
                 @if ($results->previousPageUrl())
@@ -68,5 +78,12 @@
             </div>
         </div>
     </div>
+    @foreach($results as $result)
+        @include('modals.edit_stock_controls_search_modal', ['id' => $result->id])
+    @endforeach
+    <!--Script links -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @endsection
 

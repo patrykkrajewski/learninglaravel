@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\StockControl;
+use App\Traits\MergeRecordsByTitle;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
 class StockControlController extends Controller
 {
+    use MergeRecordsByTitle;
     /**
      * Display a listing of the resource.
      *
@@ -35,13 +38,16 @@ class StockControlController extends Controller
                 $transferredStocks[] = $stock;
             }
         }
+        $addedStocks = $this->mergeRecordsByTitle(collect($addedStocks), "Dodaj");
+        $removedStocks = $this->mergeRecordsByTitle(collect($removedStocks), "Usuń");
 
         // Merge all types of records into a single array
         $allStocks = array_merge($addedStocks, $removedStocks, $transferredStocks);
 
+             //  $allStocks = $this->mergeRecordsByTitle(collect($allStocks), "Usuń");
         // Group the merged records by month
         $groupedStocks = collect($allStocks)->groupBy(function ($item) {
-            return $item->operation_date->format('Y-m');
+            return $item['operation_date']=Carbon::parse($item['operation_date'])->format('Y-m');
         });
 
         // Prepare the data to be passed to the view
@@ -52,7 +58,6 @@ class StockControlController extends Controller
                 'stocks' => $groupedStock
             ];
         }
-
         // Return the view with the grouped stock controls
         return view('stock_controls', compact('months', 'stocks'));
     }
@@ -80,18 +85,22 @@ class StockControlController extends Controller
     {
         // Walidacja danych wejściowych
         $request->validate([
-            'invoice_number' => 'required',
+            'title' => 'required',
+            'invoice_id' => 'required',
             'product_name' => 'required',
             'operation_date' => 'required',
-            'quantity' => 'required|numeric'
+            'quantity' => 'required|numeric',
+            'move_to' => ''
         ]);
         // Znajdź istniejący rekord w bazie danych
         $stock = StockControl::findOrFail($id);
         // Aktualizuj pola rekordu na podstawie danych z formularza
+        $stock->title = $request->input('title');
         $stock->invoice_id = $request->input('invoice_id');
         $stock->product_name = $request->input('product_name');
-        $stock->operation_date = $request->input('operation_date');
         $stock->quantity = $request->input('quantity');
+        $stock->operation_date = $request->input('operation_date');
+        $stock->move_to = $request->input('move_to');
 
         // Zapisz zmiany w bazie danych
         $stock->save();
