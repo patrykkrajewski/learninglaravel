@@ -16,43 +16,35 @@ class StockControlController extends Controller
      */
     public function index()
     {
-        // Pobierz wszystkie wpisy dotyczące kontrolowania zapasów posortowane według daty operacji
+        // Get all stock controls sorted by operation date
         $stocks = StockControl::orderBy('operation_date')->get();
 
-        // Utwórz tablicę, która będzie przechowywała połączone wpisy
-        $mergedStocks = [];
+        // Initialize arrays to store different types of records
+        $addedStocks = [];
+        $removedStocks = [];
+        $transferredStocks = [];
 
-        // Iteruj przez każdą grupę wpisów
+        // Iterate through each stock control record
         foreach ($stocks as $stock) {
-            // Utwórz unikalny identyfikator dla połączenia faktury i produktu
-            $key = $stock->invoice_id . '-' . $stock->product_name;
-
-            // Sprawdź, czy już istnieje wpis o takim identyfikatorze
-            if (isset($mergedStocks[$key])) {
-                // Jeśli tytuł to 'usun', odejmij ilość
-                if ($stock->title == 'Usuń') {
-                    $mergedStocks[$key]->quantity -= $stock->quantity;
-                }
-                // Jeśli tytuł to 'dodaj', dodaj ilość
-                elseif ($stock->title == 'Dodaj') {
-                    $mergedStocks[$key]->quantity += $stock->quantity;
-                }
-            } else {
-                // Jeśli nie, dodaj nowy wpis do tablicy połączonych wpisów
-                $mergedStocks[$key] = $stock;
+            // Determine the type of operation and store the record accordingly
+            if ($stock->title == 'Dodaj') {
+                $addedStocks[] = $stock;
+            } elseif ($stock->title == 'Usuń') {
+                $removedStocks[] = $stock;
+            } elseif ($stock->title == 'Przeniesienie') {
+                $transferredStocks[] = $stock;
             }
         }
 
+        // Merge all types of records into a single array
+        $allStocks = array_merge($addedStocks, $removedStocks, $transferredStocks);
 
-        // Przekształć tablicę połączonych wpisów na kolekcję
-        $mergedStocksCollection = collect($mergedStocks);
-
-        // Grupowanie wpisów według miesiąca
-        $groupedStocks = $mergedStocksCollection->groupBy(function($item) {
+        // Group the merged records by month
+        $groupedStocks = collect($allStocks)->groupBy(function ($item) {
             return $item->operation_date->format('Y-m');
         });
 
-        // Utwórz tablicę, która będzie przechowywała miesiące i informacje, czy mają faktury
+        // Prepare the data to be passed to the view
         $months = [];
         foreach ($groupedStocks as $key => $groupedStock) {
             $months[$key] = [
@@ -61,9 +53,11 @@ class StockControlController extends Controller
             ];
         }
 
-        // Zwróć widok z danymi miesięcy
-        return view('stock_controls', compact('months'));
+        // Return the view with the grouped stock controls
+        return view('stock_controls', compact('months', 'stocks'));
     }
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -91,12 +85,10 @@ class StockControlController extends Controller
             'operation_date' => 'required',
             'quantity' => 'required|numeric'
         ]);
-
         // Znajdź istniejący rekord w bazie danych
         $stock = StockControl::findOrFail($id);
-
         // Aktualizuj pola rekordu na podstawie danych z formularza
-        $stock->invoice_number = $request->input('invoice_number');
+        $stock->invoice_id = $request->input('invoice_id');
         $stock->product_name = $request->input('product_name');
         $stock->operation_date = $request->input('operation_date');
         $stock->quantity = $request->input('quantity');

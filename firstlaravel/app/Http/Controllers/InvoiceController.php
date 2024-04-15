@@ -32,7 +32,7 @@ class InvoiceController extends Controller
             $query->where('invoice_date', '<=', $end_date);
         }
 
-        if($sortBy && $sortDirection){
+        if ($sortBy && $sortDirection) {
             $query->orderBy($sortBy, $sortDirection);
         }
 
@@ -43,10 +43,12 @@ class InvoiceController extends Controller
 
         return view('invoice_list', compact('invoices', 'sortBy', 'sortDirection'));
     }
+
     public function create()
     {
         return view('invoice_create');
     }
+
     public function store(StoreRequest $request)
     {
         $invoice = new Invoice($request->validated());
@@ -55,6 +57,7 @@ class InvoiceController extends Controller
         $invoice->save();
         return redirect()->route('invoices.index');
     }
+
     public function edit($id)
     {
         $invoice = Invoice::find($id);
@@ -68,10 +71,7 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request);
-        // Znajdź fakturę do aktualizacji
         $invoice = Invoice::findOrFail($id);
-        // Zaktualizuj atrybuty faktury na podstawie danych z formularza
         $invoice->invoice_number = $request->input('invNumber');
         $invoice->product_name = $request->input('invProductName');
         $invoice->quantity = $request->input('invQuantity');
@@ -79,23 +79,13 @@ class InvoiceController extends Controller
         $invoice->place = $request->input('invPlace');
         $invoice->invoice_date = $request->input('invDate');
         $invoice->vat_rate = $request->input('quantityToRemove');
-
-        // Zapisz zmiany
         $invoice->save();
-
-        if($request -> search){
+        if ($request->search) {
             return redirect()->back();
         }
-
-        // Przekieruj użytkownika po aktualizacji
         return redirect()->route('invoices.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
     }
 
-
-
-    public function destroy(Request $request)
-    {
-    }
     public function search(Request $request)
     {
 
@@ -121,7 +111,7 @@ class InvoiceController extends Controller
             $query->where('invoice_date', '<=', $end_date);
         }
 
-        if($sortBy && $sortDirection){
+        if ($sortBy && $sortDirection) {
             $query->orderBy($sortBy, $sortDirection);
         }
 
@@ -129,6 +119,7 @@ class InvoiceController extends Controller
 
         return view('invoice_search', compact('results', 'sortBy', 'sortDirection'));
     }
+
     public function deleteStock(DeleteStockRequest $request)
     {
         $request = $request->validated();
@@ -148,11 +139,12 @@ class InvoiceController extends Controller
             'operation_date' => $invDate, // lub inna data operacji
             'move_to' => '',
         ]);
-        if($request ['search']){
+        if ($request ['search']) {
             return redirect()->back();
         }
         return redirect()->route('invoices.index')->with('success', 'Liczbe sztuk pomyślnie odjęto.');
     }
+
     public function addStock(AddStockRequest $req)
     {
         $req = $req->validated();
@@ -169,14 +161,15 @@ class InvoiceController extends Controller
             'invoice_id' => $invoice_number,
             'product_name' => $product_name,
             'quantity' => $quantityToAdd, // ujemna ilość oznacza odejmowanie z zapasów
-            'operation_date' =>  $invDate, // lub inna data operacji
+            'operation_date' => $invDate, // lub inna data operacji
             'move_to' => '', // Możesz dostosować to pole do swoich potrzeb
         ]);
-        if($req ['search']){
+        if ($req ['search']) {
             return redirect()->back();
         }
         return redirect()->route('invoices.index')->with('success', 'Liczbe sztuk pomyślnie dodano.');
     }
+
     public function moveStock(MoveStockRequest $request)
     {
         // Pobierz zwalidowane dane z żądania
@@ -206,7 +199,7 @@ class InvoiceController extends Controller
             'operation_date' => $operationDate,
             'move_to' => $placeToMove,
         ]);
-        if($request ['search']){
+        if ($request ['search']) {
             return redirect()->back();
         }
 

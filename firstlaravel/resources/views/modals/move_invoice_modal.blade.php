@@ -19,7 +19,7 @@
                     <br>
                     <br>
                     <label for="quantityToMove">Liczba sztuk do przeniesienia:</label>
-                    <input type="number" min="0" value="0" id="quantityToMove" name="quantityToMove" class="form-control">
+                    <input type="number" min="1" value="1" id="quantityToMove" name="quantityToMove" class="form-control">
                     <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz przenieść.</small>
                     <br>
                     <br>
@@ -28,7 +28,6 @@
                     <small id="quantityHelp" class="form-text text-muted">Podaj date operacji</small>
                     <input type="hidden" name="id" value="{{$invoice->id}}"/>
                     <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}"/>
-                    <!-- Dodaj pole jako ukryte pole -->
                     <input type="hidden" name="product_name" value="{{ $invoice->product_name }}"/>
                     <input type="hidden" name="search" value="{{$search ?? null}}"/>
                 </div>

@@ -15,7 +15,7 @@
         <div class="row justify-content-center">
             <div class="col-8">
                 <!-- Table -->
-                <table class="table table-bordered text-white text-center" style="background-color: #1E2F47;">
+                <table class="table text-white text-center" style="background-color: #1E2F47;">
                     <!-- Table head style -->
                     <thead class="thead-dark">
                     <!-- Table head writing -->
@@ -25,7 +25,7 @@
                         <th scope="col">Nazwa produktu</th>
                         <th scope="col">Data operacji</th>
                         <th scope="col">Ilość</th>
-                        <th scope="col">Przenieś do</th>
+                        <th scope="col">Przenieśenie</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
@@ -34,7 +34,7 @@
                     <!-- Printing all records from the stock_controls table -->
                     @foreach ($results as $result)
                         <!-- Table content writing -->
-                        <tr>
+                        <tr class="border-0">
                             <td>{{ $result->title }}</td>
                             <td>{{ $result->invoice_id }}</td>
                             <td>{{ $result->product_name }}</td>

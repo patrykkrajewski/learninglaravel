@@ -19,14 +19,13 @@
                     @csrf
                     @method('PUT')
                     <label for="quantityToAdd">Liczba do dodania:</label>
-                    <input type="number" min="0" id="quantityToAdd" name="quantityToAdd" class="form-control"
-                           value="">
+                    <input type="number" min="1" value="1" id="quantityToAdd" name="quantityToAdd" class="form-control">
                     <input type="hidden" name="id" value="{{$invoice->id}}"/>
                     <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}"/>
                     <!-- Dodaj pole jako ukryte pole -->
                     <input type="hidden" name="product_name" value="{{ $invoice->product_name }}"/>
                     <!-- Dodaj pole jako ukryte pole -->
-                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz dodać.</small>
+                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk którą chcesz dodać.</small>
                     <label for="invDate">Data wystawienia faktury:</label>
                     <input type="date" value="{{ $invoice->invoice_date->format('Y-m-d')}}" id="invDate"
                            name="invDate" class="form-control">
