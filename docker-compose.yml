@@ -15,8 +15,6 @@ services:
     ports:
       - "5000:8000"
       - "3000:3000"
-    volumes:
-      - ./firstlaravel:/var/www/html
     links:
       - db
     networks:
@@ -57,6 +55,3 @@ services:
     networks:
       network:
         ipv4_address: 172.25.0.4
-
-volumes:
-  dbdata:
