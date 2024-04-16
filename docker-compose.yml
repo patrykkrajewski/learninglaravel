@@ -9,7 +9,7 @@ services:
   app:
     build:
       dockerfile: Dockerfile
-      context: ./firstlaravel
+      context: .
     container_name: laravel_app
     command: sh -c "composer install && /bin/bash /var/www/html/script.sh"
     ports:
