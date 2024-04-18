@@ -18,10 +18,7 @@
                                 aria-expanded="false" aria-controls="toggleContent{{$loop->iteration}}">
                             <i id="arrowIcon{{$loop->iteration}}" class="fas fa-arrow-down"></i>
                         </button>
-                        <button class="btn btn-outline-light m-auto" type="button"
-                                onclick="window.location.href='{{ route('stock_controls.operation') }}'">
-                            <i><strong>i</strong></i>
-                        </button>
+
                     </div>
                     <div
                         class="col text-center h4 m-auto">{{ ucfirst(\Carbon\Carbon::parse($month)->locale('pl')->isoFormat('MMMM')) }}</div>
@@ -44,14 +41,10 @@
                                 <th scope="col">Data operacji</th>
                                 <th scope="col">Ilość</th>
                                 <th scope="col">Przeniesione</th>
-                                <th></th>
                             </tr>
                             </thead>
-                            <!-- Table content -->
                             <tbody>
-                            <!-- Printing all records from the invoice table -->
                             @foreach($data['stocks'] as $stock)
-                                <!-- Table content writing -->
                                 <tr class="border-0">
                                     <td>{{ $stock['title'] }}</td>
                                     <td>{{ $stock['invoice_id'] }}</td>
@@ -60,7 +53,7 @@
                                     <td>{{ $stock['quantity'] }} szt.</td>
                                     <td>{{ $stock['move_to'] }}</td>
                                     <td>
-                                        <a href=" " data-toggle="modal" data-target="#edit-modal-{{ $loop->index }}" class="btn btn-primary m-auto">
+                                        <a href="{{ route('stock_controls.operation', ['month' => $month, 'id' => $stock->id]) }}" data-toggle="modal" data-target="#edit-modal-{{ $stock->id }}" class="btn btn-primary m-auto">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     </td>

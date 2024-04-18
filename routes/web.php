@@ -15,6 +15,7 @@ use App\Http\Controllers\StockControlController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::prefix('invoices')->name('invoices.')->group(function () {
     Route::get('/', [InvoiceController::class, 'index'])->name('index');
     Route::get('/create', [InvoiceController::class, 'create'])->name('create');
@@ -31,7 +32,7 @@ Route::prefix('stock_controls')->name('stock_controls.')->group(function () {
     Route::get('/edit/{id}', [StockControlController::class, 'edit'])->name('edit');
     Route::put('/update/{id}', [StockControlController::class, 'update'])->name('update');
     Route::get('/search', [StockControlController::class, 'search'])->name('search');
-    Route::get('/operation', [StockControlController::class, 'operation'])->name('operation');
+    Route::get('/operation/{month}', [StockControlController::class, 'operation'])->name('operation');
 });
 
 

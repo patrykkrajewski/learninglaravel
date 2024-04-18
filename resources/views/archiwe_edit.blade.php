@@ -5,12 +5,14 @@
         <div class="row">
             <!-- Header name -->
             <h1 class="strong d-flex justify-content-center mt-4">Archiwum</h1>
+            <h1 class="strong d-flex justify-content-center">{{ $month }}</h1>
         </div>
         @include('components.stock_controls_search')
         @include('components.alert')
-        <div class=" justify-content-center w-75 container">
 
-            <div class="col-12 w-100">
+        <div class="container rounded text-white w-75 p-1 mb-2" style="background-color: #1E2F47">
+            <!-- Table z rekordami dla danego miesiąca -->
+            <div class="col-8 w-100">
                 <!-- Table -->
                 <table class="table text-white text-center" style="background-color:#1E2F47;">
                     <!-- Table head style -->
@@ -23,14 +25,13 @@
                         <th scope="col">Data operacji</th>
                         <th scope="col">Ilość</th>
                         <th scope="col">Przeniesione</th>
-                        <th scope="col"></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <!-- Table content -->
                     <tbody>
-                    <!-- Printing all records from the invoice table -->
+                    <!-- Wyświetlenie rekordów dla danego miesiąca -->
                     @foreach($stocks as $stock)
-                        <!-- Table content writing -->
                         <tr class="border-0">
                             <td>{{ $stock->title }}</td>
                             <td>{{ $stock->invoice_id }}</td>
@@ -39,12 +40,11 @@
                             <td>{{ $stock->quantity }} szt.</td>
                             <td>{{ $stock->move_to }}</td>
                             <td>
-                                <a href=" " data-toggle="modal"
-                                   data-target="#edit-modal-{{$stock->id}}"
-                                   class="btn btn-primary m-auto">
+                                <a href="{{ route('stock_controls.operation', ['month' => $month, 'id' => $stock->id]) }}" data-toggle="modal" data-target="#edit-modal-{{ $stock->id }}" class="btn btn-primary m-auto">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             </td>
+
                         </tr>
                     @endforeach
                     </tbody>
@@ -52,12 +52,10 @@
             </div>
         </div>
     </div>
-    @foreach($stocks as $stock)
-        @include('modals.archiwe_edit_modal', ['id' => $stock -> id, 'search' => 1])
-    @endforeach
-    <!--Script links -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-@endsection
 
+    <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+@endsection

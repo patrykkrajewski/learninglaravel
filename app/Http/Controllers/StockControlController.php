@@ -74,14 +74,16 @@ class StockControlController extends Controller
         $stock = StockControl::findOrFail($id);
         return view('stock_controls_edit', compact('stock'));
     }
-    public function operation()
+    public function operation($month)
     {
-        // Assuming you have data fetched from your model or somewhere else
-        $stocks = StockControl::all(); // Example: Fetching all stocks from the Stock model
+        $stocks = StockControl::whereYear('operation_date', Carbon::parse($month)->year)
+            ->whereMonth('operation_date', Carbon::parse($month)->month)
+            ->get();
 
-        // Pass the $stocks data to the view
-        return view('archiwe_edit', ['stocks' => $stocks]);
+        // Przekazujemy dane do widoku index, który wyświetli rekordy z danego miesiąca
+        return view('archiwe_edit', ['stocks' => $stocks, 'month' => $month]);
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -98,17 +100,22 @@ class StockControlController extends Controller
             'product_name' => 'required',
             'operation_date' => 'required',
             'quantity' => 'required|numeric',
-            'move_to' => ''
+            'move_to' => '' // Usuń puste pole move_to
         ]);
+
         // Znajdź istniejący rekord w bazie danych
         $stock = StockControl::findOrFail($id);
+
         // Aktualizuj pola rekordu na podstawie danych z formularza
         $stock->title = $request->input('title');
         $stock->invoice_id = $request->input('invoice_id');
         $stock->product_name = $request->input('product_name');
         $stock->quantity = $request->input('quantity');
         $stock->operation_date = $request->input('operation_date');
-        $stock->move_to = $request->input('move_to');
+
+        // Sprawdź, czy move_to jest przekazane w żądaniu, jeśli nie, ustaw null
+        $move_to = $request->input('move_to'); // Pobierz wartość move_to
+        $stock->move_to = $move_to !== null ? $move_to : ''; // Jeśli move_to nie jest null, użyj jego wartości, w przeciwnym razie ustaw pusty string
 
         // Zapisz zmiany w bazie danych
         $stock->save();
@@ -116,6 +123,8 @@ class StockControlController extends Controller
         // Przekieruj użytkownika po zapisaniu
         return redirect()->route('stock_controls.index')->with('success', 'Rekord został zaktualizowany pomyślnie.');
     }
+
+
 
     public function search(Request $request)
     {
