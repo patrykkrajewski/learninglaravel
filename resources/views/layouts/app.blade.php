@@ -44,7 +44,7 @@
         @yield('content')
     </div>
     <!-- Footer -->
-    <a href="https://umg.edu.pl" class="rounded-top-4  footer fixed-bottom p-3 text-white text-center mt-2 text-decoration-none"
+    <a href="https://umg.edu.pl" class="footer fixed-bottom p-3 text-white text-center mt-2 text-decoration-none"
        style="background-color: #111E2B" target="_blank">© Uniwersytet Morski w Gdyni 2024</a>
 </div>
 

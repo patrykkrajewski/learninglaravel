@@ -74,6 +74,14 @@ class StockControlController extends Controller
         $stock = StockControl::findOrFail($id);
         return view('stock_controls_edit', compact('stock'));
     }
+    public function operation()
+    {
+        // Assuming you have data fetched from your model or somewhere else
+        $stocks = StockControl::all(); // Example: Fetching all stocks from the Stock model
+
+        // Pass the $stocks data to the view
+        return view('archiwe_edit', ['stocks' => $stocks]);
+    }
     /**
      * Update the specified resource in storage.
      *

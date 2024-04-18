@@ -31,6 +31,7 @@ Route::prefix('stock_controls')->name('stock_controls.')->group(function () {
     Route::get('/edit/{id}', [StockControlController::class, 'edit'])->name('edit');
     Route::put('/update/{id}', [StockControlController::class, 'update'])->name('update');
     Route::get('/search', [StockControlController::class, 'search'])->name('search');
+    Route::get('/operation', [StockControlController::class, 'operation'])->name('operation');
 });
 
 
