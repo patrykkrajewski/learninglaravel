@@ -18,6 +18,10 @@
                                 aria-expanded="false" aria-controls="toggleContent{{$loop->iteration}}">
                             <i id="arrowIcon{{$loop->iteration}}" class="fas fa-arrow-down"></i>
                         </button>
+                        <a href="{{ route('stock_controls.operation', ['month' => $month]) }}" class="btn btn-outline-light m-auto">
+                            <i><strong>i</strong></i>
+                        </a>
+
 
                     </div>
                     <div
@@ -52,14 +56,8 @@
                                     <td>{{ \Carbon\Carbon::parse($stock['operation_date'])->format('Y-m-d') }}</td>
                                     <td>{{ $stock['quantity'] }} szt.</td>
                                     <td>{{ $stock['move_to'] }}</td>
-                                    <td>
-                                        <a href="{{ route('stock_controls.operation', ['month' => $month, 'id' => $stock->id]) }}" data-toggle="modal" data-target="#edit-modal-{{ $stock->id }}" class="btn btn-primary m-auto">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
                                 </tr>
                             @endforeach
-
                             </tbody>
                         </table>
                     </div>
@@ -68,7 +66,7 @@
         @endforeach
     </div>
 
-    <!-- Bootstrapa -->
+    <!-- Bootstrap -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <!-- JavaScript -->

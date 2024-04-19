@@ -34,5 +34,6 @@ Route::prefix('stock_controls')->name('stock_controls.')->group(function () {
     Route::get('/search', [StockControlController::class, 'search'])->name('search');
     Route::get('/operation/{month}', [StockControlController::class, 'operation'])->name('operation');
 });
+Route::get('/export', [StockControlController::class, 'export'])->name('export');
 
 

@@ -36,7 +36,7 @@
             <div class="mt-2">
                 <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5  ">Lista faktur</a>
                 <a href="{{ route('stock_controls.index') }}" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
-                <a href="" class="text-decoration-none text-white fs-5">Generuj Excel</a></div>
+                <a href="{{ route('export') }}" class="text-decoration-none text-white fs-5">Generuj Excel</a></div>
         </div>
     </div>
     <!--Page content -->

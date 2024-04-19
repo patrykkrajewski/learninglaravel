@@ -7,6 +7,10 @@ use App\Models\StockControl;
 use App\Traits\MergeRecordsByTitle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Exports\DataExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 
 class StockControlController extends Controller
@@ -74,15 +78,26 @@ class StockControlController extends Controller
         $stock = StockControl::findOrFail($id);
         return view('stock_controls_edit', compact('stock'));
     }
+
+    public function export()
+    {
+        return Excel::download(new DataExport, 'data.xlsx');
+    }
+
     public function operation($month)
     {
-        $stocks = StockControl::whereYear('operation_date', Carbon::parse($month)->year)
-            ->whereMonth('operation_date', Carbon::parse($month)->month)
+        // Parsuj przekazany miesiąc do obiektu Carbon
+        $date = Carbon::parse($month);
+
+        // Pobierz rekordy StockControl dla danego miesiąca
+        $stocks = StockControl::whereYear('operation_date', $date->year)
+            ->whereMonth('operation_date', $date->month)
             ->get();
 
-        // Przekazujemy dane do widoku index, który wyświetli rekordy z danego miesiąca
+        // Przekazujemy dane do widoku archiwe_edit, który wyświetli rekordy z danego miesiąca
         return view('archiwe_edit', ['stocks' => $stocks, 'month' => $month]);
     }
+
 
     /**
      * Update the specified resource in storage.
