@@ -18,8 +18,10 @@
                                 aria-expanded="false" aria-controls="toggleContent{{$loop->iteration}}">
                             <i id="arrowIcon{{$loop->iteration}}" class="fas fa-arrow-down"></i>
                         </button>
+
                     </div>
-                    <div class="col text-center h4 m-auto">{{ ucfirst(\Carbon\Carbon::parse($month)->locale('pl')->isoFormat('MMMM')) }}</div>
+                    <div
+                        class="col text-center h4 m-auto">{{ ucfirst(\Carbon\Carbon::parse($month)->locale('pl')->isoFormat('MMMM')) }}</div>
                     <div class="col h4 text-center m-auto">
                         01/{{ \Carbon\Carbon::parse($month)->endOfMonth()->format('d.m.Y') }}
                     </div>
@@ -39,30 +41,25 @@
                                 <th scope="col">Data operacji</th>
                                 <th scope="col">Ilość</th>
                                 <th scope="col">Przeniesione</th>
-                                <th scope="col"></th>
                             </tr>
                             </thead>
-                            <!-- Table content -->
                             <tbody>
-                            <!-- Printing all records from the invoice table -->
                             @foreach($data['stocks'] as $stock)
-                                <!-- Table content writing -->
                                 <tr class="border-0">
                                     <td>{{ $stock['title'] }}</td>
                                     <td>{{ $stock['invoice_id'] }}</td>
                                     <td>{{ $stock['product_name'] }}</td>
-                                    <td>{{\Carbon\Carbon::parse($stock['operation_date'])->format('Y-m-d')}}</td>
+                                    <td>{{ \Carbon\Carbon::parse($stock['operation_date'])->format('Y-m-d') }}</td>
                                     <td>{{ $stock['quantity'] }} szt.</td>
                                     <td>{{ $stock['move_to'] }}</td>
                                     <td>
-                                        <!-- Edit button -->
-                                        <button type="button" class="btn btn-primary m-auto" data-bs-toggle="modal"
-                                                data-bs-target="#edit-modal-{{ $stock['id'] }}">
+                                        <a href="{{ route('stock_controls.operation', ['month' => $month, 'id' => $stock->id]) }}" data-toggle="modal" data-target="#edit-modal-{{ $stock->id }}" class="btn btn-primary m-auto">
                                             <i class="fas fa-edit"></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
+
                             </tbody>
                         </table>
                     </div>
