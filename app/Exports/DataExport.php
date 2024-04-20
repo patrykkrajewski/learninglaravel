@@ -1,10 +1,14 @@
 <?php
+
 namespace App\Exports;
 
+use App\Models\Invoice;
 use App\Models\StockControl;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class DataExport implements FromCollection, WithHeadings
 {
@@ -13,18 +17,18 @@ class DataExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        // Pobierz dane z modelu StockControl
-        $stocks = StockControl::all();
-
-        // Przekształć dane na kolekcję z dostosowanymi nagłówkami kolumn
-        $data = $stocks->map(function ($stock) {
+        $invoices = Invoice::all();
+        $lp = 0;
+        $data = $invoices->map(function ($invoice) use (&$lp) {
             return [
-                'LP.' => $stock->id, // Zakładając, że 'id' jest numerem porządkowym
-                'NAZWA TOWARU' => $stock->product_name,
-                'Faktura' => $stock->invoice_number,
-                'JM' => 'szt.',
-                'CENA(netto)' => $stock->net_price,
-                'Stan końcowy' => $stock->final_stock,
+                'LP.' => ++$lp,
+                'Nazwa towaru' => $invoice->product_name,
+                'Faktura' => $invoice->invoice_number,
+                'CENA(netto)' => $invoice->price,
+                'Stan na start' => $invoice->invoice_quantity,
+                'Wartość stanu na start' => $invoice->invoice_quantity * $invoice->price,
+                'Rozchody' => '',
+                'Wartość na sprzedanych' => '',
             ];
         });
 
@@ -39,11 +43,18 @@ class DataExport implements FromCollection, WithHeadings
     {
         return [
             'LP.',
-            'NAZWA TOWARU',
+            'Nazwa towaru',
             'Faktura',
-            'JM',
             'CENA(netto)',
-            'Stan Stan końcowy',
+            'Stan na start',
+            'Wartość stanu na start',
+            'Rozchody',
+            'Wartość na sprzedanych'
         ];
     }
+
+    /**
+     * Export data to Excel file.
+     */
+
 }

@@ -29,7 +29,7 @@ class StockControlController extends Controller
         $stocks = StockControl::orderBy('operation_date')->get();
 
         // Initialize arrays to store different types of records
-        $addedStocks = [];
+        $changedStocks = [];
         $removedStocks = [];
         $transferredStocks = [];
 
@@ -37,18 +37,19 @@ class StockControlController extends Controller
         foreach ($stocks as $stock) {
             // Determine the type of operation and store the record accordingly
             if ($stock->title == 'Dodaj') {
-                $addedStocks[] = $stock;
+                $changedStocks[] = $stock;
             } elseif ($stock->title == 'Usuń') {
                 $removedStocks[] = $stock;
             } elseif ($stock->title == 'Przeniesienie') {
                 $transferredStocks[] = $stock;
             }
         }
-        $addedStocks = $this->mergeRecordsByTitle(collect($addedStocks), "Dodaj");
-        $removedStocks = $this->mergeRecordsByTitle(collect($removedStocks), "Usuń");
+        $allStocks = array_merge($changedStocks, $removedStocks, $transferredStocks);
+
+        $allStocks = $this->mergeRecordsByTitle(collect($allStocks));
+        //$removedStocks = $this->mergeRecordsByTitle(collect($removedStocks), "Usuń");
 
         // Merge all types of records into a single array
-        $allStocks = array_merge($addedStocks, $removedStocks, $transferredStocks);
 
              //  $allStocks = $this->mergeRecordsByTitle(collect($allStocks), "Usuń");
         // Group the merged records by month
@@ -83,8 +84,7 @@ class StockControlController extends Controller
 
     public function export()
     {
-
-        return Excel::download(new DataExport, 'data.xlsx');
+        return Excel::download(new DataExport(), 'data.xlsx');
     }
 
 
