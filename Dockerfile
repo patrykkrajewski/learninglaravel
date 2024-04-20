@@ -10,9 +10,12 @@ RUN apt-get update && apt-get install -y \
         zip \
         nodejs \
         npm \
-    && docker-php-ext-install intl opcache pdo pdo_mysql zip mysqli \
-    && pecl install apcu \
-    && docker-php-ext-enable apcu
+        libpng-dev \
+        libjpeg-dev \
+    && docker-php-ext-configure gd --with-jpeg \
+    && docker-php-ext-install gd intl opcache pdo pdo_mysql zip mysqli \
+    && pecl install apcu xlswriter \
+    && docker-php-ext-enable apcu xlswriter
 
 # Clean up APT when done
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
