@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y \
         libjpeg-dev \
     && docker-php-ext-configure gd --with-jpeg \
     && docker-php-ext-install gd intl opcache pdo pdo_mysql zip mysqli \
-    && pecl install apcu \
-    && docker-php-ext-enable apcu
+    && pecl install apcu xlswriter \
+    && docker-php-ext-enable apcu xlswriter
 
 # Clean up APT when done
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -31,7 +31,7 @@ COPY script.sh /var/www/html/script.sh
 RUN chmod +x /var/www/html/script.sh
 
 # Install Composer dependencies
-RUN composer install
+RUN composer install --ignore-platform-req=ext-xlswriter --ignore-platform-req=ext-gd
 
 # Install Node.js dependencies and Vite
 RUN npm install \
