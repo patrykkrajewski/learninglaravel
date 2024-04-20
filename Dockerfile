@@ -10,10 +10,7 @@ RUN apt-get update && apt-get install -y \
         zip \
         nodejs \
         npm \
-        libpng-dev \
-        libjpeg-dev \
-    && docker-php-ext-configure gd --with-jpeg \
-    && docker-php-ext-install gd intl opcache pdo pdo_mysql zip mysqli \
+    && docker-php-ext-install intl opcache pdo pdo_mysql zip mysqli \
     && pecl install apcu \
     && docker-php-ext-enable apcu
 
@@ -31,7 +28,7 @@ COPY script.sh /var/www/html/script.sh
 RUN chmod +x /var/www/html/script.sh
 
 # Install Composer dependencies
-RUN composer install
+RUN composer install --ignore-platform-req=ext-xlswriter --ignore-platform-req=ext-gd
 
 # Install Node.js dependencies and Vite
 RUN npm install \
