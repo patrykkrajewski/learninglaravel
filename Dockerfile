@@ -10,15 +10,16 @@ RUN apt-get update && apt-get install -y \
         zip \
         nodejs \
         npm \
-    && docker-php-ext-install intl opcache pdo pdo_mysql zip mysqli \
+        libpng-dev \
+        libjpeg-dev \
+    && docker-php-ext-configure gd --with-jpeg \
+    && docker-php-ext-install gd intl opcache pdo pdo_mysql zip mysqli \
     && pecl install apcu \
     && docker-php-ext-enable apcu
 
 # Clean up APT when done
-RUN apt-get clean && rm -rf  \
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Dodaj polecenie do instalacji biblioteki maatwebsite/excel
-RUN composer require maatwebsite/excel
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

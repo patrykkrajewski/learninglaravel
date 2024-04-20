@@ -10,12 +10,14 @@ use Illuminate\Http\Request;
 use App\Exports\DataExport;
 use Maatwebsite\Excel\Facades\Excel;
 
-
+// Teraz możesz używać klasy VtifulExcel zamiast Excel
 
 
 class StockControlController extends Controller
 {
     use MergeRecordsByTitle;
+
+
     /**
      * Display a listing of the resource.
      *
@@ -81,8 +83,11 @@ class StockControlController extends Controller
 
     public function export()
     {
+
         return Excel::download(new DataExport, 'data.xlsx');
     }
+
+
 
     public function operation($month)
     {
