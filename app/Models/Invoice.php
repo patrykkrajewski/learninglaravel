@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Reedware\LaravelCompositeRelations\HasCompositeRelations;
 
 class Invoice extends Model
 {
     use HasFactory;
-
+    use HasCompositeRelations;
     /**
      * The name of the table associated with the model.
      *
@@ -41,4 +42,11 @@ class Invoice extends Model
         'price' => 'decimal:2',
         'vat_rate' => 'decimal:2',
     ];
+
+    public function stockControls()
+    {
+        return $this->hasMany(StockControl::class);
+    }
 }
+
+

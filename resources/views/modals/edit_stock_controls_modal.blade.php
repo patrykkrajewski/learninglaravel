@@ -13,6 +13,8 @@
                 @csrf
                 @method('PUT')
 
+                <input type="text" id="invoice_id" name="invoice_id" class="d-none"
+                       value="{{ $stock->invoice_id }}">
                 <div class="modal-body">
                     <div class="row">
                         <label for="title">Nazwa operacji:</label>
@@ -21,8 +23,8 @@
                     </div>
                     <div class="row">
                         <label for="invoice_number">Numer faktury:</label>
-                        <input type="text" id="invoice_id" name="invoice_id" class="form-control"
-                               value="{{ $stock->invoice_id }}">
+                        <input type="text" id="invoice_number" name="invoice_number" class="form-control"
+                               value="{{ $stock->invoice->invoice_number }}">
                         <small id="invoiceNumberHelp" class="form-text text-muted">Podaj poprawiony numer
                             faktury.</small>
                     </div>

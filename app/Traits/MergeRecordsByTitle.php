@@ -12,7 +12,7 @@ trait MergeRecordsByTitle
         return $records
             ->groupBy(function ($record) {
                 $record = collect($record);
-                return $record ['product_name'] . '-' . $record['invoice_id'];
+                return $record ['invoice']['product_name'] . '-' . $record['invoice']['invoice_number'];
             })
             ->map(function ($group) {
                 $filterRecords = $group->where('title');

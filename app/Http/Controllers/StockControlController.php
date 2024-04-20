@@ -26,7 +26,7 @@ class StockControlController extends Controller
     public function index()
     {
         // Get all stock controls sorted by operation date
-        $stocks = StockControl::orderBy('operation_date')->get();
+        $stocks = StockControl::with('invoice')->orderBy('operation_date')->get();
 
         // Initialize arrays to store different types of records
         $changedStocks = [];
@@ -117,7 +117,6 @@ class StockControlController extends Controller
         $request->validate([
             'title' => 'required',
             'invoice_id' => 'required',
-            'product_name' => 'required',
             'operation_date' => 'required',
             'quantity' => 'required|numeric',
             'move_to' => '' // Usuń puste pole move_to
@@ -129,7 +128,6 @@ class StockControlController extends Controller
         // Aktualizuj pola rekordu na podstawie danych z formularza
         $stock->title = $request->input('title');
         $stock->invoice_id = $request->input('invoice_id');
-        $stock->product_name = $request->input('product_name');
         $stock->quantity = $request->input('quantity');
         $stock->operation_date = $request->input('operation_date');
 

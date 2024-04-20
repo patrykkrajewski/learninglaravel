@@ -22,7 +22,10 @@ return new class extends Migration
             $table->decimal('vat_rate', 5, 2);
             $table->string('place');
             $table->timestamps();
+            $table->unique(['invoice_number', 'product_name']);
         });
+
+        //Schema::table('invoices', );
 
     }
 

@@ -27,8 +27,8 @@ class DataExport implements FromCollection, WithHeadings
                 'CENA(netto)' => $invoice->price,
                 'Stan na start' => $invoice->invoice_quantity,
                 'Wartość stanu na start' => $invoice->invoice_quantity * $invoice->price,
-                'Rozchody' => '',
-                'Wartość na sprzedanych' => '',
+                'Rozchody' => $invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity'),
+                'Wartość na sprzedanych' => ($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price,
             ];
         });
 

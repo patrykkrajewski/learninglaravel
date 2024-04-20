@@ -133,8 +133,7 @@ class InvoiceController extends Controller
         $invoice->save();
         StockControl::create([
             'title' => 'Usuń',
-            'invoice_id' => $invoice_number,
-            'product_name' => $product_name,
+            'invoice_id' => $id,
             'quantity' => $quantityToRemove, // ujemna ilość oznacza odejmowanie z zapasów
             'operation_date' => $invDate, // lub inna data operacji
             'move_to' => '',
@@ -193,8 +192,7 @@ class InvoiceController extends Controller
         // Stwórz nowy rekord w StockControl
         StockControl::create([
             'title' => 'Przeniesienie',
-            'invoice_id' => $invoiceNumber,
-            'product_name' => $productName,
+            'invoice_id' => $id,
             'quantity' => $quantityToMove,
             'operation_date' => $operationDate,
             'move_to' => $placeToMove,

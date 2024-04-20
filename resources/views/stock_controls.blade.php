@@ -51,8 +51,8 @@
                             @foreach($data['stocks'] as $stock)
                                 <tr class="border-0">
                                     <td>{{ $stock['title'] }}</td>
-                                    <td>{{ $stock['invoice_id'] }}</td>
-                                    <td>{{ $stock['product_name'] }}</td>
+                                    <td>{{ $stock['invoice']['invoice_number'] }}</td>
+                                    <td>{{ $stock['invoice']['product_name'] }}</td>
                                     <td>{{ \Carbon\Carbon::parse($stock['operation_date'])->format('Y-m-d') }}</td>
                                     <td>{{ $stock['quantity'] }} szt.</td>
                                     <td>{{ $stock['move_to'] }}</td>
