@@ -122,12 +122,13 @@ class StockControlController extends Controller
             'quantity' => 'required|numeric',
             'move_to' => '',
         ]);
+        dd(Invoice::findOrFail($id));
+        $invoice->invoice_number = $request->input('invoice_id');
+        $invoice->product_name = $request->input('product_name');
 
         $stock = StockControl::findOrFail($id);
-        dd($stock);
         $stock->title = $request->input('title');
-        $stock->invoice_id = $request->input('invoice_id');
-        $stock->product_name = $request->input('product_name');
+
         $stock->quantity = $request->input('quantity');
         $stock->operation_date = $request->input('operation_date');
 

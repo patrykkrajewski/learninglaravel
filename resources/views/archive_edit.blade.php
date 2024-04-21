@@ -55,7 +55,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     </script>
     @foreach($stocks as $stock)
-        @include('modals.archiwe_edit_modal', ['id' => $stock->id])
+        @include('modals.archive_edit_modal', ['id' => $stock->id])
     @endforeach
     <!--Script links -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
