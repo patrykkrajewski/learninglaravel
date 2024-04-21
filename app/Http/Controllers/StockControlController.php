@@ -82,9 +82,9 @@ class StockControlController extends Controller
         return view('stock_controls_edit', compact('stock'));
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new DataExport(), 'data.xlsx');
+        return Excel::download(new DataExport($request->get('dateStart'), $request->get('dateEnd')), 'data.xlsx');
     }
 
 
@@ -113,33 +113,36 @@ class StockControlController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Walidacja danych wejściowych
+
         $request->validate([
             'title' => 'required',
-            'invoice_id' => 'required',
-            'operation_date' => 'required',
+            'invoice_id' => 'required|exists:invoices,id',
+            'product_name' => 'required',
+            'operation_date' => 'required|date',
             'quantity' => 'required|numeric',
-            'move_to' => '' // Usuń puste pole move_to
+            'move_to' => '',
         ]);
 
-        // Znajdź istniejący rekord w bazie danych
         $stock = StockControl::findOrFail($id);
-
-        // Aktualizuj pola rekordu na podstawie danych z formularza
+        dd($stock);
         $stock->title = $request->input('title');
         $stock->invoice_id = $request->input('invoice_id');
+        $stock->product_name = $request->input('product_name');
         $stock->quantity = $request->input('quantity');
         $stock->operation_date = $request->input('operation_date');
 
-        // Sprawdź, czy move_to jest przekazane w żądaniu, jeśli nie, ustaw null
-        $move_to = $request->input('move_to'); // Pobierz wartość move_to
-        $stock->move_to = $move_to !== null ? $move_to : ''; // Jeśli move_to nie jest null, użyj jego wartości, w przeciwnym razie ustaw pusty string
+        // Optional: Check and set move_to
+        $move_to = $request->input('move_to');
+        $stock->move_to = $move_to !== null ? $move_to : '';
 
-        // Zapisz zmiany w bazie danych
+        // Save the changes
         $stock->save();
 
-        // Przekieruj użytkownika po zapisaniu
-        return redirect()->route('stock_controls.index')->with('success', 'Rekord został zaktualizowany pomyślnie.');
+        // Log for debugging
+        logger()->info('Stock Control Updated:', ['stock_id' => $stock->id, 'invoice_id' => $stock->invoice_id]);
+
+        // Redirect with success message
+        return redirect()->route('stock_controls.index')->with('success', 'Rekord zaktualizowany.');
     }
 
 

@@ -29,7 +29,7 @@
                             </a>
                         </th>
                         <th scope="col"><a href="{{ route('invoices.search', ['sortBy' => 'invoice_date', 'sortDirection' => ($sortBy== 'invoice_date' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="text-decoration-none text-reset">
-                                Data Wystawienia @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'invoice_date' ])
+                                Data wystawienia @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'invoice_date' ])
                             </a>
                         </th>
                         <th scope="col">

@@ -12,12 +12,34 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class DataExport implements FromCollection, WithHeadings
 {
+    private $dateStart;
+    private $dateEnd;
+
+    public function __construct($dateStart = null, $dateEnd = null)
+    {
+        $this->dateStart = $dateStart;
+        $this->dateEnd = $dateEnd;
+    }
+
     /**
      * @return \Illuminate\Support\Collection
      */
+
+
     public function collection()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::when($this->dateStart, function ($q) {
+            //return $q->where('operation_date', '>=', $this->dateStart);
+            $q->whereHas('stockControls', function ($q){
+                $q->where('operation_date', '>=', $this->dateStart);
+            });
+        })
+            ->when($this->dateEnd, function ($q) {
+                $q->whereHas('stockControls', function ($q){
+                    $q->where('operation_date', '<=', $this->dateEnd);
+                });
+            })
+            ->get();
         $lp = 0;
         $data = $invoices->map(function ($invoice) use (&$lp) {
             return [
@@ -35,6 +57,7 @@ class DataExport implements FromCollection, WithHeadings
         // Zwróć kolekcję danych
         return $data;
     }
+
 
     /**
      * Define column headings

@@ -157,8 +157,8 @@ class InvoiceController extends Controller
         $invoice->save();
         StockControl::create([
             'title' => 'Dodaj',
-            'invoice_id' => $invoice_number,
-            'product_name' => $product_name,
+            'invoice_id' => $id,
+            //'product_name' => $product_name,
             'quantity' => $quantityToAdd, // ujemna ilość oznacza odejmowanie z zapasów
             'operation_date' => $invDate, // lub inna data operacji
             'move_to' => '', // Możesz dostosować to pole do swoich potrzeb

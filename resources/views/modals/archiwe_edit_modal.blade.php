@@ -5,7 +5,7 @@
             <!-- Modal Header -->
             <div class="modal-header">
                 <h5 class="modal-title">
-                    Edytujesz fakturę nr {{ $stock->invoice_id }}
+                    Edytujesz fakturę nr {{ $stock['invoice']['invoice_number']}}
                 </h5>
             </div>
             <!-- Modal body -->
@@ -22,14 +22,14 @@
                     <div class="row">
                         <label for="invoice_number">Numer faktury:</label>
                         <input type="text" id="invoice_id" name="invoice_id" class="form-control"
-                               value="{{ $stock->invoice_id }}">
+                               value="{{$stock['invoice']['invoice_number']}}">
                         <small id="invoiceNumberHelp" class="form-text text-muted">Podaj poprawiony numer
                             faktury.</small>
                     </div>
                     <div class="row">
                         <label for="product_name">Nazwa produktu:</label>
                         <input type="text" id="product_name" name="product_name" class="form-control"
-                               value="{{ $stock->product_name }}">
+                               value="{{$stock['invoice']['product_name']}}">
                         <small id="productNameHelp" class="form-text text-muted">Podaj poprawioną nazwę
                             produktu.</small>
                     </div>

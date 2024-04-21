@@ -22,14 +22,14 @@
                     <div class="row">
                         <label for="invoice_number">Numer faktury:</label>
                         <input type="text" id="invoice_id" name="invoice_id" class="form-control"
-                               value="{{ $result->invoice_id }}">
+                               value="{{$result['invoice']['invoice_number']}}">
                         <small id="invoiceNumberHelp" class="form-text text-muted">Podaj poprawiony numer
                             faktury.</small>
                     </div>
                     <div class="row">
                         <label for="product_name">Nazwa produktu:</label>
                         <input type="text" id="product_name" name="product_name" class="form-control"
-                               value="{{ $result->product_name }}">
+                               value="{{$result['invoice']['product_name']}}">
                         <small id="productNameHelp" class="form-text text-muted">Podaj poprawioną nazwę
                             produktu.</small>
                     </div>

@@ -36,7 +36,7 @@
             <div class="mt-2">
                 <a href="{{ route('invoices.index') }}" class="text-decoration-none text-white fs-5  ">Lista faktur</a>
                 <a href="{{ route('stock_controls.index') }}" class="text-decoration-none text-white fs-5 px-4">Archiwum</a>
-                <a href="{{ route('export') }}" class="text-decoration-none text-white fs-5">Generuj Excel</a></div>
+                <a href="" data-toggle="modal" data-target="#excel-modal" class="text-decoration-none text-white fs-5">Generuj Excel</a></div>
         </div>
     </div>
     <!--Page content -->
@@ -48,5 +48,13 @@
        style="background-color: #111E2B" target="_blank">© Uniwersytet Morski w Gdyni 2024</a>
 </div>
 
+
 </body>
 </html>
+
+    @include('modals.excel_modal')
+
+<!--Script links -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

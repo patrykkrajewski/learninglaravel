@@ -36,8 +36,8 @@
                         <!-- Table content writing -->
                         <tr class="border-0">
                             <td>{{ $result->title }}</td>
-                            <td>{{ $result->invoice_id }}</td>
-                            <td>{{ $result->product_name }}</td>
+                            <td>{{ $result['invoice']['invoice_number'] }}</td>
+                            <td>{{ $result['invoice']['product_name'] }}</td>
                             <td>{{ $result->operation_date->format('Y-m-d') }}</td>
                             <td>{{ $result->quantity }}szt.</td>
                             <td>{{ $result->move_to }}</td>

@@ -60,7 +60,7 @@
                     </th>
                     <th scope="col">Podatek VAT</th>
                     <th scope="col">Miejsce</th>
-                    <th>fewfefwefewwfewfewf</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <!--Table content-->
@@ -88,7 +88,7 @@
                             </div>
 
                         </td>
-                        <td class="col d-flex justify-content-center">
+                        <td class="col-12 d-flex justify-content-center">
                             <!-- Delete button-->
                             <a href="" class="btn btn-danger fw-bold mr-2" data-toggle="modal" data-target="#delete-modal-{{$invoice->id}}">
                                 <i class="fas fa-minus"></i>
