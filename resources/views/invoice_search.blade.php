@@ -101,7 +101,7 @@
                     </tbody>
                 </table>
             <!--Scrolling tables-->
-            <div class="col-8 d-flex justify-content-center">
+            <div class="col-12 d-flex justify-content-center">
                 @if($results->previousPageUrl())
                     <!--Left scroll-->
                     <a href="{{$results->previousPageUrl()}}" class="px-5"><img src="{{asset('img/arrow_l.png') }}"
