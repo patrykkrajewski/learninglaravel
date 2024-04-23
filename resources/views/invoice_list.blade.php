@@ -69,7 +69,7 @@
                 @forelse($invoices as $invoice)
                     <!--Table content writing-->
                     <tr>
-                        <td>{{$invoice->invoice_number}}</td>
+                        <td>  {{$invoice->invoice_number}}</td>
                         <td>{{$invoice->product_name}}</td>
                         <td>{{$invoice->invoice_date->format('Y-m-d')}}</td>
                         <td>{{$invoice->invoice_quantity}}szt.</td>
@@ -88,21 +88,19 @@
                             </div>
 
                         </td>
-                        <td>
-                            <div class="col-12 d-flex justify-content-center">
+                        <td class="col d-flex justify-content-start">
                             <!-- Delete button-->
-                            <a href="" class="btn btn-danger fw-bold mr-2" data-toggle="modal" data-target="#delete-modal-{{$invoice->id}}">
+                            <a href="" class="btn btn-danger fw-bold" data-toggle="modal" data-target="#delete-modal-{{$invoice->id}}">
                                 <i class="fas fa-minus"></i>
                             </a>
                             <!-- Edit button-->
-                            <a href="" class="btn btn-primary mr-2" data-toggle="modal" data-target="#edit-modal-{{$invoice->id}}">
+                            <a href="" class="btn btn-primary m-auto" data-toggle="modal" data-target="#edit-modal-{{$invoice->id}}">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <!-- Add button-->
                             <a href="" class="btn btn-success fw-bold" data-toggle="modal" data-target="#add-modal-{{$invoice->id}}">
                                 <i class="fas fa-plus"></i>
                             </a>
-                            </div>
                         </td>
 
                     </tr>

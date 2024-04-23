@@ -12,8 +12,8 @@
         @include('components.alert')
 
         <!-- Table style -->
-        <div class="row justify-content-center">
-            <div class="col-8">
+        <div class=" justify-content-center w-75 container" >
+            <div >
                 <!-- Table -->
                 <table class="table text-white text-center" style="background-color: #1E2F47;">
                     <!-- Table head style -->

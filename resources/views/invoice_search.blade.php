@@ -13,7 +13,7 @@
         <div class=" justify-content-center w-75 container">
 
                 <!--Table-->
-                <table class="table  text-white text-center " style="background-color: #1E2F47;">
+                <table class="table  text-white text-center rounded" style="background-color: #1E2F47;">
                     <!--Table head style-->
                     <thead class="thead-dark">
                     <!--Table head writing-->
@@ -75,8 +75,9 @@
                                     </a>
                                     <span class="px-3">{{$result->place}}</span>
                                 </div>
-                            <td>
-                                <div class="col d-flex justify-content-start">
+
+                            </td>
+                            <td class="col d-flex justify-content-start">
                                 <!-- Delete button-->
                                 <a href=""
                                    class="btn btn-danger fw-bold" data-toggle="modal"
@@ -94,7 +95,6 @@
                                    data-target="#add-modal-{{$result->id}}">
                                     <i class="fas fa-plus"></i>
                                 </a>
-                                </div>
                             </td>
                         </tr>
                     @endforeach

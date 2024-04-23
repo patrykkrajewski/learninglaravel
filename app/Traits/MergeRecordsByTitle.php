@@ -12,15 +12,15 @@ trait MergeRecordsByTitle
         return $records
             ->groupBy(function ($record) {
                 $record = collect($record);
-                return $record ['invoice']['product_name'] . '-' . $record['invoice']['invoice_number'];
+                return $record['invoice']['product_name'] . '-' . $record['invoice']['invoice_number'];
             })
             ->map(function ($group) {
-                $filterRecords = $group->where('title');
+                $filterRecords = $group->where('title')->whereIn('title', ['Dodaj', 'Usuń']);
                 if ($filterRecords->isEmpty()) {
                     return $group;
                 }
-                $filterRecords ->map(function ($item){
-                    if ($item['title'] == 'Dodaj'){
+                $filterRecords->map(function ($item) {
+                    if ($item['title'] == 'Dodaj') {
                         $item['quantity'] = -$item['quantity'];
                     }
                 });
@@ -30,16 +30,18 @@ trait MergeRecordsByTitle
                 $lastOperation = $filterRecords->sortByDesc('id')->first()['title'];
 
                 $group = $group->reject(function ($record) {
-                    //return $record['title'] === $title;
                     return in_array($record['title'], ['Usuń', 'Dodaj']);
                 });
 
-                $mergedRecord = $filterRecords->first();
-                $mergedRecord['quantity'] = $totalQuantity;
-                $mergedRecord['operation_date'] = $newestDate;
-                $mergedRecord['title'] = $lastOperation;
+                if ($filterRecords->count() > 0) {
+                    $mergedRecord = $filterRecords->first();
+                    $mergedRecord['quantity'] = $totalQuantity;
+                    $mergedRecord['operation_date'] = $newestDate;
+                    $mergedRecord['title'] = $lastOperation;
+                    $group->prepend($mergedRecord);
+                }
 
-                return $group->prepend($mergedRecord);
+                return $group;
             })
             ->flatten()
             ->unique()
