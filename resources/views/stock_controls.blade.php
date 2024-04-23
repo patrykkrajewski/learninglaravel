@@ -49,7 +49,7 @@
                             </thead>
                             <tbody>
                             @foreach($data['stocks'] as $stock)
-                                <tr class="border-0">
+                                <tr>
                                     <td>{{ $stock['title'] }}</td>
                                     <td>{{ $stock['invoice']['invoice_number'] }}</td>
                                     <td>{{ $stock['invoice']['product_name'] }}</td>

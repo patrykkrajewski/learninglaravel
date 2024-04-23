@@ -75,7 +75,8 @@
                                     </a>
                                     <span class="px-3">{{$result->place}}</span>
                                 </div>
-                            <td class="col d-flex justify-content-start">
+                            <td>
+                                <div class="col d-flex justify-content-start">
                                 <!-- Delete button-->
                                 <a href=""
                                    class="btn btn-danger fw-bold" data-toggle="modal"
@@ -93,6 +94,7 @@
                                    data-target="#add-modal-{{$result->id}}">
                                     <i class="fas fa-plus"></i>
                                 </a>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

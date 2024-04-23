@@ -100,7 +100,7 @@ class StockControlController extends Controller
             ->get();
 
         // Przekazujemy dane do widoku archiwe_edit, który wyświetli rekordy z danego miesiąca
-        return view('archiwe_edit', ['stocks' => $stocks, 'month' => $month]);
+        return view('archive_edit', ['stocks' => $stocks, 'month' => $month]);
     }
 
 

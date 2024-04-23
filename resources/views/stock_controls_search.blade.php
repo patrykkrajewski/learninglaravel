@@ -41,13 +41,15 @@
                             <td>{{ $result->operation_date->format('Y-m-d') }}</td>
                             <td>{{ $result->quantity }}szt.</td>
                             <td>{{ $result->move_to }}</td>
-                            <td class="col d-flex justify-content-start">
+                            <td>
                                 <!-- Edit button -->
-                                <a href=" " data-toggle="modal"
-                                   data-target="#edit-modal-{{$result->id}}"
-                                   class="btn btn-primary m-auto">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                                <div class="col d-flex justify-content-start">
+                                    <a href=" " data-toggle="modal"
+                                       data-target="#edit-modal-{{$result->id}}"
+                                       class="btn btn-primary m-auto">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

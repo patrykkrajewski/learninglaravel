@@ -23,6 +23,7 @@
                     <!-- Dodaj pole jako ukryte pole -->
                     <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk, które chcesz
                         usunąć.</small>
+                    <br>
                     <label for="invDate">Data wystawienia faktury:</label>
                     <input type="date" value="{{ $invoice->invoice_date->format('Y-m-d')}}" id="invDate"
                            name="invDate" class="form-control">

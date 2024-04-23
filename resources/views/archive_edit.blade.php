@@ -27,7 +27,7 @@
                     <tbody>
                     <!-- Wyświetlenie rekordów dla danego miesiąca -->
                     @foreach($stocks as $stock)
-                        <tr class="border-0">
+                        <tr>
                             <td>{{ $stock->title }}</td>
                             <td>{{ $stock['invoice']['invoice_number'] }}</td>
                             <td>{{ $stock['invoice']['product_name'] }}</td>
@@ -35,6 +35,7 @@
                             <td>{{ $stock->quantity }} szt.</td>
                             <td>{{ $stock->move_to }}</td>
                             <td>
+                                <div ></div>
                                 <a href="" data-toggle="modal" data-target="#edit-modal-{{ $stock->id }}"
                                    class="btn btn-primary m-auto">
                                     <i class="fas fa-edit"></i>

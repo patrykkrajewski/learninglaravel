@@ -17,11 +17,9 @@
                     <input type="text"  id="placeToMove" name="placeToMove" class="form-control" value="{{$invoice->place}}">
                     <small id="placeHelp" class="form-text text-muted">Podaj miejsce przeniesienia.</small>
                     <br>
-                    <br>
                     <label for="quantityToMove">Liczba sztuk do przeniesienia:</label>
                     <input type="number" min="1" value="1" id="quantityToMove" name="quantityToMove" class="form-control">
                     <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk które chcesz przenieść.</small>
-                    <br>
                     <br>
                     <label for="operationDateToMove">Data operacja:</label>
                     <input type="date" value="{{date("Y-m-d")}}" id="operationDateToMove" name="operationDateToMove" class="form-control">

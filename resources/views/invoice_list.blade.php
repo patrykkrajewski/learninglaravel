@@ -60,7 +60,7 @@
                     </th>
                     <th scope="col">Podatek VAT</th>
                     <th scope="col">Miejsce</th>
-                    <th></th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <!--Table content-->
@@ -69,7 +69,7 @@
                 @forelse($invoices as $invoice)
                     <!--Table content writing-->
                     <tr>
-                        <td>  {{$invoice->invoice_number}}</td>
+                        <td>{{$invoice->invoice_number}}</td>
                         <td>{{$invoice->product_name}}</td>
                         <td>{{$invoice->invoice_date->format('Y-m-d')}}</td>
                         <td>{{$invoice->invoice_quantity}}szt.</td>
@@ -88,7 +88,8 @@
                             </div>
 
                         </td>
-                        <td class="col-12 d-flex justify-content-center">
+                        <td>
+                            <div class="col-12 d-flex justify-content-center">
                             <!-- Delete button-->
                             <a href="" class="btn btn-danger fw-bold mr-2" data-toggle="modal" data-target="#delete-modal-{{$invoice->id}}">
                                 <i class="fas fa-minus"></i>
@@ -101,6 +102,7 @@
                             <a href="" class="btn btn-success fw-bold" data-toggle="modal" data-target="#add-modal-{{$invoice->id}}">
                                 <i class="fas fa-plus"></i>
                             </a>
+                            </div>
                         </td>
 
                     </tr>
