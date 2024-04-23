@@ -50,7 +50,7 @@ class DataExport implements FromCollection, WithHeadings
                 'Wartość stanu na start' => number_format($invoice->invoice_quantity * $invoice->price, 2, ',', '.') . ' zł', // Format price in zł
                 'Rozchody' => $invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity'). 'szt.',
                 'Wartość sprzedanych [Netto]' => number_format(($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price, 2, ',', '.') . ' zł',
-                'Wartość na sprzedanych [Brutto]' => number_format(($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price, 2, ',', '.') . ' zł',
+                'Wartość sprzedanych [Brutto]' => number_format(($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price + (($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price) * $invoice->vat_rate * 0.01 , 2, ',', '.') . ' zł',
             ];
         });
 
