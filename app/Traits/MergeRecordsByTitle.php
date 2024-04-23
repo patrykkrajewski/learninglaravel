@@ -35,9 +35,15 @@ trait MergeRecordsByTitle
 
                 if ($filterRecords->count() > 0) {
                     $mergedRecord = $filterRecords->first();
-                    $mergedRecord['quantity'] = $totalQuantity;
+                    if($totalQuantity<0){
+                        $mergedRecord['title'] = 'Dodaj';
+                        $mergedRecord['quantity'] = - $totalQuantity;
+                    } else {
+                        $mergedRecord['quantity'] = $totalQuantity;
+                        $mergedRecord['title'] = 'Usuń';
+                    }
                     $mergedRecord['operation_date'] = $newestDate;
-                    $mergedRecord['title'] = $lastOperation;
+
                     $group->prepend($mergedRecord);
                 }
 

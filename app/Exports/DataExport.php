@@ -24,12 +24,9 @@ class DataExport implements FromCollection, WithHeadings
     /**
      * @return \Illuminate\Support\Collection
      */
-
-
     public function collection()
     {
         $invoices = Invoice::when($this->dateStart, function ($q) {
-            //return $q->where('operation_date', '>=', $this->dateStart);
             $q->whereHas('stockControls', function ($q){
                 $q->where('operation_date', '>=', $this->dateStart);
             });
@@ -40,24 +37,26 @@ class DataExport implements FromCollection, WithHeadings
                 });
             })
             ->get();
+
         $lp = 0;
         $data = $invoices->map(function ($invoice) use (&$lp) {
             return [
                 'LP.' => ++$lp,
                 'Nazwa towaru' => $invoice->product_name,
                 'Faktura' => $invoice->invoice_number,
-                'CENA(netto)' => $invoice->price,
-                'Stan na start' => $invoice->invoice_quantity,
-                'Wartość stanu na start' => $invoice->invoice_quantity * $invoice->price,
-                'Rozchody' => $invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity'),
-                'Wartość na sprzedanych' => ($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price,
+                'CENA(netto)' => number_format($invoice->price, 2, ',', '.') . ' zł', // Format price in zł
+                'Vat' => $invoice->vat_rate . '%',
+                'Stan na start' => $invoice->invoice_quantity. 'szt.',
+                'Wartość stanu na start' => number_format($invoice->invoice_quantity * $invoice->price, 2, ',', '.') . ' zł', // Format price in zł
+                'Rozchody' => $invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity'). 'szt.',
+                'Wartość sprzedanych [Netto]' => number_format(($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price, 2, ',', '.') . ' zł',
+                'Wartość na sprzedanych [Brutto]' => number_format(($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price, 2, ',', '.') . ' zł',
             ];
         });
 
-        // Zwróć kolekcję danych
+        // Return the data collection
         return $data;
     }
-
 
     /**
      * Define column headings
@@ -69,6 +68,7 @@ class DataExport implements FromCollection, WithHeadings
             'Nazwa towaru',
             'Faktura',
             'CENA(netto)',
+            'Vat',
             'Stan na start',
             'Wartość stanu na start',
             'Rozchody',
@@ -79,5 +79,5 @@ class DataExport implements FromCollection, WithHeadings
     /**
      * Export data to Excel file.
      */
-
 }
+

@@ -43,7 +43,7 @@
                     <div class="row">
                         <label for="quantity">Ilość sztuk:</label>
                         <input type="number" id="quantity" name="quantity" class="form-control"
-                               value="{{ $stock->quantity }}">
+                               value="{{ $stock->quantity }}" min="1">
                         <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną ilość sztuk.</small>
                     </div>
                     <div class="row">

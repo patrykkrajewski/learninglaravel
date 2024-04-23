@@ -51,10 +51,10 @@ class StockControlController extends Controller
 
         // Merge all types of records into a single array
 
-             //  $allStocks = $this->mergeRecordsByTitle(collect($allStocks), "Usuń");
+        //  $allStocks = $this->mergeRecordsByTitle(collect($allStocks), "Usuń");
         // Group the merged records by month
         $groupedStocks = collect($allStocks)->groupBy(function ($item) {
-            return $item['operation_date']=Carbon::parse($item['operation_date'])->format('Y-m');
+            return $item['operation_date'] = Carbon::parse($item['operation_date'])->format('Y-m');
         });
 
         // Prepare the data to be passed to the view
@@ -73,7 +73,7 @@ class StockControlController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -86,7 +86,6 @@ class StockControlController extends Controller
     {
         return Excel::download(new DataExport($request->get('dateStart'), $request->get('dateEnd')), 'data.xlsx');
     }
-
 
 
     public function operation($month)
@@ -107,28 +106,27 @@ class StockControlController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
 
-        $request->validate([
-            'title' => 'required',
-            'invoice_id' => 'required|exists:invoices,id',
-            'product_name' => 'required',
-            'operation_date' => 'required|date',
-            'quantity' => 'required|numeric',
-            'move_to' => '',
-        ]);
-        dd(Invoice::findOrFail($id));
-        $invoice->invoice_number = $request->input('invoice_id');
-        $invoice->product_name = $request->input('product_name');
+//        $request->validate([
+//            'title' => 'required',
+//            'invoice_id' => 'required|exists:invoices,id',
+//            'product_name' => 'required',
+//            'operation_date' => 'required|date',
+//            'quantity' => 'required|numeric',
+//            'move_to' => '',
+//        ]);
+
 
         $stock = StockControl::findOrFail($id);
         $stock->title = $request->input('title');
 
+        $oldQuantity = $stock->quantity;
         $stock->quantity = $request->input('quantity');
         $stock->operation_date = $request->input('operation_date');
 
@@ -136,16 +134,54 @@ class StockControlController extends Controller
         $move_to = $request->input('move_to');
         $stock->move_to = $move_to !== null ? $move_to : '';
 
-        // Save the changes
+        $invoice = Invoice::findOrFail($stock->invoice_id);
+
+        $invoice->invoice_number = $request->input('invoice_id');
         $stock->save();
 
+
+
+
+        $dif = $request->quantity - $oldQuantity;
+
+        if($stock->quantity != 0) {
+            if ($stock->title == 'Usuń') {
+                if ($oldQuantity <= $request->quantity) {
+
+                    $invoice->quantity = $invoice->quantity - $dif;
+                } else {
+                    $invoice->quantity = $invoice->quantity + $dif;
+                }
+            }
+
+            if ($stock->title == 'Dodaj') {
+                if ($oldQuantity <= $request->quantity) {
+
+                    $invoice->quantity = $invoice->quantity + $dif;
+                } else {
+                    $invoice->quantity = $invoice->quantity - $dif;
+                }
+            }
+
+            if ($stock->title == 'Przeniesienie') {
+                if ($oldQuantity <= $request->quantity) {
+
+                    $invoice->quantity = $invoice->quantity - $dif;
+                } else {
+                    $invoice->quantity = $invoice->quantity + $dif;
+                }
+            }
+        }
+        $invoice->product_name = $request->input('product_name');
+
+
+        $invoice->save();
         // Log for debugging
         logger()->info('Stock Control Updated:', ['stock_id' => $stock->id, 'invoice_id' => $stock->invoice_id]);
 
         // Redirect with success message
         return redirect()->route('stock_controls.index')->with('success', 'Rekord zaktualizowany.');
     }
-
 
 
     public function search(Request $request)
