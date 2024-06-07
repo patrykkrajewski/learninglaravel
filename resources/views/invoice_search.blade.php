@@ -47,6 +47,7 @@
                                 Cena [Netto] @include('components.sort-icon', ['sortBy' => $sortBy ?? null, 'sortDirection' => $sortDirection ?? null, 'col' => 'price' ])
                             </a>
                         </th>
+                        <th scope="col">Suma</th>
                         <th scope="col">Podatek VAT</th>
                         <th scope="col">Miejsce</th>
                         <th scope="col"></th>
@@ -64,6 +65,7 @@
                             <td>{{ $result->invoice_quantity }}szt.</td>
                             <td>{{ $result->quantity }}szt.</td>
                             <td>{{ $result->price }}zł</td>
+                            <td>{{$result->price * $result->quantity}} zł</td>
                             <td>{{ intval($result->vat_rate) }}%</td>
                             <td>
                                 <!-- Move button-->

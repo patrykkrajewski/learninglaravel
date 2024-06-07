@@ -24,8 +24,7 @@
             <a href="{{route('invoices.index')}}"
                class="text-decoration-none text-white fs-5">
                 <img src="{{asset('img/logo_umg.svg') }}" alt="" class="img-fluid px-2" style="height: 9vh;">Biuro
-                Promocji
-                i Komunikacji</a>
+                Promocji / Sklepik UMG</a>
         </div>
         <!--Right part of header-->
         <div class="col-auto d-flex justify-content-end my-auto">
