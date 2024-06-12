@@ -18,11 +18,18 @@
                            value="">
                     <input type="hidden" name="id" value="{{ $invoice->id }}"/>
                     <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}"/>
+                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk, które chcesz
+                        usunąć.</small>
+                    <br><br>
+                    <label for="quantityToRemove">Jaki rodzaj sprzedarzy:</label>
+                    <select id="quantityToRemove" name="quantityToRemove" class="form-control">
+                        <option value="a">Sprzedarz stacjonarna</option>
+                        <option value="b">Sprzedarz internetowa</option>
+                    </select>
                     <!-- Dodaj pole jako ukryte pole -->
                     <input type="hidden" name="product_name" value="{{ $invoice->product_name }}"/>
                     <!-- Dodaj pole jako ukryte pole -->
-                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk, które chcesz
-                        usunąć.</small>
+
                     <br>
                     <label for="invDate">Data wystawienia faktury:</label>
                     <input type="date" value="{{ $invoice->invoice_date->format('Y-m-d')}}" id="invDate"
