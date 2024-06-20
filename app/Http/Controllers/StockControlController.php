@@ -30,7 +30,8 @@ class StockControlController extends Controller
 
         // Initialize arrays to store different types of records
         $changedStocks = [];
-        $removedStocks = [];
+        $internetSalesStocks = [];
+        $stationarySalesStocks = [];
         $transferredStocks = [];
 
         // Iterate through each stock control record
@@ -38,20 +39,21 @@ class StockControlController extends Controller
             // Determine the type of operation and store the record accordingly
             if ($stock->title == 'Dodaj') {
                 $changedStocks[] = $stock;
-            } elseif ($stock->title == 'Usuń') {
-                $removedStocks[] = $stock;
+            } elseif ($stock->title == 'Sprzedaż Internetowa') {
+                $internetSalesStocks[] = $stock;
+            } elseif ($stock->title == 'Sprzedaż Stacjonarna') {
+                $stationarySalesStocks[] = $stock;
             } elseif ($stock->title == 'Przeniesienie') {
                 $transferredStocks[] = $stock;
             }
         }
-        $allStocks = array_merge($changedStocks, $removedStocks, $transferredStocks);
-
-        $allStocks = $this->mergeRecordsByTitle(collect($allStocks));
-        //$removedStocks = $this->mergeRecordsByTitle(collect($removedStocks), "Usuń");
 
         // Merge all types of records into a single array
+        $allStocks = array_merge($changedStocks, $internetSalesStocks, $stationarySalesStocks, $transferredStocks);
 
-        //  $allStocks = $this->mergeRecordsByTitle(collect($allStocks), "Usuń");
+        // Merge records by title
+        $allStocks = $this->mergeRecordsByTitle(collect($allStocks));
+
         // Group the merged records by month
         $groupedStocks = collect($allStocks)->groupBy(function ($item) {
             return $item['operation_date'] = Carbon::parse($item['operation_date'])->format('Y-m');
@@ -65,9 +67,11 @@ class StockControlController extends Controller
                 'stocks' => $groupedStock
             ];
         }
+
         // Return the view with the grouped stock controls
         return view('stock_controls', compact('months', 'stocks'));
     }
+
 
 
     /**
@@ -112,19 +116,18 @@ class StockControlController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-//        $request->validate([
-//            'title' => 'required',
-//            'invoice_id' => 'required|exists:invoices,id',
-//            'product_name' => 'required',
-//            'operation_date' => 'required|date',
-//            'quantity' => 'required|numeric',
-//            'move_to' => '',
-//        ]);
-
+        $changedStocks = [];
+        $internetSalesStocks = [];
+        $stationarySalesStocks = [];
+        $transferredStocks = [];
 
         $stock = StockControl::findOrFail($id);
-        $stock->title = $request->input('title');
+
+        // Set title based on the selected sale type
+        $saleType = $request->input('sale_type');
+        if ($saleType == 'Sprzedaż Internetowa' || $saleType == 'Sprzedaż Stacjonarna') {
+            $stock->title = $saleType;
+        }
 
         $oldQuantity = $stock->quantity;
         $stock->quantity = $request->input('quantity');
@@ -135,19 +138,30 @@ class StockControlController extends Controller
         $stock->move_to = $move_to !== null ? $move_to : '';
 
         $invoice = Invoice::findOrFail($stock->invoice_id);
-
         $invoice->invoice_number = $request->input('invoice_id');
         $stock->save();
+        $stocks = StockControl::with('invoice')->where('invoice_id', $invoice->id)->get();
+        foreach ($stocks as $stock) {
+            // Determine the type of operation and store the record accordingly
+            if ($stock->title == 'Dodaj') {
+                $changedStocks[] = $stock;
+            } elseif ($stock->title == 'Sprzedaż Internetowa') {
+                $internetSalesStocks[] = $stock;
+            } elseif ($stock->title == 'Sprzedaż Stacjonarna') {
+                $stationarySalesStocks[] = $stock;
+            } elseif ($stock->title == 'Przeniesienie') {
+                $transferredStocks[] = $stock;
+            }
+        }
 
+        $allStocks = array_merge($changedStocks, $internetSalesStocks, $stationarySalesStocks, $transferredStocks);
 
-
-
+        dd($this->mergeRecordsByTitle($allStocks));
         $dif = $request->quantity - $oldQuantity;
 
-        if($stock->quantity != 0) {
-            if ($stock->title == 'Usuń') {
+        if ($stock->quantity != 0) {
+            if (in_array($stock->title, ['Sprzedaż Internetowa', 'Sprzedaż Stacjonarna'])) {
                 if ($oldQuantity <= $request->quantity) {
-
                     $invoice->quantity = $invoice->quantity - $dif;
                 } else {
                     $invoice->quantity = $invoice->quantity + $dif;
@@ -156,7 +170,6 @@ class StockControlController extends Controller
 
             if ($stock->title == 'Dodaj') {
                 if ($oldQuantity <= $request->quantity) {
-
                     $invoice->quantity = $invoice->quantity + $dif;
                 } else {
                     $invoice->quantity = $invoice->quantity - $dif;
@@ -165,23 +178,25 @@ class StockControlController extends Controller
 
             if ($stock->title == 'Przeniesienie') {
                 if ($oldQuantity <= $request->quantity) {
-
                     $invoice->quantity = $invoice->quantity - $dif;
                 } else {
                     $invoice->quantity = $invoice->quantity + $dif;
                 }
             }
         }
+
         $invoice->product_name = $request->input('product_name');
-
-
         $invoice->save();
+
         // Log for debugging
         logger()->info('Stock Control Updated:', ['stock_id' => $stock->id, 'invoice_id' => $stock->invoice_id]);
 
         // Redirect with success message
         return redirect()->route('stock_controls.index')->with('success', 'Rekord zaktualizowany.');
     }
+
+
+
 
 
     public function search(Request $request)

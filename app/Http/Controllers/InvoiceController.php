@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InvoiceController\AddStockRequest;
-use App\Http\Requests\InvoiceController\DeleteStockRequest;
+use App\Http\Requests\RemoveStockRequest;
 use App\Http\Requests\InvoiceController\EditStockRequest;
 use App\Http\Requests\InvoiceController\MoveStockRequest;
 use App\Http\Requests\InvoiceController\StoreRequest;
 use App\Models\Invoice;
 use App\Models\StockControl;
+use App\Traits\MergeRecordsByTitle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class InvoiceController extends Controller
 {
+    use MergeRecordsByTitle;
+
     public function index(Request $request)
     {
         $sortBy = $request->input('sortBy', 'asc');
@@ -71,20 +74,26 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $invoice = Invoice::findOrFail($id);
-        $invoice->invoice_number = $request->input('invNumber');
-        $invoice->product_name = $request->input('invProductName');
-        $invoice->quantity = $request->input('invQuantity');
-        $invoice->price = $request->input('invPrice');
-        $invoice->place = $request->input('invPlace');
-        $invoice->invoice_date = $request->input('invDate');
-        $invoice->vat_rate = $request->input('quantityToRemove');
-        $invoice->save();
-        if ($request->search) {
-            return redirect()->back();
-        }
-        return redirect()->route('invoices.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
+        $request->validate([
+            'title' => 'required|string',
+            'invoice_id' => 'required|exists:invoices,id',
+            'product_name' => 'required|string',
+            'operation_date' => 'required|date',
+            'quantity' => 'required|integer|min:1',
+            'move_to' => 'nullable|string',
+        ]);
+
+        $stock = StockControl::findOrFail($id);
+        $stock->title = $request->input('title');
+        $stock->invoice_id = $request->input('invoice_id');
+        $stock->operation_date = $request->input('operation_date');
+        $stock->quantity = $request->input('quantity');
+        $stock->move_to = $request->input('move_to') ?? '';
+        $stock->save();
+
+        return redirect()->route('stock_controls.index')->with('success', 'Rekord zaktualizowany.');
     }
+
 
     public function search(Request $request)
     {
@@ -120,29 +129,52 @@ class InvoiceController extends Controller
         return view('invoice_search', compact('results', 'sortBy', 'sortDirection'));
     }
 
-    public function deleteStock(DeleteStockRequest $request)
+
+    public function deleteStock(RemoveStockRequest $request)
     {
-        $request = $request->validated();
-        $id = $request ['id'];
-        $invoice_number = $request ['invoice_number'];
-        $product_name = $request ['product_name'];
-        $quantityToRemove = $request ['quantityToRemove'];
-        $invDate = $request ['invDate'];
+        $validated = $request->validated();
+
+        $id = $validated['id'];
+        $invoice_number = $validated['invoice_number'];
+        $product_name = $validated['product_name'];
+        $quantityToRemove = $validated['quantityToRemove'];
+        $invDate = $validated['invDate'];
+        $saleType = $validated['sale_type']; // Get the sale type from the form
+
         $invoice = Invoice::find($id);
         $invoice->quantity = $invoice->quantity - $quantityToRemove;
         $invoice->save();
-        StockControl::create([
-            'title' => 'Usuń',
-            'invoice_id' => $id,
-            'quantity' => $quantityToRemove, // ujemna ilość oznacza odejmowanie z zapasów
-            'operation_date' => $invDate, // lub inna data operacji
-            'move_to' => '',
-        ]);
-        if ($request ['search']) {
+
+        // Check if a similar record exists
+        $existingStock = StockControl::where('title', $saleType)
+            ->where('invoice_id', $id)
+            ->where('operation_date', $invDate)
+            ->where('move_to', '')
+            ->first();
+
+        if ($existingStock) {
+            // Update the existing record's quantity
+            $existingStock->quantity += $quantityToRemove;
+            $existingStock->save();
+        } else {
+            // Create a new record if no similar record exists
+            StockControl::create([
+                'title' => $saleType,
+                'invoice_id' => $id,
+                'quantity' => $quantityToRemove, // ujemna ilość oznacza odejmowanie z zapasów
+                'operation_date' => $invDate, // lub inna data operacji
+                'move_to' => '',
+            ]);
+        }
+
+        if ($validated['search']) {
             return redirect()->back();
         }
+
         return redirect()->route('invoices.index')->with('success', 'Liczbe sztuk pomyślnie odjęto.');
     }
+
+
 
     public function addStock(AddStockRequest $req)
     {

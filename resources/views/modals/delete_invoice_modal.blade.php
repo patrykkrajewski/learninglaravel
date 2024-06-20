@@ -14,34 +14,28 @@
                     @csrf
                     @method('PUT')
                     <label for="quantityToRemove">Liczba do usunięcia:</label>
-                    <input type="number" min="0" id="quantityToRemove" name="quantityToRemove" class="form-control"
-                           value="">
+                    <input type="number" min="0" id="quantityToRemove" name="quantityToRemove" class="form-control" value="">
                     <input type="hidden" name="id" value="{{ $invoice->id }}"/>
                     <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}"/>
-                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk, które chcesz
-                        usunąć.</small>
+                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk, które chcesz usunąć.</small>
                     <br><br>
-                    <label for="quantityToRemove">Jaki rodzaj sprzedarzy:</label>
-                    <select id="quantityToRemove" name="quantityToRemove" class="form-control">
-                        <option value="a">Sprzedarz stacjonarna</option>
-                        <option value="b">Sprzedarz internetowa</option>
+                    <label for="sale_type">Typ sprzedaży</label>
+                    <select id="sale_type" name="sale_type" class="form-control">
+                        <option value="Sprzedaż Stacjonarna">Sprzedaż Stacjonarna</option>
+                        <option value="Sprzedaż Internetowa">Sprzedaż Internetowa</option>
                     </select>
                     <!-- Dodaj pole jako ukryte pole -->
                     <input type="hidden" name="product_name" value="{{ $invoice->product_name }}"/>
                     <!-- Dodaj pole jako ukryte pole -->
-
                     <br>
                     <label for="invDate">Data wystawienia faktury:</label>
-                    <input type="date" value="{{ $invoice->invoice_date->format('Y-m-d')}}" id="invDate"
-                           name="invDate" class="form-control">
-                    <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną date wystawienia
-                        faktury.</small>
+                    <input type="date" value="{{ $invoice->invoice_date->format('Y-m-d')}}" id="invDate" name="invDate" class="form-control">
+                    <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną date wystawienia faktury.</small>
                     <input type="hidden" name="search" value="{{$search ?? null}}"/>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" id="deleteButton"
-                            data-invoice-id="{{ $invoice->id }}">
+                    <button type="submit" class="btn btn-success" id="deleteButton" data-invoice-id="{{ $invoice->id }}">
                         Zapisz
                     </button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Zamknij</button>

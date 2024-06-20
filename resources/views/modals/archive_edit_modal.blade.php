@@ -1,4 +1,4 @@
-<!-- edit stock_controls pop-up panel -->
+<!-- Edit stock_controls pop-up panel -->
 <div class="modal fade" id="edit-modal-{{$id}}">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -16,8 +16,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <label for="title">Nazwa operacji:</label>
-                        <input type="text" id="title" name="title" class="form-control" value="{{ $stock->title }}">
-                        <small id="titleHelp" class="form-text text-muted">Podaj poprawioną nazwę operacji.</small>
+                        <select id="title" name="title" class="form-control">
+                            <option value="Dodaj" {{ $stock->title == 'Dodaj' ? 'selected' : '' }}>Dodaj</option>
+                            <option value="Sprzedaż Stacjonarna" {{ $stock->title == 'Sprzedaż Stacjonarna' ? 'selected' : '' }}>Sprzedaż Stacjonarna</option>
+                            <option value="Sprzedaż Internetowa" {{ $stock->title == 'Sprzedaż Internetowa' ? 'selected' : '' }}>Sprzedaż Internetowa</option>
+                            <option value="Przeniesienie" {{ $stock->title == 'Przeniesienie' ? 'selected' : '' }}>Przeniesienie</option>
+                        </select>
+                        <small id="titleHelp" class="form-text text-muted">Wybierz nazwę operacji.</small>
                     </div>
                     <div class="row">
                         <label for="invoice_number">Numer faktury:</label>

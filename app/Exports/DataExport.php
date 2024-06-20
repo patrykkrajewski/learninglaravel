@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\Invoice;
-use App\Models\StockControl;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -39,22 +38,48 @@ class DataExport implements FromCollection, WithHeadings
             ->get();
 
         $lp = 0;
-        $data = $invoices->map(function ($invoice) use (&$lp) {
-            return [
-                'LP.' => ++$lp,
-                'Nazwa towaru' => $invoice->product_name,
-                'Faktura' => $invoice->invoice_number,
-                'CENA(netto)' => number_format($invoice->price, 2, ',', '.') . ' zł', // Format price in zł
-                'Vat' => $invoice->vat_rate . '%',
-                'Stan na start' => $invoice->invoice_quantity. 'szt.',
-                'Wartość stanu na start' => number_format($invoice->invoice_quantity * $invoice->price, 2, ',', '.') . ' zł', // Format price in zł
-                'Rozchody' => $invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity'). 'szt.',
-                'Wartość sprzedanych [Netto]' => number_format(($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price, 2, ',', '.') . ' zł',
-                'Wartość sprzedanych [Brutto]' => number_format(($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price + (($invoice->stockControls->where('title', 'Usuń')->sum('quantity') - $invoice->stockControls->where('title', 'Dodaj')->sum('quantity')) * $invoice->price) * $invoice->vat_rate * 0.01 , 2, ',', '.') . ' zł',
-            ];
-        });
+        $data = new Collection();
 
-        // Return the data collection
+        foreach ($invoices as $invoice) {
+            $internetSalesQuantity = $invoice->stockControls
+                ->where('title', 'Sprzedaż Internetowa')
+                ->sum('quantity');
+
+            if ($internetSalesQuantity != 0) {
+                $data->push([
+                    'LP.' => ++$lp,
+                    'Nazwa towaru' => $invoice->product_name,
+                    'Faktura' => $invoice->invoice_number,
+                    'CENA(netto)' => number_format($invoice->price, 2, ',', '.') . ' zł',
+                    'Vat' => $invoice->vat_rate . '%',
+                    'Stan na start' => $invoice->invoice_quantity . ' szt.',
+                    'Wartość stanu na start' => number_format($invoice->invoice_quantity * $invoice->price, 2, ',', '.') . ' zł',
+                    'Rozchody' => $internetSalesQuantity . ' szt.',
+                    'Wartość sprzedanych [Netto]' => number_format($internetSalesQuantity * $invoice->price, 2, ',', '.') . ' zł',
+                    'Wartość sprzedanych [Brutto]' => number_format($internetSalesQuantity * $invoice->price * (1 + $invoice->vat_rate / 100), 2, ',', '.') . ' zł',
+                ]);
+            }
+
+            $stationarySalesQuantity = $invoice->stockControls
+                ->where('title', 'Sprzedaż Stacjonarna')
+                ->sum('quantity');
+
+            if ($stationarySalesQuantity != 0) {
+                $data->push([
+                    'LP.' => ++$lp,
+                    'Nazwa towaru' => $invoice->product_name,
+                    'Faktura' => $invoice->invoice_number,
+                    'CENA(netto)' => number_format($invoice->price, 2, ',', '.') . ' zł',
+                    'Vat' => $invoice->vat_rate . '%',
+                    'Stan na start' => $invoice->invoice_quantity . ' szt.',
+                    'Wartość stanu na start' => number_format($invoice->invoice_quantity * $invoice->price, 2, ',', '.') . ' zł',
+                    'Rozchody' => $stationarySalesQuantity . ' szt.',
+                    'Wartość sprzedanych [Netto]' => number_format($stationarySalesQuantity * $invoice->price, 2, ',', '.') . ' zł',
+                    'Wartość sprzedanych [Brutto]' => number_format($stationarySalesQuantity * $invoice->price * (1 + $invoice->vat_rate / 100), 2, ',', '.') . ' zł',
+                ]);
+            }
+        }
+
         return $data;
     }
 
@@ -72,12 +97,8 @@ class DataExport implements FromCollection, WithHeadings
             'Stan na start',
             'Wartość stanu na start',
             'Rozchody',
-            'Wartość na sprzedanych'
+            'Wartość sprzedanych [Netto]',
+            'Wartość sprzedanych [Brutto]'
         ];
     }
-
-    /**
-     * Export data to Excel file.
-     */
 }
-

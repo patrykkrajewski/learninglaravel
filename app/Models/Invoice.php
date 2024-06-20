@@ -30,6 +30,7 @@ class Invoice extends Model
         'price',
         'vat_rate',
         'place',
+        'sale_type',
     ];
 
     /**
