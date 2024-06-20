@@ -15,7 +15,7 @@ trait MergeRecordsByTitle
                 return $record['invoice']['product_name'] . '-' . $record['invoice']['invoice_number'];
             })
             ->map(function ($group) {
-                $filterRecords = $group->where('title')->whereIn('title', ['Dodaj', 'Usuń']);
+                $filterRecords = $group->where('title')->whereIn('title', ['Dodaj', 'Sprzedarz internetowa','Sprzedarz stacjonarna']);
                 if ($filterRecords->isEmpty()) {
                     return $group;
                 }
@@ -30,7 +30,7 @@ trait MergeRecordsByTitle
                 $lastOperation = $filterRecords->sortByDesc('id')->first()['title'];
 
                 $group = $group->reject(function ($record) {
-                    return in_array($record['title'], ['Usuń', 'Dodaj']);
+                    return in_array($record['title'], ['Dodaj', 'Sprzedarz internetowa','Sprzedarz stacjonarna']);
                 });
 
                 if ($filterRecords->count() > 0) {
@@ -40,7 +40,7 @@ trait MergeRecordsByTitle
                         $mergedRecord['quantity'] = - $totalQuantity;
                     } else {
                         $mergedRecord['quantity'] = $totalQuantity;
-                        $mergedRecord['title'] = 'Usuń';
+                        $mergedRecord['title'] = $lastOperation;
                     }
                     $mergedRecord['operation_date'] = $newestDate;
 

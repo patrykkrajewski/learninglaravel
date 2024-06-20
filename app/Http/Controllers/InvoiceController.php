@@ -122,6 +122,7 @@ class InvoiceController extends Controller
 
     public function deleteStock(DeleteStockRequest $request)
     {
+        $action = $request->input('s_type');
         $request = $request->validated();
         $id = $request ['id'];
         $invoice_number = $request ['invoice_number'];
@@ -132,7 +133,7 @@ class InvoiceController extends Controller
         $invoice->quantity = $invoice->quantity - $quantityToRemove;
         $invoice->save();
         StockControl::create([
-            'title' => 'Usuń',
+            'title' => $action,
             'invoice_id' => $id,
             'quantity' => $quantityToRemove, // ujemna ilość oznacza odejmowanie z zapasów
             'operation_date' => $invDate, // lub inna data operacji

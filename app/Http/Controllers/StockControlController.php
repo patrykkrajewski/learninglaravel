@@ -38,7 +38,7 @@ class StockControlController extends Controller
             // Determine the type of operation and store the record accordingly
             if ($stock->title == 'Dodaj') {
                 $changedStocks[] = $stock;
-            } elseif ($stock->title == 'Usuń') {
+            } elseif ($stock->title == 'Sprzedarz internetowa' || $stock->title == 'Sprzedarz stacjonarna') {
                 $removedStocks[] = $stock;
             } elseif ($stock->title == 'Przeniesienie') {
                 $transferredStocks[] = $stock;
@@ -138,14 +138,14 @@ class StockControlController extends Controller
 
         $invoice->invoice_number = $request->input('invoice_id');
         $stock->save();
-
-
-
-
+        $totalDelete = StockControl::where('invoice_id',$invoice->id)->get()->filter(function ($item,$key){return strpos($item->title,'Sprzedarz') !== false;})->sum('quantity');
+        $totalaAdd = StockControl::where('invoice_id',$invoice->id)->get()->filter(function ($item,$key){return strpos($item->title,'Dodaj') !== false;})->sum('quantity');
+        $totalaMove = StockControl::where('invoice_id',$invoice->id)->get()->filter(function ($item,$key){return strpos($item->title,'Przenies') !== false;})->sum('quantity');
+        $validAmount = $invoice->invoice_quantity + $totalaAdd - $totalDelete - $totalaMove;
         $dif = $request->quantity - $oldQuantity;
 
         if($stock->quantity != 0) {
-            if ($stock->title == 'Usuń') {
+            if ($stock->title == 'Sprzedarz internetowa' || $stock->title == 'Sprzedarz stacjonarna') {
                 if ($oldQuantity <= $request->quantity) {
 
                     $invoice->quantity = $invoice->quantity - $dif;
@@ -174,6 +174,7 @@ class StockControlController extends Controller
         }
         $invoice->product_name = $request->input('product_name');
 
+        $invoice->quantity = $validAmount;
 
         $invoice->save();
         // Log for debugging
