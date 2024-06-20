@@ -75,7 +75,6 @@ class InvoiceController extends Controller
         $invoice->invoice_number = $request->input('invNumber');
         $invoice->product_name = $request->input('invProductName');
         $invoice->quantity = $request->input('invQuantity');
-        $invoice->price = $request->input('invPrice');
         $invoice->place = $request->input('invPlace');
         $invoice->invoice_date = $request->input('invDate');
         $invoice->vat_rate = $request->input('quantityToRemove');

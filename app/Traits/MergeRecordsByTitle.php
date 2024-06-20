@@ -3,47 +3,62 @@
 namespace App\Traits;
 
 use Illuminate\Support\Collection;
-use PhpParser\Node\Expr\Cast\Array_;
 
 trait MergeRecordsByTitle
 {
-    public function mergeRecordsByTitle($records)
+    /**
+     * Merge records by their titles.
+     *
+     * @param Collection $records
+     * @return array
+     */
+    public function mergeRecordsByTitle(Collection $records)
     {
         return $records
             ->groupBy(function ($record) {
                 $record = collect($record);
-                return $record['invoice']['product_name'] . '-' . $record['invoice']['invoice_number'];
+                return $record['invoice']['product_name'] . '-' . $record['invoice']['invoice_number'] . '-' . $record['title'];
             })
             ->map(function ($group) {
-                $filterRecords = $group->where('title')->whereIn('title', ['Dodaj', 'Sprzedarz internetowa','Sprzedarz stacjonarna']);
-                if ($filterRecords->isEmpty()) {
+                // Check if the group contains only the same type of titles
+                $filteredRecords = $group->whereIn('title', ['Dodaj', 'Sprzedaż internetowa', 'Sprzedaż stacjonarna']);
+
+                // If no relevant records, return the group as is
+                if ($filteredRecords->isEmpty()) {
                     return $group;
                 }
-                $filterRecords->map(function ($item) {
+
+                // Adjust quantities for 'Dodaj' operations
+                $filteredRecords->transform(function ($item) {
                     if ($item['title'] == 'Dodaj') {
                         $item['quantity'] = -$item['quantity'];
                     }
+                    return $item;
                 });
-                $totalQuantity = $filterRecords->sum('quantity');
 
-                $newestDate = $filterRecords->max('operation_date');
-                $lastOperation = $filterRecords->sortByDesc('id')->first()['title'];
+                // Sum quantities and get the newest operation date and last operation type
+                $totalQuantity = $filteredRecords->sum('quantity');
+                $newestDate = $filteredRecords->max('operation_date');
+                $lastOperation = $filteredRecords->sortByDesc('id')->first()['title'];
 
+                // Remove the relevant records from the original group
                 $group = $group->reject(function ($record) {
-                    return in_array($record['title'], ['Dodaj', 'Sprzedarz internetowa','Sprzedarz stacjonarna']);
+                    return in_array($record['title'], ['Dodaj', 'Sprzedaż internetowa', 'Sprzedaż stacjonarna']);
                 });
 
-                if ($filterRecords->count() > 0) {
-                    $mergedRecord = $filterRecords->first();
-                    if($totalQuantity<0){
+                // If there are any filtered records, create a merged record
+                if ($filteredRecords->count() > 0) {
+                    $mergedRecord = $filteredRecords->first();
+                    if ($totalQuantity < 0) {
                         $mergedRecord['title'] = 'Dodaj';
-                        $mergedRecord['quantity'] = - $totalQuantity;
+                        $mergedRecord['quantity'] = -$totalQuantity;
                     } else {
                         $mergedRecord['quantity'] = $totalQuantity;
                         $mergedRecord['title'] = $lastOperation;
                     }
                     $mergedRecord['operation_date'] = $newestDate;
 
+                    // Add the merged record at the beginning of the group
                     $group->prepend($mergedRecord);
                 }
 
