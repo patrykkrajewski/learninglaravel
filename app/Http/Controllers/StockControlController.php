@@ -38,7 +38,7 @@ class StockControlController extends Controller
             // Determine the type of operation and store the record accordingly
             if ($stock->title == 'Dodaj') {
                 $changedStocks[] = $stock;
-            } elseif ($stock->title == 'Sprzedarz internetowa' || $stock->title == 'Sprzedarz stacjonarna') {
+            } elseif ($stock->title == 'Sprzedaż internetowa' || $stock->title == 'Sprzedaż stacjonarna') {
                 $removedStocks[] = $stock;
             } elseif ($stock->title == 'Przeniesienie') {
                 $transferredStocks[] = $stock;
@@ -145,7 +145,7 @@ class StockControlController extends Controller
         $dif = $request->quantity - $oldQuantity;
 
         if($stock->quantity != 0) {
-            if ($stock->title == 'Sprzedarz internetowa' || $stock->title == 'Sprzedarz stacjonarna') {
+            if ($stock->title == 'Sprzedaż internetowa' || $stock->title == 'Sprzedaż stacjonarna') {
                 if ($oldQuantity <= $request->quantity) {
 
                     $invoice->quantity = $invoice->quantity - $dif;

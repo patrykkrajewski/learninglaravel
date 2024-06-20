@@ -21,10 +21,10 @@
                     <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk, które chcesz
                         usunąć.</small>
                     <br><br>
-                    <label for="s_type">Jaki rodzaj sprzedarzy:</label>
+                    <label for="s_type">Jaki rodzaj sprzedaży:</label>
                     <select id="s_type" name="s_type" class="form-control">
-                        <option value="Sprzedarz stacjonarna">Sprzedarz stacjonarna</option>
-                        <option value="Sprzedarz internetowa">Sprzedarz internetowa</option>
+                        <option value="Sprzedaż stacjonarna">Sprzedaż stacjonarna</option>
+                        <option value="Sprzedaż internetowa">Sprzedaż internetowa</option>
                     </select>
                     <!-- Dodaj pole jako ukryte pole -->
                     <input type="hidden" name="product_name" value="{{ $invoice->product_name }}"/>
