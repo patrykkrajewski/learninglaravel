@@ -71,7 +71,7 @@
                                 <!-- Move button-->
                                 <div class="d-flex justify-content-start text-center">
                                     <a href=""
-                                       class="btn btn-secondary " data-toggle="modal"
+                                       class="btn btn-secondary border" data-toggle="modal"
                                        data-target="#move-modal-{{$result->id}}">
                                         <i class="fas fa-arrow-right"></i>
                                     </a>
@@ -79,7 +79,7 @@
                                 </div>
 
                             </td>
-                            <td class="col d-flex justify-content-start">
+                            <td class="col justify-content-start">
                                 <!-- Delete button-->
                                 <a href=""
                                    class="btn btn-danger fw-bold" data-toggle="modal"
