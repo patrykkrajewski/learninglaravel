@@ -1,47 +1,57 @@
-<!-- Delete pop-up panel -->
-<div class="modal fade" id="add-modal-{{$id}}">
-    <div class="modal-dialog modal-dialog-centered">">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    @if(isset($invoice->invoice_number))
-                        Edycja faktury nr {{ $invoice->invoice_number }}
-                    @else
-                        Edycja faktury
-                    @endif
-                </h5>
-            </div>
-            <!-- Modal body -->
-            <form method="POST" action="{{route('invoices.stock.add')}}">
+<!-- Modal -->
+<div class="modal fade" id="addInvoiceModal" tabindex="-1" aria-labelledby="addInvoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" action="{{ route('invoices.store') }}">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addInvoiceModalLabel">Add Invoice</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <div class="modal-body">
-
-                    @csrf
-                    @method('PUT')
-                    <label for="quantityToAdd">Liczba do dodania:</label>
-                    <input type="number" min="1" value="1" id="quantityToAdd" name="quantityToAdd" class="form-control">
-                    <input type="hidden" name="id" value="{{$invoice->id}}"/>
-                    <input type="hidden" name="invoice_number" value="{{ $invoice->invoice_number }}"/>
-                    <!-- Dodaj pole jako ukryte pole -->
-                    <input type="hidden" name="product_name" value="{{ $invoice->product_name }}"/>
-                    <!-- Dodaj pole jako ukryte pole -->
-                    <small id="quantityHelp" class="form-text text-muted">Podaj liczbę sztuk którą chcesz dodać.</small>
-                    <br>
-                    <label for="invDate">Data wystawienia faktury:</label>
-                    <input type="date" value="{{ $invoice->invoice_date->format('Y-m-d')}}" id="invDate"
-                           name="invDate" class="form-control">
-                    <small id="quantityHelp" class="form-text text-muted">Podaj poprawioną date wystawienia
-                        faktury.</small>
-                    <input type="hidden" name="search" value="{{$search ?? null}}"/>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="mb-3">
+                        <label for="invoice_number" class="form-label">Invoice Number</label>
+                        <input type="text" class="form-control" id="invoice_number" name="invoice_number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="product_name" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="product_name" name="product_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="invoice_date" class="form-label">Invoice Date</label>
+                        <input type="date" class="form-control" id="invoice_date" name="invoice_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="price" name="price" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="vat_rate" class="form-label">VAT Rate</label>
+                        <input type="number" class="form-control" id="vat_rate" name="vat_rate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="place" class="form-label">Place</label>
+                        <input type="text" class="form-control" id="place" name="place" required>
+                    </div>
                 </div>
-                <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" id="addButton" data-invoice-id="{{ $invoice->id }}">
-                        Zapisz
-                    </button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Zamknij</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Invoice</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>

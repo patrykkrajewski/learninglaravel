@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center mb-4">
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light bg-transparent">
         <!--Search form-->
         <form method="GET" action="{{ route('stock_controls.search') }}" class="form-inline d-flex">
             <!--Search by name or number-->

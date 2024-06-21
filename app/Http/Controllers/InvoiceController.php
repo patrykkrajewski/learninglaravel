@@ -9,16 +9,14 @@ use App\Http\Requests\InvoiceController\MoveStockRequest;
 use App\Http\Requests\InvoiceController\StoreRequest;
 use App\Models\Invoice;
 use App\Models\StockControl;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class InvoiceController extends Controller
 {
     public function index(Request $request)
     {
-        $sortBy = $request->input('sortBy', 'asc');
-        $sortDirection = $request->input('sortDirection');
+        $sortBy = $request->input('sortBy', 'created_at'); // Sortowanie po dacie dodania
+        $sortDirection = $request->input('sortDirection', 'desc'); // Sortowanie malejące
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
@@ -32,12 +30,8 @@ class InvoiceController extends Controller
             $query->where('invoice_date', '<=', $end_date);
         }
 
-        if ($sortBy && $sortDirection) {
-            $query->orderBy($sortBy, $sortDirection);
-        }
-
-        // Dodaj sortowanie, aby faktury z ilością równą zero były na końcu
-        //
+        // Sortowanie z uwzględnieniem warunku ilości
+        $query->orderByRaw("CASE WHEN quantity = 0 THEN 1 ELSE 0 END, $sortBy $sortDirection");
 
         $invoices = $query->paginate(20);
 
@@ -51,10 +45,21 @@ class InvoiceController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $invoice = new Invoice($request->validated());
         $validatedData = $request->validated();
-        $invoice->invoice_quantity = $validatedData['quantity'];
+
+        // Sprawdzenie, czy istnieje faktura z takim samym numerem i nazwą produktu
+        $existingInvoice = Invoice::where('invoice_number', $validatedData['invoice_number'])
+            ->where('product_name', $validatedData['product_name'])
+            ->first();
+
+        if ($existingInvoice) {
+            return redirect()->back()->withErrors(['duplicate' => 'Faktura o tym numerze i nazwie produktu już istnieje.']);
+        }
+
+        $invoice = new Invoice($validatedData);
+        $invoice->invoice_quantity = $invoice->quantity;
         $invoice->save();
+
         return redirect()->route('invoices.index');
     }
 
@@ -64,22 +69,18 @@ class InvoiceController extends Controller
         return view('invoice_edit', ['invoice' => $invoice]);
     }
 
-    /**
-     * @param EditStockRequest $requset
-     * @param $id
-     * @return RedirectResponse
-     */
-    public function update(Request $request, $id)
+    public function update(EditStockRequest $request, $id)
     {
+        $validatedData = $request->validated();
         $invoice = Invoice::findOrFail($id);
-        $invoice->invoice_number = $request->input('invNumber');
-        $invoice->product_name = $request->input('invProductName');
-        $invoice->quantity = $request->input('invQuantity');
-        $invoice->place = $request->input('invPlace');
-        $invoice->invoice_date = $request->input('invDate');
-        $invoice->vat_rate = $request->input('quantityToRemove');
+        $invoice->invoice_number = $validatedData['invNumber'];
+        $invoice->product_name = $validatedData['invProductName'];
+        $invoice->quantity = $validatedData['invQuantity'];
+        $invoice->place = $validatedData['invPlace'];
+        $invoice->invoice_date = $validatedData['invDate'];
+        $invoice->vat_rate = $validatedData['quantityToRemove'];
         $invoice->save();
-        if ($request->search) {
+        if ($validatedData['search']) {
             return redirect()->back();
         }
         return redirect()->route('invoices.index')->with('success', 'Faktura została zaktualizowana pomyślnie.');
@@ -87,7 +88,6 @@ class InvoiceController extends Controller
 
     public function search(Request $request)
     {
-
         $search = $request->input('search');
         $sortBy = $request->input('sortBy', 'asc');
         $sortDirection = $request->input('sortDirection');
@@ -121,60 +121,74 @@ class InvoiceController extends Controller
 
     public function deleteStock(DeleteStockRequest $request)
     {
-        $action = $request->input('s_type');
-        $request = $request->validated();
-        $id = $request ['id'];
-        $invoice_number = $request ['invoice_number'];
-        $product_name = $request ['product_name'];
-        $quantityToRemove = $request ['quantityToRemove'];
-        $invDate = $request ['invDate'];
+        $validatedData = $request->validated();
+        $action = $validatedData['s_type'];
+        $id = $validatedData['id'];
+        $invoice_number = $validatedData['invoice_number'];
+        $product_name = $validatedData['product_name'];
+        $quantityToRemove = $validatedData['quantityToRemove'];
+        $invDate = $validatedData['invDate'];
+
         $invoice = Invoice::find($id);
         $invoice->quantity = $invoice->quantity - $quantityToRemove;
         $invoice->save();
+
         StockControl::create([
             'title' => $action,
             'invoice_id' => $id,
-            'quantity' => $quantityToRemove, // ujemna ilość oznacza odejmowanie z zapasów
-            'operation_date' => $invDate, // lub inna data operacji
+            'quantity' => -$quantityToRemove,
+            'operation_date' => $invDate,
             'move_to' => '',
         ]);
-        if ($request ['search']) {
+
+        if ($validatedData['search']) {
             return redirect()->back();
         }
-        return redirect()->route('invoices.index')->with('success', 'Liczbe sztuk pomyślnie odjęto.');
+
+        return redirect()->route('invoices.index')->with('success', 'Liczba sztuk pomyślnie odjęto.');
     }
 
-    public function addStock(AddStockRequest $req)
+    public function addStock(AddStockRequest $request)
     {
-        $req = $req->validated();
-        $id = $req ['id'];
-        $invoice_number = $req ['invoice_number'];
-        $quantityToAdd = $req['quantityToAdd'];
-        $product_name = $req ['product_name'];
-        $invDate = $req ['invDate'];
-        $invoice = Invoice::find($id);
-        $invoice->quantity = $invoice->quantity + $quantityToAdd;
-        $invoice->save();
-        StockControl::create([
-            'title' => 'Dodaj',
-            'invoice_id' => $id,
-            //'product_name' => $product_name,
-            'quantity' => $quantityToAdd, // ujemna ilość oznacza odejmowanie z zapasów
-            'operation_date' => $invDate, // lub inna data operacji
-            'move_to' => '', // Możesz dostosować to pole do swoich potrzeb
-        ]);
-        if ($req ['search']) {
-            return redirect()->back();
+        // Walidacja danych wejściowych
+        $validatedData = $request->validated();
+
+        // Pobierz dane z formularza
+        $invoiceId = $validatedData['id'];
+        $quantityToAdd = $validatedData['quantityToAdd'];
+        $invDate = $validatedData['invDate'];
+        $search = $validatedData['search'];
+        $invoiceNumber = $validatedData['invoice_number'];
+        $productName = $validatedData['product_name'];
+
+        try {
+            // Sprawdź, czy istnieje już taka faktura
+            $existingInvoice = Invoice::where('invoice_number', $invoiceNumber)
+                ->where('product_name', $productName)
+                ->first();
+
+            if ($existingInvoice) {
+                // Jeśli istnieje, przekieruj z komunikatem
+                return redirect()->back()->with('error', 'Taka faktura już istnieje.')->withInput();
+            }
+
+            // Jeśli faktura nie istnieje, utwórz nową
+            $invoice = Invoice::findOrFail($invoiceId);
+            $invoice->invoice_date = $invDate;
+            $invoice->quantity += $quantityToAdd;
+            $invoice->save();
+
+            // Przekieruj użytkownika z powrotem do poprzedniej strony z dodanym komunikatem sukcesu
+            return redirect()->back()->with('success', 'Liczba sztuk została pomyślnie dodana do faktury.');
+        } catch (\Exception $e) {
+            // Jeśli wystąpi inny rodzaj wyjątku, przekieruj z odpowiednim komunikatem błędu
+            return redirect()->back()->with('error', 'Wystąpił błąd podczas dodawania liczby sztuk do faktury.')->withInput();
         }
-        return redirect()->route('invoices.index')->with('success', 'Liczbe sztuk pomyślnie dodano.');
     }
 
     public function moveStock(MoveStockRequest $request)
     {
-        // Pobierz zwalidowane dane z żądania
         $validatedData = $request->validated();
-
-        // Pobierz potrzebne dane z żądania
         $id = $validatedData['id'];
         $invoiceNumber = $validatedData['invoice_number'];
         $productName = $validatedData['product_name'];
@@ -182,14 +196,10 @@ class InvoiceController extends Controller
         $operationDate = $validatedData['operationDateToMove'];
         $placeToMove = $validatedData['placeToMove'];
 
-        // Znajdź fakturę do aktualizacji
         $invoice = Invoice::find($id);
-
-        // Dodaj ilość do faktury
         $invoice->quantity -= $quantityToMove;
         $invoice->save();
 
-        // Stwórz nowy rekord w StockControl
         StockControl::create([
             'title' => 'Przeniesienie',
             'invoice_id' => $id,
@@ -197,11 +207,11 @@ class InvoiceController extends Controller
             'operation_date' => $operationDate,
             'move_to' => $placeToMove,
         ]);
-        if ($request ['search']) {
+
+        if ($validatedData['search']) {
             return redirect()->back();
         }
 
-        // Przekieruj użytkownika po zakończeniu operacji
         return redirect()->route('invoices.index')->with('success', 'Pomyślnie przeniesiono sztuki.');
     }
 }
