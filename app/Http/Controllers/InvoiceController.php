@@ -17,8 +17,9 @@ class InvoiceController extends Controller
 {
     public function index(Request $request)
     {
-        $sortBy = $request->input('sortBy', 'asc');
-        $sortDirection = $request->input('sortDirection');
+        $sortBy = $request->input('sortBy', 'invoice_date'); // Domyślne sortowanie po dacie faktury
+        $sortDirection = $request->input('sortDirection', 'desc'); // Domyślne sortowanie malejąco
+
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
@@ -32,12 +33,13 @@ class InvoiceController extends Controller
             $query->where('invoice_date', '<=', $end_date);
         }
 
+        // Sortowanie po dacie faktury (od najnowszych do najstarszych)
+        $query->orderBy('invoice_date', 'desc');
+
+        // Możliwość dodatkowego sortowania po innych kolumnach
         if ($sortBy && $sortDirection) {
             $query->orderBy($sortBy, $sortDirection);
         }
-
-        // Dodaj sortowanie, aby faktury z ilością równą zero były na końcu
-        //
 
         $invoices = $query->paginate(20);
 

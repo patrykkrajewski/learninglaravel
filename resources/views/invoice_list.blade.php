@@ -90,7 +90,7 @@
                             </div>
 
                         </td>
-                        <td class="col justify-content-start">
+                        <td class="col  justify-content-start">
                             <!-- Delete button-->
                             <a href="" class="btn btn-danger fw-bold" data-toggle="modal" data-target="#delete-modal-{{$invoice->id}}">
                                 <i class="fas fa-minus"></i>

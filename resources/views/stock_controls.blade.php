@@ -44,6 +44,7 @@
                                 <th scope="col">Nazwa produktu</th>
                                 <th scope="col">Data operacji</th>
                                 <th scope="col">Ilość</th>
+                                <th scope="col">Suma</th>
                                 <th scope="col">Przeniesione</th>
                             </tr>
                             </thead>
@@ -55,6 +56,7 @@
                                     <td>{{ $stock['invoice']['product_name'] }}</td>
                                     <td>{{ \Carbon\Carbon::parse($stock['operation_date'])->format('Y-m-d') }}</td>
                                     <td>{{ $stock['quantity'] }} szt.</td>
+                                    <td>{{ $stock['quantity'] * $stock['invoice']['price']}}zł</td>
                                     <td>{{ $stock['move_to'] }}</td>
                                 </tr>
                             @endforeach
